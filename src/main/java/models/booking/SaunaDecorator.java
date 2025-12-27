@@ -2,11 +2,9 @@ package models.booking;
 
 import utils.PriceConfig;
 
-import static utils.PriceConfig.*;
-
 public class SaunaDecorator extends BookingDecorator {
     private final double saunaCost;
-    public SaunaDecorator(BookingInterface booking, double additionalPrice) {
+    public SaunaDecorator(BookingInterface booking) {
         super(booking);
         saunaCost = PriceConfig.getExtraPrice("sauna");
     }

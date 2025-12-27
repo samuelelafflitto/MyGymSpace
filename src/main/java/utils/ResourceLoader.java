@@ -7,6 +7,11 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class ResourceLoader {
+
+    private ResourceLoader() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static Properties loadProperties(String resourcePath) {
         Properties prop = new Properties();
 

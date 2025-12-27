@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class Main extends Application {
     private static String persistenceMode = "demo";
     private static String selectedTheme = "light";
-    public static boolean isCLI = false;
+    private static boolean isCLI = false;
 
     public static void main(String[] args) {
 
@@ -24,11 +24,6 @@ public class Main extends Application {
         } catch (DataLoadException e) {
             System.err.println("\n [FATAL ERROR] Impossibile avviare MyGymSpace.");
             System.err.println("Causa: " + e.getMessage());
-
-            if (e.getCause() != null) {
-                e.getCause().printStackTrace();
-            }
-            System.exit(1);
         }
 
         Scanner sc = new Scanner(System.in);
@@ -77,6 +72,7 @@ public class Main extends Application {
             scene.getStylesheets().add(cssUrl);
         } catch (NullPointerException e) {
             System.out.println("[WARNING] File CSS non trovato: " + cssPath);
+            System.out.println(e.getMessage());
         }
 
         stage.setTitle("MyGymSpace - Mode: " + persistenceMode.toUpperCase());

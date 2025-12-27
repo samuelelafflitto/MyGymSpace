@@ -2,11 +2,9 @@ package models.booking;
 
 import utils.PriceConfig;
 
-import static utils.PriceConfig.*;
-
 public class VidAnalysisDecorator extends BookingDecorator {
     private final double videoCost;
-    public VidAnalysisDecorator(BookingInterface booking, double additionalPrice) {
+    public VidAnalysisDecorator(BookingInterface booking) {
         super(booking);
         videoCost = PriceConfig.getExtraPrice("video");
     }

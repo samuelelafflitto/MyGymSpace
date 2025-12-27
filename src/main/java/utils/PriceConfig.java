@@ -5,6 +5,10 @@ import java.util.Properties;
 public class PriceConfig {
     private static Properties prices;
 
+    private PriceConfig() {
+        throw new IllegalStateException("Utility class");
+    }
+
     static {
         prices = ResourceLoader.loadProperties("/config/prices.properties");
     }
@@ -23,7 +27,8 @@ public class PriceConfig {
         try {
             return Double.parseDouble(val);
         } catch (NumberFormatException e) {
-            System.err.println("[WARNING] Il prezzo " + key + " non è un numero valido.");
+            System.out.println("[WARNING] Il prezzo " + key + " non è un numero valido.");
+            System.out.println("Causa: " + e.getMessage());
             return 5.0;
         }
     }

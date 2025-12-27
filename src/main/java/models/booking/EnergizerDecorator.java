@@ -2,11 +2,9 @@ package models.booking;
 
 import utils.PriceConfig;
 
-import static utils.PriceConfig.*;
-
 public class EnergizerDecorator extends BookingDecorator {
     private final double energizerCost;
-    public EnergizerDecorator(BookingInterface booking, double additionalPrice) {
+    public EnergizerDecorator(BookingInterface booking) {
         super(booking);
         energizerCost = PriceConfig.getExtraPrice("energizer");
     }
