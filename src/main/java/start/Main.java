@@ -125,11 +125,4 @@ public class Main extends Application {
     public static String getPersistenceMode() {
         return persistenceMode;
     }
-
-
-
-
-
-
-
 }

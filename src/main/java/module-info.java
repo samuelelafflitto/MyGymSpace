@@ -3,6 +3,6 @@ module com.mygymspace.mygymspace {
     requires javafx.fxml;
 
 
-    opens com.mygymspace.mygymspace to javafx.fxml;
-    exports com.mygymspace.mygymspace;
+    opens graphicalcontrollers to javafx.fxml;
+    exports start;
 }
