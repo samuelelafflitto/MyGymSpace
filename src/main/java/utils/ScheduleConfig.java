@@ -1,5 +1,7 @@
 package utils;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.Properties;
 
 public class ScheduleConfig {
@@ -13,17 +15,17 @@ public class ScheduleConfig {
         props = ResourceLoader.loadProperties("/config/schedule.properties");
     }
 
-    public static int getInt(String key, int defValue) {
+    public static LocalTime getTime(String key, String defTime) {
         String value = props.getProperty(key);
 
-        if (value == null) return defValue;
+        if (value == null) value = defTime;
 
         try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException e) {
-            System.err.println("[ERROR] Orario non valido per " + key + ": " + value + ". Uso orario di default: " + defValue);
+            return LocalTime.parse(value);
+        } catch (DateTimeParseException e) {
+            System.err.println("[ERROR] Formato orario errato per " + key + ": " + value + ". Uso orario di default: " + defTime);
             System.err.println("Causa: " + e.getMessage());
-            return defValue;
+            return LocalTime.parse(defTime);
         }
     }
 }

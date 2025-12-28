@@ -1,6 +1,7 @@
 package models.booking;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public abstract class BookingDecorator implements BookingInterface {
     protected BookingInterface booking;
@@ -39,7 +40,7 @@ public abstract class BookingDecorator implements BookingInterface {
     }
 
     @Override
-    public int getSlotIndex() {
-        return booking.getSlotIndex();
+    public LocalTime getStartTime() {
+        return booking.getStartTime();
     }
 }

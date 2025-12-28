@@ -1,6 +1,7 @@
 package models.booking;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public interface BookingInterface {
     String getId();
@@ -9,5 +10,5 @@ public interface BookingInterface {
     String getAthlete();
     String getTraining();
     LocalDate getDate();
-    int getSlotIndex();
+    LocalTime getStartTime();
 }

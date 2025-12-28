@@ -1,6 +1,7 @@
 package models.booking;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.UUID;
 
 public class ConcreteBooking implements BookingInterface {
@@ -10,7 +11,7 @@ public class ConcreteBooking implements BookingInterface {
     private String athleteUsername;
     private String trainingName;
     private LocalDate date;
-    private int slotIndex;
+    private LocalTime startTime;
 
     public ConcreteBooking () {
         this.id = UUID.randomUUID().toString();
@@ -49,8 +50,8 @@ public class ConcreteBooking implements BookingInterface {
     }
 
     @Override
-    public int getSlotIndex() {
-        return slotIndex;
+    public LocalTime getStartTime() {
+        return startTime;
     }
 
     //SET
@@ -78,8 +79,8 @@ public class ConcreteBooking implements BookingInterface {
         this.date = date;
     }
 
-    public void setSlotIndex(int slotIndex) {
-        this.slotIndex = slotIndex;
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
     }
 }
 

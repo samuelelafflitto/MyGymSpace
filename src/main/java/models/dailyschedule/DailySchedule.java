@@ -4,6 +4,7 @@ import models.booking.BookingInterface;
 import utils.ScheduleConfig;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class DailySchedule {
     private final LocalDate date;
-    private final Map<Integer, Boolean> schedule;
+    private final Map<LocalTime, Boolean> schedule;
 
     public DailySchedule(LocalDate date) {
         this.date = date;
@@ -20,19 +21,23 @@ public class DailySchedule {
     }
 
     private void initializeSchedule() {
-        int morningStartHour = ScheduleConfig.getInt("schedule.morning.start", 9);
-        int morningEndHour = ScheduleConfig.getInt("schedule.morning.end", 13);
+        LocalTime morningStartHour = ScheduleConfig.getTime("schedule.morning.start", "09:00");
+        LocalTime morningEndHour = ScheduleConfig.getTime("schedule.morning.end", "13:00");
 
-        int afternoonStartHour = ScheduleConfig.getInt("schedule.afternoon.start", 15);
-        int afternoonEndHour = ScheduleConfig.getInt("schedule.afternoon.end", 20);
+        LocalTime afternoonStartHour = ScheduleConfig.getTime("schedule.afternoon.start", "15:00");
+        LocalTime afternoonEndHour = ScheduleConfig.getTime("schedule.afternoon.end", "20:00");
 
-        for (int h = morningStartHour; h < morningEndHour; h++) {
-            this.schedule.put(h, true);
-        }
-        for (int h = afternoonStartHour; h < afternoonEndHour; h++) {
-            this.schedule.put(h, true);
-        }
+        fillTimeSlots(morningStartHour, morningEndHour);
+        fillTimeSlots(afternoonStartHour, afternoonEndHour);
     }
+
+    private void fillTimeSlots(LocalTime start, LocalTime end){
+        LocalTime currentTime = start;
+        while(currentTime.isBefore(end)) {
+            this.schedule.put(currentTime, true);
+            currentTime = currentTime.plusHours(1);
+        }
+    };
 
     public void syncWithBookings (List<BookingInterface> existingBookings) {
         initializeSchedule();
@@ -41,7 +46,7 @@ public class DailySchedule {
 
         for (BookingInterface b: existingBookings) {
             if (b.getDate().isEqual(this.date)) {
-                int hour = b.getSlotIndex();
+                LocalTime hour = b.getStartTime();
 
                 if (schedule.containsKey(hour)) {
                     schedule.put(hour, false);
@@ -50,12 +55,20 @@ public class DailySchedule {
         }
     }
 
-    public Map<Integer, Boolean> getALLSchedule() {
+    public void setSlotOccupied(LocalTime hour) {
+        if (this.schedule.containsKey(hour)) {
+            this.schedule.put(hour, false);
+        } else {
+            System.err.println("[WARNING] Tentativo di occupare uno slot fuori orario e non valido: " + hour);
+        }
+    }
+
+    public Map<LocalTime, Boolean> getALLSchedule() {
         return schedule;
     }
 
     // Restituisce lista ordinata degli orari liberi
-    public List<Integer> getAvailableSlots() {
+    public List<LocalTime> getAvailableSlots() {
         return schedule.entrySet().stream()
                 .filter(Map.Entry::getValue)            // Filtro per valori true
                 .map(Map.Entry::getKey)                 // Filtro per chiave (ora)
