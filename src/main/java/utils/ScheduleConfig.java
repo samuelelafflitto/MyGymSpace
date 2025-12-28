@@ -22,6 +22,7 @@ public class ScheduleConfig {
             return Integer.parseInt(value);
         } catch (NumberFormatException e) {
             System.err.println("[ERROR] Orario non valido per " + key + ": " + value + ". Uso orario di default: " + defValue);
+            System.err.println("Causa: " + e.getMessage());
             return defValue;
         }
     }

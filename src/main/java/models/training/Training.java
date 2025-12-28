@@ -1,6 +1,6 @@
 package models.training;
 
-import models.booking.BookingInterface;
+/*import models.booking.BookingInterface;*/
 import models.dailyschedule.DailySchedule;
 
 import java.time.LocalDate;

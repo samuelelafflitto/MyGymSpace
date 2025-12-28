@@ -29,7 +29,7 @@ public class PriceConfig {
         } catch (NumberFormatException e) {
             System.out.println("[WARNING] Il prezzo " + key + " non è un numero valido.");
             System.out.println("Causa: " + e.getMessage());
-            return 5.0;
+            return 5.0;     //Valore minimo degli extra
         }
     }
 }
