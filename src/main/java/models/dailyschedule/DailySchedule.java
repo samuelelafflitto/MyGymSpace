@@ -37,7 +37,7 @@ public class DailySchedule {
             this.schedule.put(currentTime, true);
             currentTime = currentTime.plusHours(1);
         }
-    };
+    }
 
     public void syncWithBookings (List<BookingInterface> existingBookings) {
         initializeSchedule();
