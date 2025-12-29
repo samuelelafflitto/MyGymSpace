@@ -4,6 +4,7 @@ import models.booking.BookingDAO;
 import models.dailyschedule.DailyScheduleDAO;
 import models.training.TrainingDAO;
 import models.user.UserDAO;
+import models.user.UserDAO_Fsys;
 
 public class FsysDAO extends FactoryDAO {
     public UserDAO createUserDAO() {return new UserDAO_Fsys();}
