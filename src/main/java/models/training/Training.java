@@ -2,6 +2,7 @@ package models.training;
 
 /*import models.booking.BookingInterface;*/
 import models.dailyschedule.DailySchedule;
+import models.user.PersonalTrainer;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -9,13 +10,15 @@ import java.util.HashMap;
 public class Training {
     private String name;
     private String description;
+    private PersonalTrainer personalTrainer;
     private double basePrice;
     private final HashMap<LocalDate, DailySchedule> schedules;
     /*private final HashMap<String, BookingInterface> bookings;*/
 
-    public Training(String name, String description, double basePrice) {
+    public Training(String name, String description, PersonalTrainer personalTrainer, double basePrice) {
         this.name = name;
         this.description = description;
+        this.personalTrainer = personalTrainer;
         this.basePrice = basePrice;
 
         this.schedules = new HashMap<>();
@@ -37,6 +40,8 @@ public class Training {
         return description;
     }
 
+    public PersonalTrainer getPersonalTrainer() {return personalTrainer;}
+
     public double getBasePrice() {
         return basePrice;
     }
@@ -48,6 +53,8 @@ public class Training {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public void setPersonalTrainer(PersonalTrainer personalTrainer) {this.personalTrainer = personalTrainer;}
 
     public void setBasePrice(double basePrice) {
         this.basePrice = basePrice;

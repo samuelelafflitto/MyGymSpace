@@ -8,4 +8,12 @@ public class PersonalTrainer extends User{
     public PersonalTrainer(String fName, String lName, String username, String password, String type){
         super(fName, lName, username, password, type);
     }
+
+    public Training getTraining() {
+        return managedTraining;
+    }
+
+    public void setTraining(Training managedTraining) {
+        this.managedTraining = managedTraining;
+    }
 }

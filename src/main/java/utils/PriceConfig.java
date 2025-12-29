@@ -1,16 +1,36 @@
 package utils;
 
+import exceptions.DataLoadException;
+
 import java.util.Properties;
 
 public class PriceConfig {
     private static Properties prices;
+    private static final double DEFAULT_EXTRA_PRICE = 5.0;
 
     private PriceConfig() {
         throw new IllegalStateException("Utility class");
     }
 
     static {
-        prices = ResourceLoader.loadProperties("/config/prices.properties");
+        try {
+            prices = ResourceLoader.loadProperties("/config/prices.properties");
+        } catch (Exception e) {
+            throw new DataLoadException("Impossibile caricare il file di configurazione dei prezzi", e);
+        }
+    }
+
+    public static double getPrice(String finalKey, double defaultPrice) {
+        if (finalKey == null) return defaultPrice;
+
+        String value   = prices.getProperty(finalKey);
+        if (value == null) return defaultPrice;
+
+        try {
+            return Double.parseDouble(value);
+        } catch (NumberFormatException e) {
+            return defaultPrice;
+        }
     }
 
     public static double getExtraPrice(String extraName) {
@@ -18,18 +38,6 @@ public class PriceConfig {
             return 0.0;
 
         String key = "price." + extraName.toLowerCase();
-        String val = prices.getProperty(key);
-        if (val == null) {
-            System.err.println("[WARNING] Prezzo non trovato per: " + extraName);
-            return 5.0;     //Valore minimo degli extra
-        }
-
-        try {
-            return Double.parseDouble(val);
-        } catch (NumberFormatException e) {
-            System.out.println("[WARNING] Il prezzo " + key + " non è un numero valido.");
-            System.out.println("Causa: " + e.getMessage());
-            return 5.0;     //Valore minimo degli extra
-        }
+        return getPrice (key, DEFAULT_EXTRA_PRICE);
     }
 }

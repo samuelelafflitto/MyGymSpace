@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import utils.ResourceLoader;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -21,9 +22,8 @@ public class Main extends Application {
         try {
             loadPersistenceConfiguration();
             checkQueryFilesExist();
-        } catch (DataLoadException e) {
-            System.err.println("\n [FATAL ERROR] Impossibile avviare MyGymSpace.");
-            System.err.println("Causa: " + e.getMessage());
+        } catch (Exception e) {
+            throw new DataLoadException("Impossibile avviare MyGymSpace", e);
         }
 
         Scanner sc = new Scanner(System.in);
@@ -67,13 +67,13 @@ public class Main extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
 
         String cssPath = "/css/" + selectedTheme + ".css";
-        try {
-            String cssUrl = Main.class.getResource(cssPath).toExternalForm();
-            scene.getStylesheets().add(cssUrl);
-        } catch (NullPointerException e) {
-            System.out.println("[WARNING] File CSS non trovato: " + cssPath);
-            System.out.println(e.getMessage());
+        URL cssResource = Main.class.getResource(cssPath);
+
+        if (cssResource == null) {
+            throw new DataLoadException("File CSS non trovato: " + cssPath);
         }
+
+        scene.getStylesheets().add(cssResource.toExternalForm());
 
         stage.setTitle("MyGymSpace - Mode: " + persistenceMode.toUpperCase());
         stage.setResizable(false);

@@ -1,6 +1,7 @@
 package models.dao.factory;
 
 import models.booking.BookingDAO;
+import models.dailyschedule.DailyScheduleDAO;
 import models.training.TrainingDAO;
 import models.user.UserDAO;
 import start.Main;
