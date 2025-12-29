@@ -19,25 +19,6 @@ public class UserDAO_Fsys extends UserDAO{
     }
 
     @Override
-    public void addUser(String fName, String lName, String usr, String psw) {
-        File file = new File(FILE_PATH);
-        boolean fileExists = file.exists();
-
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true))) {
-            if (!fileExists) {
-                bufferedWriter.write(HEADER);
-                bufferedWriter.newLine();
-            }
-
-            String line = formatUserAsLine(fName, lName, usr, psw, ATHLETE_TYPE);
-            bufferedWriter.write(line);
-            bufferedWriter.newLine();
-        } catch (IOException e) {
-            throw new DataLoadException("Errore scrittura su file users.txt: " + e.getMessage());
-        }
-    }
-
-    @Override
     public User getUser(String usr, String psw) {
         List<User> users = getAllUsers();
         for (User user : users) {
@@ -59,6 +40,45 @@ public class UserDAO_Fsys extends UserDAO{
         return null;
     }
 
+    @Override
+    public void addUser(String username, User user) {
+        File file = new File(FILE_PATH);
+        boolean exists = file.exists();
+
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true))) {
+            if (!exists) {
+                bufferedWriter.write(HEADER);
+                bufferedWriter.newLine();
+            }
+
+            String line = formatUserAsLine(username, user);
+            bufferedWriter.write(line);
+            bufferedWriter.newLine();
+
+        }catch (IOException e) {
+            throw new DataLoadException("Errore di scrittura su file users.txt: " + e.getMessage());
+        }
+    }
+
+    /*@Override
+        public void addUser(String fName, String lName, String usr, String psw) {
+            File file = new File(FILE_PATH);
+            boolean fileExists = file.exists();
+
+            try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true))) {
+                if (!fileExists) {
+                    bufferedWriter.write(HEADER);
+                    bufferedWriter.newLine();
+                }
+
+                String line = formatUserAsLine(fName, lName, usr, psw, ATHLETE_TYPE);
+                bufferedWriter.write(line);
+                bufferedWriter.newLine();
+            } catch (IOException e) {
+                throw new DataLoadException("Errore scrittura su file users.txt: " + e.getMessage());
+            }
+        }*/
+
     private List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         File file = new File(FILE_PATH);
@@ -73,6 +93,8 @@ public class UserDAO_Fsys extends UserDAO{
                     continue;
                 }
                 String[] data = line.split(DELIMITER);
+
+                // Salta le righe che non hanno tutti i valori inseriti
                 if (data.length < 5) {
                     continue;
                 }
@@ -97,8 +119,8 @@ public class UserDAO_Fsys extends UserDAO{
         return users;
     }
 
-    private String formatUserAsLine (String fName, String lName, String usr, String psw, String type) {
-        return String.join(DELIMITER, fName, lName, usr, psw, type);
+    private String formatUserAsLine (String username, User user) {
+        return String.join(DELIMITER, user.getFirstName(), user.getLastName(), username, user.getPassword(), user.getType());
     }
 
     // Nella versione su Fsys non realizziamo le relazioni complesse che includono Training o Bookings

@@ -4,8 +4,6 @@ import exceptions.DataLoadException;
 import models.booking.BookingDAO;
 import models.booking.BookingInterface;
 import models.dao.factory.FactoryDAO;
-import models.training.Training;
-import models.training.TrainingDAO;
 import utils.DBConnection;
 import utils.ResourceLoader;
 
@@ -13,39 +11,21 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 public class UserDAO_DB extends UserDAO {
-    private Properties queries;
+    private final Properties queries;
 
     private static final String PT_TYPE = "PT";
-    private static final String ATHLETE_TYPE = "ATHLETE";
+    /*private static final String ATHLETE_TYPE = "ATHLETE";*/
 
     public UserDAO_DB() {
         try {
             this.queries = ResourceLoader.loadProperties("/queries/user_queries.properties");
         } catch (Exception e) {
-            throw new DataLoadException("Impossibile caricare il file relativo alle user queries ", e);
-        }
-    }
-
-    @Override
-    public void addUser(String firstName, String lastName, String username, String password) {
-        String sql = queries.getProperty("INSERT_USER");
-        if (sql == null)
-            throw new DataLoadException("Query INSERT_USER non trovata");
-
-        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, firstName);
-            statement.setString(2, lastName);
-            statement.setString(3, username);
-            statement.setString(4, password);
-            statement.setString(5, ATHLETE_TYPE);
-
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            throw new DataLoadException("Errore durante l'inserimento dell'utente: " + username, e);
+            throw new DataLoadException("Impossibile caricare il file user_queries.properties", e);
         }
     }
 
@@ -68,7 +48,7 @@ public class UserDAO_DB extends UserDAO {
         } catch (SQLException e) {
             throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
         }
-        return (user != null) ? populateUser(user) : null;
+        return populateUser(user);
     }
 
     @Override
@@ -92,6 +72,40 @@ public class UserDAO_DB extends UserDAO {
         return (user != null) ? populateUser(user) : null;
     }
 
+    public void addUser(String username, User user) {
+        String sql = queries.getProperty("INSERT_USER");
+        if (sql == null)
+            throw new DataLoadException("Query INSERT_USER non trovata");
+
+        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, username);
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getType());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DataLoadException("Errore durante l'inserimento dell'utente: " + username, e);
+        }
+    }
+
+    /*@Override
+        public void addUser(String firstName, String lastName, String username, String password) {
+            String sql = queries.getProperty("INSERT_USER");
+            if (sql == null)
+                throw new DataLoadException("Query INSERT_USER non trovata");
+
+            try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, firstName);
+                statement.setString(2, lastName);
+                statement.setString(3, username);
+                statement.setString(4, password);
+                statement.setString(5, ATHLETE_TYPE);
+
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                throw new DataLoadException("Errore durante l'inserimento dell'utente: " + username, e);
+            }
+        }*/
 
     private User mapUserFromResultSet(ResultSet resultSet) throws SQLException {
         String firstName = resultSet.getString("first_name");
@@ -108,22 +122,16 @@ public class UserDAO_DB extends UserDAO {
     }
 
     private User populateUser(User user) {
-        try {
-            if (user instanceof PersonalTrainer) {
-                TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
-                Training training = trainingDAO.getTrainingByUser(user.getUsername());
+        if ( user instanceof Athlete) {
+            BookingDAO bookingDAO = FactoryDAO.getInstance().createBookingDAO();
+            List<BookingInterface> bookings = new ArrayList<>();
 
-                if (training != null) {
-                    training.setPersonalTrainer((PersonalTrainer) user);
-                    ((PersonalTrainer) user).setTraining(training);
-                }
-            } else if (user instanceof Athlete) {
-                BookingDAO bookingDAO = FactoryDAO.getInstance().createBookingDAO();
-                List<BookingInterface> bookings = bookingDAO.getBookingByUser(user.getUsername());
-                ((Athlete) user).setBookings(bookings);
+            try {
+                bookings = bookingDAO.getBookingByUser(user.getUsername());
+            } catch (Exception e) {
+                throw new DataLoadException(e.getMessage());
             }
-        } catch (Exception e) {
-            throw new DataLoadException("Errore nel caricamento dei dati correlati a: " + user.getUsername(), e);
+            ( (Athlete) user).setBookings(bookings);
         }
         return user;
     }

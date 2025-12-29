@@ -10,8 +10,8 @@ import java.util.List;
 public class Athlete extends User {
     private HashMap<String, BookingInterface> bookings;
 
-    public Athlete(String fname, String lname, String username, String password, String type) {
-        super(fname, lname, username, password, type);
+    public Athlete(String fName, String lName, String username, String password, String type) {
+        super(fName, lName, username, password, type);
         bookings = new HashMap<>();
     }
 
