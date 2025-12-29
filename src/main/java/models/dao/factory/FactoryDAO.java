@@ -16,11 +16,11 @@ public abstract class FactoryDAO {
         if (instance == null) {
             String execMode = Main.getPersistenceMode();
             if (execMode.equals("demo")) {
-                instance = new MemDAO;
+                instance = new MemDAO();
             } else if (execMode.equals("db")) {
-                instance = new DBDAO;
+                instance = new DBDAO();
             } else if (execMode.equals("fsys")) {
-                instance = new FsysDB;
+                instance = new FsysDB();
             }
         }
         return instance;
