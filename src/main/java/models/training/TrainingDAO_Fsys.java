@@ -1,5 +1,6 @@
 package models.training;
 
+import models.dailyschedule.DailySchedule;
 import models.user.PersonalTrainer;
 
 import java.util.List;
@@ -15,5 +16,10 @@ public class TrainingDAO_Fsys extends TrainingDAO {
     public Training getTrainingByPT(PersonalTrainer personalTrainer) {
         // Non implementato
         return null;
+    }
+
+    @Override
+    public void updateDailySchedule(PersonalTrainer personalTrainer, DailySchedule ds) {
+        // Non implementato
     }
 }

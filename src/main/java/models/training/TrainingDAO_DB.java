@@ -6,11 +6,15 @@ import models.user.PersonalTrainer;
 import utils.DBConnection;
 import utils.ResourceLoader;
 
+import javax.print.attribute.ResolutionSyntax;
+import javax.xml.transform.Result;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 public class TrainingDAO_DB extends TrainingDAO {
@@ -25,6 +29,103 @@ public class TrainingDAO_DB extends TrainingDAO {
     }
 
     @Override
+    public List<Training> getAvailableTrainings() {
+        String sql = queries.getProperty("SELECT_ALL_TRAININGS");
+        List<Training> list = new ArrayList<>();
+
+        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Training t = mapResultSetCreatingPT(resultSet);
+                loadSchedulesForTraining(t, t.getPersonalTrainer().getUsername());
+                list.add(t);
+            }
+        } catch (SQLException e) {
+            throw new DataLoadException("Errore nel recupero dei dati del Database", e);
+        }
+        return list;
+    }
+
+    @Override
+    public Training getTrainingByPT(PersonalTrainer pt) {
+        String sql = queries.getProperty("SELECT_TRAINING_BY_PT");
+
+        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, pt.getUsername());
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if(resultSet.next()) {
+                    Training training = mapResultSetUsingExistingPT(resultSet, pt);
+                    loadSchedulesForTraining(training, pt.getUsername());
+                    return training;
+                }
+            }
+        } catch (SQLException e) {
+            throw new DataLoadException("Errore nel recupero dei dati del Database", e);
+        }
+        return null;
+    }
+
+    @Override
+    public void updateDailySchedule(PersonalTrainer pt, DailySchedule ds) {
+        String sql = queries.getProperty("INSERT_UPDATE_SCHEDULE");
+
+        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, pt.getUsername());
+            statement.setDate(2, Date.valueOf(ds.getDate()));
+            statement.setString(3, ds.getTimeSlotBits());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DataLoadException("Errore nel salvataggio dei dati nel Database", e);
+        }
+    }
+
+
+
+    private void loadSchedulesForTraining(Training training, String ptUsername) {
+        String sql = queries.getProperty("SELECT_SCHEDULES_BY_PT");
+        if(sql == null) return;
+
+        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, ptUsername);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while(resultSet.next()) {
+                    LocalDate date = resultSet.getDate("date").toLocalDate();
+                    String bits = resultSet.getString("slots_bits");
+
+                    DailySchedule ds = new DailySchedule(date);
+                    ds.setSlotBits(bits);
+
+                    training.addDailySchedule(ds);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("[WARNING] Impossibile caricare gli orari per " + ptUsername + ": " + e.getMessage());
+        }
+    }
+
+    private Training mapResultSetCreatingPT(ResultSet resultSet) throws SQLException {
+        String title = resultSet.getString("title");
+        String description = resultSet.getString("description");
+        double price = resultSet.getDouble("price");
+
+        String ptUsername = resultSet.getString("username");
+        String ptFirstName = resultSet.getString("first_name");
+        String ptLastName = resultSet.getString("last_name");
+
+        PersonalTrainer personalTrainer = new PersonalTrainer(ptFirstName, ptLastName, ptUsername, null, "PersonalTrainer");
+        return new Training(title, description, personalTrainer, price);
+    }
+
+    private Training mapResultSetUsingExistingPT(ResultSet resultSet, PersonalTrainer pt) throws SQLException {
+        String title = resultSet.getString("title");
+        String description = resultSet.getString("description");
+        double price = resultSet.getDouble("price");
+        return new Training(title, description, pt, price);
+    }
+
+
+    /*@Override
     public Training getTraining(String name) {
         String sql = queries.getProperty("SELECT_TRAINING_BY_NAME");
         if (sql == null) throw new DataLoadException("Query SELECT_TRAINING_BY_NAME non trovata");
@@ -116,5 +217,5 @@ public class TrainingDAO_DB extends TrainingDAO {
         double price = resultSet.getDouble("price");
 
         return new Training(title, description, personalTrainer, price);
-    }
+    }*/
 }

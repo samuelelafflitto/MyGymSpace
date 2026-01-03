@@ -13,23 +13,44 @@ public class Training {
     private String description;
     private double basePrice;
     private PersonalTrainer personalTrainer;
-    private final HashMap<LocalDate, DailySchedule> schedules;
+    private Map<LocalDate, DailySchedule> schedules;
     /*private final HashMap<String, BookingInterface> bookings;*/
 
-    public Training() {
-        schedules = new HashMap<>();
-        /*bookings = new HashMap<>();*/
-    }
+    /*public Training() {
+        this.schedules = new HashMap<>();
+        bookings = new HashMap<>();
+    }*/
 
-    /*public Training(String name, String description, PersonalTrainer personalTrainer, double basePrice) {
+    public Training(String name, String description, PersonalTrainer personalTrainer, double basePrice) {
         this.name = name;
         this.description = description;
         this.personalTrainer = personalTrainer;
         this.basePrice = basePrice;
 
         this.schedules = new HashMap<>();
-        this.bookings = new HashMap<>();
-    }*/
+        /*this.bookings = new HashMap<>();*/
+    }
+
+    // Se non esiste gia una DailySchedule associata alla LocalDate la crea
+    public DailySchedule getDailySchedule(LocalDate date) {
+        if(!this.schedules.containsKey(date)) {
+            this.schedules.put(date, new DailySchedule(date));
+        }
+        return this.schedules.get(date);
+    }
+
+    // Restituisce gli slot disponibili tramite la DailySchedule associata alla LocalDate
+    public List<String> getFreeSlots(LocalDate date) {
+        return getDailySchedule(date).getAvailableSlots();
+    }
+
+    public void addDailySchedule(DailySchedule ds) {
+        if(ds != null && ds.getDate() != null) {
+            this.schedules.put(ds.getDate(), ds);
+        }
+    }
+
+
 
     public String getName() {
         return name;
@@ -47,10 +68,11 @@ public class Training {
         return personalTrainer;
     }
 
-    public DailySchedule getSchedule(LocalDate date) {
-        DailySchedule dailySchedule = schedules.getOrDefault(date, new DailySchedule(date));
-        return dailySchedule;
+    public Map<LocalDate, DailySchedule> getSchedules() {
+        return this.schedules;
     }
+
+
 
     public void setName(String name) {
         this.name = name;
@@ -68,31 +90,12 @@ public class Training {
         this.personalTrainer = personalTrainer;
     }
 
-    /*public void setSchedules(Map<LocalDate, DailySchedule> schedules) {
+    public void setSchedules(Map<LocalDate, DailySchedule> schedules) {
         if(schedules != null) {
-            this.schedules = (HashMap<LocalDate, DailySchedule>) schedules;
+            this.schedules = schedules;
         } else {
             this.schedules = new HashMap<>();
         }
-    }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public List<LocalTime> getFreeSlots (LocalDate date) {
-        if (!this.schedules.containsKey(date)) {
-            this.schedules.put(date, new DailySchedule(date));
-        }
-        return this.schedules.get(date).getAvailableSlots();
     }
 
 }

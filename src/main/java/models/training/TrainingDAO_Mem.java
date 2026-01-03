@@ -1,5 +1,6 @@
 package models.training;
 
+import models.dailyschedule.DailySchedule;
 import models.user.PersonalTrainer;
 import utils.PriceConfig;
 
@@ -36,6 +37,15 @@ public class TrainingDAO_Mem extends TrainingDAO {
         }
         return null;
     }
+
+    @Override
+    public void updateDailySchedule(PersonalTrainer pt, DailySchedule ds) {
+        if(ds != null) {
+            System.out.println("[MEM] Simulazione salvataggio orari per PT: " + pt.getUsername());
+            System.out.println("Data: " + ds.getDate() + " -> Bitmask aggiornata: " + ds.getTimeSlotBits());
+        }
+    }
+
 
     private void initializeDemoData() {
         PersonalTrainer pt = new PersonalTrainer("Mario", "Rossi", "trainer1", "pass1", "Personal Trainer");
