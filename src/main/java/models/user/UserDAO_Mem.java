@@ -27,8 +27,11 @@ public class UserDAO_Mem extends UserDAO {
 
     @Override
     public User getUser(String username, String password) {
-        if (users.containsKey(username) && users.get(username).getPassword().equals(password)) {
-            return users.get(username);
+        if(users.containsKey(username)) {
+            User user = users.get(username);
+            if(user.getPassword() != null && user.getPassword().equals(password)) {
+                return user;
+            }
         }
         return null;
     }
@@ -59,10 +62,14 @@ public class UserDAO_Mem extends UserDAO {
     private void initializeDemoData() {
         PersonalTrainer pt = new PersonalTrainer("Mario", "Rossi", "trainer1", "pass1", PT_TYPE);
         TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
-        Training training = trainingDAO.getTraining("Box");
-        training.setPersonalTrainer(pt);
-        trainingDAO.insertTraining(training);
-        pt.setTraining(training);
+        Training training = trainingDAO.getTrainingByPT(pt);
+
+        if(training != null) {
+            pt.setTraining(training);
+            training.setPersonalTrainer(pt);
+        } else {
+            System.out.println("[MEM] Nessun allenamento trovato per " + pt.getUsername());
+        }
         users.put(pt.getUsername(), pt);
 
         Athlete ath = new Athlete("Luca", "Bianchi", "athlete1", "pass1",  ATHLETE_TYPE);

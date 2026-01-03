@@ -16,11 +16,6 @@ public class Training {
     private Map<LocalDate, DailySchedule> schedules;
     /*private final HashMap<String, BookingInterface> bookings;*/
 
-    /*public Training() {
-        this.schedules = new HashMap<>();
-        bookings = new HashMap<>();
-    }*/
-
     public Training(String name, String description, PersonalTrainer personalTrainer, double basePrice) {
         this.name = name;
         this.description = description;

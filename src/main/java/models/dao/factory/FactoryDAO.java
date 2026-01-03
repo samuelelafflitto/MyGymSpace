@@ -20,7 +20,7 @@ public abstract class FactoryDAO {
             } else if (execMode.equals("db")) {
                 instance = new DBDAO();
             } else if (execMode.equals("fsys")) {
-                instance = new FsysDB();
+                instance = new FsysDAO();
             }
         }
         return instance;

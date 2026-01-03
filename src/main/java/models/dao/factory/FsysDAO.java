@@ -2,6 +2,7 @@ package models.dao.factory;
 
 import models.booking.BookingDAO;
 import models.dailyschedule.DailyScheduleDAO;
+import models.dailyschedule.DailyScheduleDAO_Fsys;
 import models.training.TrainingDAO;
 import models.training.TrainingDAO_Fsys;
 import models.user.UserDAO;
