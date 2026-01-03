@@ -55,14 +55,3 @@ public class DailyScheduleDAO_Mem extends DailyScheduleDAO {
         System.out.println("[MEM] Orari salvati per '" + ptUsername + "' in data " + schedule.getDate() + " - Bits: " + schedule.getTimeSlotBits());
     }
 }
-
-
-
-
-
-
-
-
-
-
-

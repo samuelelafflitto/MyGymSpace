@@ -66,14 +66,3 @@ public class DailyScheduleDAO_DB extends DailyScheduleDAO {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-

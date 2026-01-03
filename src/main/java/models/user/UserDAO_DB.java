@@ -127,7 +127,7 @@ public class UserDAO_DB extends UserDAO {
             List<BookingInterface> bookings = new ArrayList<>();
 
             try {
-                bookings = bookingDAO.getBookingByUser(user.getUsername());
+                bookings = bookingDAO.getBookingByUser((Athlete) user);
             } catch (Exception e) {
                 throw new DataLoadException(e.getMessage());
             }
