@@ -28,7 +28,7 @@ public class PriceConfig {
 
         try {
             return Double.parseDouble(value);
-        } catch (NumberFormatException ignored) {
+        } catch (NumberFormatException _) {
             return defaultPrice;
         }
     }

@@ -120,7 +120,7 @@ public class DailySchedule {
             if(afternoonHours >= 0 && afternoonHours < afternoonSlots) {
                 return morningSlots + (int) afternoonHours;
             }
-        } catch (Exception ignored) {
+        } catch (Exception _) {
             return -1;
         }
         // Ritorna -1 se orario non valido
