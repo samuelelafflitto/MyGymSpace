@@ -3,8 +3,6 @@ package models.dailyschedule;
 import models.training.Training;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
 
 public abstract class DailyScheduleDAO {
     public abstract DailySchedule loadSchedule(Training training, LocalDate date);

@@ -4,7 +4,7 @@ import models.training.Training;
 
 import java.time.LocalDate;
 
-public class DailyScheduleDAO_Fsys extends DailyScheduleDAO {
+public class DailyScheduleDAOFsys extends DailyScheduleDAO {
     @Override
     public DailySchedule loadSchedule(Training training, LocalDate date) {
         // Non implementato

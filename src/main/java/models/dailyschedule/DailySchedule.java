@@ -1,16 +1,12 @@
 package models.dailyschedule;
 
-import models.booking.BookingInterface;
 import utils.ScheduleConfig;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class DailySchedule {
     private final LocalDate date;
@@ -124,7 +120,7 @@ public class DailySchedule {
             if(afternoonHours >= 0 && afternoonHours < afternoonSlots) {
                 return morningSlots + (int) afternoonHours;
             }
-        } catch (Exception e) {
+        } catch (Exception ignored) {
             return -1;
         }
         // Ritorna -1 se orario non valido

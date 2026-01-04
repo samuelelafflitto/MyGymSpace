@@ -6,18 +6,18 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DailyScheduleDAO_Mem extends DailyScheduleDAO {
-    private static DailyScheduleDAO_Mem instance;
+public class DailyScheduleDAOMem extends DailyScheduleDAO {
+    private static DailyScheduleDAOMem instance;
     private final Map<String, Map<LocalDate, DailySchedule>> schedules;
 
-    protected DailyScheduleDAO_Mem() {
+    protected DailyScheduleDAOMem() {
         this.schedules = new HashMap<>();
         initializeDemoData();
     }
 
-    public static synchronized DailyScheduleDAO_Mem getInstance() {
+    public static synchronized DailyScheduleDAOMem getInstance() {
         if(instance == null) {
-            instance = new DailyScheduleDAO_Mem();
+            instance = new DailyScheduleDAOMem();
         }
         return instance;
     }

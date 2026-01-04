@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class BookingDAO_DB extends BookingDAO {
+public class BookingDAODB extends BookingDAO {
     private final Properties queries;
 
-    public BookingDAO_DB() {
+    public BookingDAODB() {
         try {
             this.queries = ResourceLoader.loadProperties("/queries/booking_queries.properties");
         } catch (Exception e) {

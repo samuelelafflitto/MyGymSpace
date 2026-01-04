@@ -7,18 +7,18 @@ import utils.PriceConfig;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrainingDAO_Mem extends TrainingDAO {
+public class TrainingDAOMem extends TrainingDAO {
     private final List<Training> trainings;
-    private static  TrainingDAO_Mem instance;
+    private static TrainingDAOMem instance;
 
-    protected TrainingDAO_Mem() {
+    protected TrainingDAOMem() {
         trainings = new ArrayList<>();
         initializeDemoData();
     }
 
-    public static synchronized TrainingDAO_Mem getInstance() {
+    public static synchronized TrainingDAOMem getInstance() {
         if (instance == null) {
-            instance = new TrainingDAO_Mem();
+            instance = new TrainingDAOMem();
         }
         return instance;
     }

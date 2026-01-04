@@ -5,7 +5,7 @@ import models.user.PersonalTrainer;
 
 import java.util.List;
 
-public class TrainingDAO_Fsys extends TrainingDAO {
+public class TrainingDAOFsys extends TrainingDAO {
     @Override
     public List<Training> getAvailableTrainings() {
         // Non implementato

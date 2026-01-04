@@ -1,17 +1,17 @@
 package models.dao.factory;
 
 import models.booking.BookingDAO;
-import models.booking.BookingDAO_Fsys;
+import models.booking.BookingDAOFsys;
 import models.dailyschedule.DailyScheduleDAO;
-import models.dailyschedule.DailyScheduleDAO_Fsys;
+import models.dailyschedule.DailyScheduleDAOFsys;
 import models.training.TrainingDAO;
-import models.training.TrainingDAO_Fsys;
+import models.training.TrainingDAOFsys;
 import models.user.UserDAO;
-import models.user.UserDAO_Fsys;
+import models.user.UserDAOFsys;
 
 public class FsysDAO extends FactoryDAO {
-    public UserDAO createUserDAO() {return new UserDAO_Fsys();}
-    public TrainingDAO createTrainingDAO() {return new TrainingDAO_Fsys();}
-    public DailyScheduleDAO createDailyScheduleDAO() {return new DailyScheduleDAO_Fsys();}
-    public BookingDAO createBookingDAO() {return new BookingDAO_Fsys();}
+    public UserDAO createUserDAO() {return new UserDAOFsys();}
+    public TrainingDAO createTrainingDAO() {return new TrainingDAOFsys();}
+    public DailyScheduleDAO createDailyScheduleDAO() {return new DailyScheduleDAOFsys();}
+    public BookingDAO createBookingDAO() {return new BookingDAOFsys();}
 }

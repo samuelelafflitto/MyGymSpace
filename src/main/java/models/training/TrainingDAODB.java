@@ -6,21 +6,18 @@ import models.user.PersonalTrainer;
 import utils.DBConnection;
 import utils.ResourceLoader;
 
-import javax.print.attribute.ResolutionSyntax;
-import javax.xml.transform.Result;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
 
-public class TrainingDAO_DB extends TrainingDAO {
+public class TrainingDAODB extends TrainingDAO {
     private final Properties queries;
 
-    public TrainingDAO_DB() {
+    public TrainingDAODB() {
         try {
             this.queries = ResourceLoader.loadProperties("/queries/training_queries.properties");
         } catch (Exception e) {

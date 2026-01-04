@@ -15,13 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class UserDAO_DB extends UserDAO {
+public class UserDAODB extends UserDAO {
     private final Properties queries;
 
     private static final String PT_TYPE = "PT";
-    /*private static final String ATHLETE_TYPE = "ATHLETE";*/
+    private static final String ATHLETE_TYPE = "ATHLETE";
 
-    public UserDAO_DB() {
+    public UserDAODB() {
         try {
             this.queries = ResourceLoader.loadProperties("/queries/user_queries.properties");
         } catch (Exception e) {
@@ -122,7 +122,7 @@ public class UserDAO_DB extends UserDAO {
     }
 
     private User populateUser(User user) {
-        if ( user instanceof Athlete) {
+        if (user.getType().equals(ATHLETE_TYPE)) {
             BookingDAO bookingDAO = FactoryDAO.getInstance().createBookingDAO();
             List<BookingInterface> bookings = new ArrayList<>();
 

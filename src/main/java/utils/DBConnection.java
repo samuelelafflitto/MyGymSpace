@@ -11,19 +11,19 @@ public class DBConnection {
     private static DBConnection instance;
     private Connection connection;
 
-    private static final String url;
-    private static final String user;
-    private static final String password;
+    private static final String URL;
+    private static final String USER;
+    private static final String PASSWORD;
 
     static {
         try {
             Properties prop = ResourceLoader.loadProperties("/config/config.properties");
 
-            url = prop.getProperty("db.url");
-            user = prop.getProperty("db.user");
-            password = prop.getProperty("db.password");
+            URL = prop.getProperty("db.url");
+            USER = prop.getProperty("db.user");
+            PASSWORD = prop.getProperty("db.password");
 
-            if (url == null || user == null || password == null) {
+            if (URL == null || USER == null || PASSWORD == null) {
                 throw new DataLoadException("Credenziali DB mancanti nel file config.properties");
             }
         } catch (Exception e) {
@@ -33,7 +33,7 @@ public class DBConnection {
 
     protected DBConnection() {
         try {
-            this.connection = DriverManager.getConnection(url, user, password);
+            this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
             throw new DataLoadException("Impossibile connettersi al Database", e);
         }
@@ -49,7 +49,7 @@ public class DBConnection {
     public Connection getConnection() {
         try {
             if (connection == null || connection.isClosed()) {
-                this.connection = DriverManager.getConnection(url, user, password);
+                this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
             }
         } catch (SQLException e) {
             throw new DataLoadException("Errore di riconnessione al Database", e);

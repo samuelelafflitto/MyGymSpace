@@ -7,20 +7,20 @@ import models.training.TrainingDAO;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserDAO_Mem extends UserDAO {
+public class UserDAOMem extends UserDAO {
     private final Map<String, User> users;
-    private static UserDAO_Mem instance;
+    private static UserDAOMem instance;
     private static final String PT_TYPE = "PT";
     private static final String ATHLETE_TYPE = "ATHLETE";
 
-    protected UserDAO_Mem() {
+    protected UserDAOMem() {
         this.users = new HashMap<>();
         initializeDemoData();
     }
 
-    public static UserDAO_Mem getInstance() {
+    public static UserDAOMem getInstance() {
         if (instance == null) {
-            instance = new UserDAO_Mem();
+            instance = new UserDAOMem();
         }
         return instance;
     }

@@ -9,10 +9,10 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.Properties;
 
-public class DailyScheduleDAO_DB extends DailyScheduleDAO {
+public class DailyScheduleDAODB extends DailyScheduleDAO {
     private final Properties queries;
 
-    public DailyScheduleDAO_DB() {
+    public DailyScheduleDAODB() {
         try {
             this.queries = ResourceLoader.loadProperties("/queries/schedule_queries.properties");
         } catch (Exception e) {

@@ -3,25 +3,24 @@ package models.booking;
 import models.training.Training;
 import models.user.Athlete;
 
-import java.awt.print.Book;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BookingDAO_Mem extends BookingDAO {
-    private static BookingDAO_Mem instance;
+public class BookingDAOMem extends BookingDAO {
+    private static BookingDAOMem instance;
     private final List<BookingInterface> bookings;
 
-    protected BookingDAO_Mem() {
+    protected BookingDAOMem() {
         this.bookings = new ArrayList<>();
         initializeDemoData();
     }
 
-    public static synchronized BookingDAO_Mem getInstance() {
+    public static synchronized BookingDAOMem getInstance() {
         if(instance == null) {
-            instance = new BookingDAO_Mem();
+            instance = new BookingDAOMem();
         }
         return instance;
     }
@@ -50,13 +49,13 @@ public class BookingDAO_Mem extends BookingDAO {
     public List<BookingInterface> getBookingByUser(Athlete user) {
         return bookings.stream()
                 .filter(b -> b.getAthlete().equals(user.getUsername()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     public List<BookingInterface> getBookingByTraining(Training training) {
         return bookings.stream()
                 .filter(b -> b.getTraining().equals(training.getName()))
-                .collect(Collectors.toList());
+                .toList();
     }
 }

@@ -6,14 +6,14 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDAO_Fsys extends UserDAO{
+public class UserDAOFsys extends UserDAO{
     private static final String FILE_PATH = "/fsys/users.txt";
     private static final String DELIMITER = ";";
     private static final String HEADER = "firstname;lastname;username;password;type";
     private static final String PT_TYPE = "PT";
     private static final String ATHLETE_TYPE = "ATHLETE";
 
-    public UserDAO_Fsys() {
+    public UserDAOFsys() {
         File file = new File(FILE_PATH);
         file.getParentFile().mkdirs();
     }
@@ -82,36 +82,34 @@ public class UserDAO_Fsys extends UserDAO{
     private List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         File file = new File(FILE_PATH);
-        if (file.exists()) {
+        if (!file.exists()) {
             return users;
         }
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                if (line.trim().isEmpty() || line.equalsIgnoreCase(HEADER)) {
-                    continue;
-                }
-                String[] data = line.split(DELIMITER);
+                if (!line.trim().isEmpty() || !line.equalsIgnoreCase(HEADER)) {
+                    String[] data = line.split(DELIMITER);
 
-                // Salta le righe che non hanno tutti i valori inseriti
-                if (data.length < 5) {
-                    continue;
+                    if (data.length >= 5) {
+                        String fName = data[0];
+                        String lName = data[1];
+                        String usr = data[2];
+                        String psw = data[3];
+                        String type = data[4];
+
+                        User user;
+                        if (PT_TYPE.equals(type)) {
+                            user = new PersonalTrainer(fName, lName, usr, psw, type);
+                        } else {
+                            user = new Athlete(fName, lName, usr, psw, type);
+                        }
+                        users.add(user);
+                    }
                 }
 
-                String fName = data[0];
-                String lName = data[1];
-                String usr = data[2];
-                String psw = data[3];
-                String type = data[4];
 
-                User user;
-                if (PT_TYPE.equals(type)) {
-                    user = new PersonalTrainer(fName, lName, usr, psw, type);
-                } else {
-                    user = new Athlete(fName, lName, usr, psw, type);
-                }
-                users.add(user);
             }
         } catch (IOException e) {
             throw new DataLoadException("Errore lettura su file users.txt: " + e.getMessage());
@@ -126,9 +124,9 @@ public class UserDAO_Fsys extends UserDAO{
     // Nella versione su Fsys non realizziamo le relazioni complesse che includono Training o Bookings
     // Viene solo creato e popolato il file users.txt.
     private User populateUser(User user) {
-        if (user instanceof PersonalTrainer) {
+        if (user.getType().equals(PT_TYPE)) {
             ((PersonalTrainer) user).setTraining(null);
-        } else if (user instanceof Athlete) {
+        } else if (user.getType().equals(ATHLETE_TYPE)) {
             ((Athlete) user).setBookings(new ArrayList<>());
         }
         return user;

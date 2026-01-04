@@ -5,7 +5,6 @@ import models.dailyschedule.DailySchedule;
 import models.user.PersonalTrainer;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
 
 public class Training {

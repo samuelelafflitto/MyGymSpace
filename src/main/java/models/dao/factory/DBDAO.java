@@ -1,22 +1,22 @@
 package models.dao.factory;
 
 import models.booking.BookingDAO;
-import models.booking.BookingDAO_DB;
+import models.booking.BookingDAODB;
 import models.dailyschedule.DailyScheduleDAO;
-import models.dailyschedule.DailyScheduleDAO_DB;
+import models.dailyschedule.DailyScheduleDAODB;
 import models.training.TrainingDAO;
-import models.training.TrainingDAO_DB;
+import models.training.TrainingDAODB;
 import models.user.UserDAO;
 
-import models.user.UserDAO_DB;
+import models.user.UserDAODB;
 
 public class DBDAO extends FactoryDAO {
     @Override
-    public UserDAO createUserDAO() {return new UserDAO_DB();}
+    public UserDAO createUserDAO() {return new UserDAODB();}
     @Override
-    public TrainingDAO createTrainingDAO() {return new TrainingDAO_DB();}
+    public TrainingDAO createTrainingDAO() {return new TrainingDAODB();}
     @Override
-    public DailyScheduleDAO createDailyScheduleDAO() {return new DailyScheduleDAO_DB();}
+    public DailyScheduleDAO createDailyScheduleDAO() {return new DailyScheduleDAODB();}
     @Override
-    public BookingDAO createBookingDAO() {return new BookingDAO_DB();}
+    public BookingDAO createBookingDAO() {return new BookingDAODB();}
 }

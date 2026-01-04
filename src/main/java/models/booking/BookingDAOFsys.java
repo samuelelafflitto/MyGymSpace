@@ -5,7 +5,7 @@ import models.user.Athlete;
 
 import java.util.List;
 
-public class BookingDAO_Fsys extends BookingDAO {
+public class BookingDAOFsys extends BookingDAO {
     @Override
     public void saveBooking(BookingInterface booking) {
         // Non implementato
