@@ -122,4 +122,8 @@ public class Main extends Application {
     public static String getPersistenceMode() {
         return persistenceMode;
     }
+
+    public static boolean isCLI() {
+        return isCLI;
+    }
 }
