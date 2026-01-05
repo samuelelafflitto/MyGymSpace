@@ -1,5 +1,6 @@
 package graphicalcontrollers.cli;
 
+import models.user.User;
 import utils.session.SessionManager;
 
 import java.util.Scanner;
@@ -16,6 +17,25 @@ public class HomepageCLI {
     }
 
     private void loadMenu() {
+
+        User currentUser = SessionManager.getInstance().getLoggedUser();
+
+        if (currentUser == null) {
+            /*System.out.print("Nessun utente loggato: caricamento Menu Guest...");*/
+            GuestMenuCLI guestMenuCLI = new GuestMenuCLI();
+            while (true) {
+                guestMenuCLI.showMenu();
+                System.out.println("-> ");
+                String choice = sc.nextLine();
+                handleGuestChoice(choice, guestMenuCLI);
+
+                /*if(SessionManager.getInstance().getLoggedUser() != null) {
+                    loadMenu();
+                    return;
+                }*/
+            }
+        }
+
         String loggedUserType = (SessionManager.getInstance().getLoggedUser().getType() != null)
                 ? SessionManager.getInstance().getLoggedUser().getType()
                 : "None";
@@ -36,7 +56,7 @@ public class HomepageCLI {
                 String choice = sc.nextLine();
                 handleAthleteChoice(choice, athleteMenuCLI);
             }
-        }else {
+        }/*else {
             GuestMenuCLI guestMenuCLI = new GuestMenuCLI();
             while (true) {
                 guestMenuCLI.showMenu();
@@ -44,7 +64,7 @@ public class HomepageCLI {
                 String choice = sc.nextLine();
                 handleGuestChoice(choice, guestMenuCLI);
             }
-        }
+        }*/
     }
 
     private void handlePTChoice(String choice, PersonalTrainerMenuCLI menuCLI) {
