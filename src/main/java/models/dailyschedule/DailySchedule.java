@@ -97,7 +97,7 @@ public class DailySchedule {
         if(index < morningSlots) {
             time = morningStartHour.plusHours(index);
         } else {
-            int afternoonIndex = index - afternoonSlots;
+            int afternoonIndex = index - morningSlots;
             time = afternoonStartHour.plusHours(afternoonIndex);
         }
         // Restituisce il LocalTime sotto forma di String
