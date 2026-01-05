@@ -1,6 +1,7 @@
 package start;
 
 import exceptions.DataLoadException;
+import graphicalcontrollers.cli.HomepageCLI;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -82,8 +83,8 @@ public class Main extends Application {
     }
 
     private static void startCLI() {
-        GuestHomepageCLI gHomeCLI = new GuestHomepageCLI();
-        gHomeCLI.start();
+        HomepageCLI homeCLI = new HomepageCLI();
+        homeCLI.start();
     }
 
     private static void askTheme(Scanner sc) {
