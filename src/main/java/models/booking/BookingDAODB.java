@@ -101,7 +101,7 @@ public class BookingDAODB extends BookingDAO {
 
         Time sqlTime = resultSet.getTime("time");
         if(sqlTime != null)
-            booking.setStartTime(sqlTime.toLocalTime());
+            booking.setStartTime(sqlTime.toString());
 
         booking.setDescription(resultSet.getString("description"));
         return booking;

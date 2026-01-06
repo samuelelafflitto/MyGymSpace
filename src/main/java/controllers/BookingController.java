@@ -65,12 +65,7 @@ public class BookingController {
         return new SelectedDateBean(selectedDate);
     }
 
-    /*public SelectedSlotAndExtraBean getSelectedSlotAndExtra() {
-        BookingSession bSession = SessionManager.getInstance().getBookingSession();
-        LocalTime selectedSlot = SessionManager
-
-    }*/
-
+    // CHIAMATO ALLA SELEZIONE DELL'ALLENAMENTO DA SALVARE NELLA BOOKINGSESSION
     // Dal Bean relativo al Training selezionato verifica che esista e lo aggiunge alla BookingSession
     public void setSelectedTraining(SelectedTrainingBean selectedTrainingBean) {
         String trainingName = selectedTrainingBean.getName();
@@ -94,9 +89,10 @@ public class BookingController {
         }
     }
 
+    // CHIAMATO ALLA SELEZIONE DI UNA DATA DA SALVARE NELLA BOOKINGSESSION
     // Aggiunta della LocalDate selezionata alla BookingSession
     // Esistendo già una BookingSession contenente il Training selezionato, ne creo una nuova con anche la LocalDate e la sostituisco a quella esistente
-    private void setSelectedDate(SelectedDateBean selectedDateBean) {
+    public void setSelectedDate(SelectedDateBean selectedDateBean) {
         LocalDate selectedDate = selectedDateBean.getSelectedDate();
 
         BookingSession currentBookingSession =  SessionManager.getInstance().getBookingSession();
@@ -105,8 +101,7 @@ public class BookingController {
         SessionManager.getInstance().createBookingSession(bSession);
     }
 
-
-
+    // CHIAMATO PER OTTENERE GLI SLOT DA MOSTRARE NEL MENU A TENDINA
     // Ricevuta la LocalDate tramite SelectedDateBean, aggiorna la BookingSession e ricava gli AvailableSlots dalla DailySchedule corretta
     public List<String> getDailySchedule(SelectedDateBean dateBean) {
 
@@ -135,8 +130,42 @@ public class BookingController {
         return training.getSchedules().get(date).getAvailableSlots();
     }
 
+    //CHIAMATO ALLA PRESSIONE DEL TASTO MOSTRA RECAO (una volta inseriti tutti i dati)
+    public BookingRecapBean getBookingRecap(SelectedSlotAndExtraBean lastBookingDataBean) {
+        // Creazione della Booking
+        BookingInterface currentBooking = createBooking(lastBookingDataBean);
+
+        return new BookingRecapBean(currentBooking);
+    }
+
+    public void saveBooking() {
+        BookingSession bSession = SessionManager.getInstance().getBookingSession();
+
+        // Dalla BookingSession ricavo la Booking e il Training veri e propri
+        BookingInterface currentBooking = bSession.getBooking();
+        Training currentTraining = bSession.getTraining();
+
+        //Dalla Booking ricavo la LocalDate e la String (relativa al TimeSlot selezionato)
+        LocalDate selectedDate = currentBooking.getDate();
+        String selectedSlot = currentBooking.getStartTime();
+
+        BookingDAO bDAO = FactoryDAO.getInstance().createBookingDAO();
+
+        try {
+            bDAO.saveBooking(currentBooking);
+        } catch (DataLoadException e) {
+            System.out.println(e.getMessage());
+        }
+
+        // Aggiungendo la prenotazione alle prenotazioni dell'Atleta
+        User loggedUser = SessionManager.getInstance().getLoggedUser();
+        ((Athlete) loggedUser).addBooking(currentBooking);
+
+        updateDailySchedule();
+    }
 
 
+    // OPERAZIONI PRIVATE
     private BookingInterface createBooking(SelectedSlotAndExtraBean slotAndExtra) {
         BookingInterface booking = new ConcreteBooking();
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
@@ -168,41 +197,21 @@ public class BookingController {
             booking = new VidAnalysisDecorator(booking);
         }
 
+        // currentBooking viene memorizzata nella BookingSession
         BookingSession currentBookingSession =  SessionManager.getInstance().getBookingSession();
         currentBookingSession.setBooking(booking);
         return booking;
     }
 
-    public BookingRecapBean getBookingRecap() {
-        BookingInterface currentBooking =  SessionManager.getInstance().getBookingSession().getBooking();
-        BookingRecapBean recap = new BookingRecapBean(currentBooking);
-        return recap;
-    }
-
-    public void saveBooking() {
+    private void updateDailySchedule() {
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
 
-        // Dalla BookingSession ricavo la Booking e il Training veri e propri
         BookingInterface currentBooking = bSession.getBooking();
         Training currentTraining = bSession.getTraining();
 
-        //Dalla Booking ricavo la LocalDate e la String (relativa al TimeSlot selezionato)
         LocalDate selectedDate = currentBooking.getDate();
         String selectedSlot = currentBooking.getStartTime();
 
-        BookingDAO bDAO = FactoryDAO.getInstance().createBookingDAO();
-
-        try {
-            bDAO.saveBooking(currentBooking);
-        } catch (DataLoadException e) {
-            System.out.println(e.getMessage());
-        }
-
-        // Aggiungendo la prenotazione alle prenotazioni dell'Atleta
-        User loggedUser = SessionManager.getInstance().getLoggedUser();
-        ((Athlete) loggedUser).addBooking(currentBooking);
-
-        // Occupando lo Slot della prenotazione
         currentTraining.getSchedules().get(selectedDate).setSlotOccupied(selectedSlot);
     }
 }

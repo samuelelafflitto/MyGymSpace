@@ -30,7 +30,7 @@ public class BookingDAOMem extends BookingDAO {
         demoBooking.setTrainingName("Box");
         demoBooking.setCost(20.00);
         demoBooking.setDate(LocalDate.now());
-        demoBooking.setStartTime(LocalTime.of(10,0));
+        demoBooking.setStartTime("10:00");
         demoBooking.setDescription("Prenotazione Demo");
 
         bookings.add(demoBooking);

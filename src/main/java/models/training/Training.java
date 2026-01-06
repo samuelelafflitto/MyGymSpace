@@ -37,13 +37,13 @@ public class Training {
     // Restituisce gli slot disponibili tramite la DailySchedule associata alla LocalDate
     public List<String> getFreeSlots(LocalDate date) {
         return getDailySchedule(date).getAvailableSlots();
-    }
+    }*/
 
     public void addDailySchedule(DailySchedule ds) {
         if(ds != null && ds.getDate() != null) {
             this.schedules.put(ds.getDate(), ds);
         }
-    }*/
+    }
 
 
     public void addBooking(BookingInterface booking) {
