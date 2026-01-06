@@ -11,7 +11,7 @@ public class ConcreteBooking implements BookingInterface {
     private String athleteUsername;
     private String trainingName;
     private LocalDate date;
-    private LocalTime startTime;
+    private String startTime;
 
     public ConcreteBooking () {
         this.id = UUID.randomUUID().toString();
@@ -50,7 +50,7 @@ public class ConcreteBooking implements BookingInterface {
     }
 
     @Override
-    public LocalTime getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
@@ -79,7 +79,7 @@ public class ConcreteBooking implements BookingInterface {
         this.date = date;
     }
 
-    public void setStartTime(LocalTime startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 }

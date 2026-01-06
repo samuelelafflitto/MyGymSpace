@@ -13,13 +13,13 @@ public class DailySchedule {
 
     private StringBuilder timeSlots;
 
-    private LocalTime morningStartHour;
+    private final LocalTime morningStartHour;
     private int morningSlots;
 
-    private LocalTime afternoonStartHour;
+    private final LocalTime afternoonStartHour;
     private int afternoonSlots;
 
-    private int totalSlots;
+    private final int totalSlots;
 
     public DailySchedule(LocalDate date) {
         this.date = date;

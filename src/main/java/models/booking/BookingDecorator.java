@@ -40,7 +40,7 @@ public abstract class BookingDecorator implements BookingInterface {
     }
 
     @Override
-    public LocalTime getStartTime() {
+    public String getStartTime() {
         return booking.getStartTime();
     }
 }

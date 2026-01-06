@@ -10,5 +10,5 @@ public interface BookingInterface {
     String getAthlete();
     String getTraining();
     LocalDate getDate();
-    LocalTime getStartTime();
+    String getStartTime();
 }

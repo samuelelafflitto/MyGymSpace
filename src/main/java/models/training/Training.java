@@ -1,6 +1,6 @@
 package models.training;
 
-/*import models.booking.BookingInterface;*/
+import models.booking.BookingInterface;
 import models.dailyschedule.DailySchedule;
 import models.user.PersonalTrainer;
 
@@ -13,7 +13,7 @@ public class Training {
     private double basePrice;
     private PersonalTrainer personalTrainer;
     private Map<LocalDate, DailySchedule> schedules;
-    /*private final HashMap<String, BookingInterface> bookings;*/
+    private final HashMap<String, BookingInterface> bookings;
 
     public Training(String name, String description, PersonalTrainer personalTrainer, double basePrice) {
         this.name = name;
@@ -22,10 +22,11 @@ public class Training {
         this.basePrice = basePrice;
 
         this.schedules = new HashMap<>();
-        /*this.bookings = new HashMap<>();*/
+        this.bookings = new HashMap<>();
     }
 
-    // Se non esiste gia una DailySchedule associata alla LocalDate la crea
+    // SPOSTATO DEL BOOKING CONTROLLER
+    /*// Se non esiste gia una DailySchedule associata alla LocalDate la crea
     public DailySchedule getDailySchedule(LocalDate date) {
         if(!this.schedules.containsKey(date)) {
             this.schedules.put(date, new DailySchedule(date));
@@ -42,8 +43,12 @@ public class Training {
         if(ds != null && ds.getDate() != null) {
             this.schedules.put(ds.getDate(), ds);
         }
-    }
+    }*/
 
+
+    public void addBooking(BookingInterface booking) {
+        this.bookings.put(booking.getId(), booking);
+    }
 
 
     public String getName() {

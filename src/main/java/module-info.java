@@ -4,6 +4,7 @@ module com.mygymspace.mygymspace {
     requires javafx.graphics;
     requires java.sql;
     requires java.desktop;
+    requires com.mygymspace.mygymspace;
 
     exports utils.session;
     exports utils;
