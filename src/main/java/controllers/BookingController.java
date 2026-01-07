@@ -19,11 +19,11 @@ import java.util.List;
 
 public class BookingController {
 
-    public boolean isSessionOpen() {
+    private boolean isSessionOpen() {
         return SessionManager.getInstance().getBookingSession() != null;
     }
 
-    public void closeSession() {
+    private void closeSession() {
         SessionManager.getInstance().freeBookingSession();
     }
 
@@ -92,7 +92,7 @@ public class BookingController {
     // CHIAMATO ALLA SELEZIONE DI UNA DATA DA SALVARE NELLA BOOKINGSESSION
     // Aggiunta della LocalDate selezionata alla BookingSession
     // Esistendo già una BookingSession contenente il Training selezionato, ne creo una nuova con anche la LocalDate e la sostituisco a quella esistente
-    public void setSelectedDate(SelectedDateBean selectedDateBean) {
+    private void setSelectedDate(SelectedDateBean selectedDateBean) {
         LocalDate selectedDate = selectedDateBean.getSelectedDate();
 
         BookingSession currentBookingSession =  SessionManager.getInstance().getBookingSession();
@@ -100,6 +100,8 @@ public class BookingController {
         BookingSession bSession = new BookingSession(currentTraining, selectedDate);
         SessionManager.getInstance().createBookingSession(bSession);
     }
+
+
 
     // CHIAMATO PER OTTENERE GLI SLOT DA MOSTRARE NEL MENU A TENDINA
     // Ricevuta la LocalDate tramite SelectedDateBean, aggiorna la BookingSession e ricava gli AvailableSlots dalla DailySchedule corretta
@@ -118,7 +120,7 @@ public class BookingController {
             date = dateBean.getSelectedDate();
             training = bSession.getTraining();
         } catch (Exception e) {
-            throw new DataLoadException("Allenamento o data non selezionati correttamente ", e);
+            throw new DataLoadException("Errore nel recupero Allenamento e/o data selezionati ", e);
         }
 
         // Cerca/Crea la DailySchedule associata alla coppia (Training, LocalDate)
@@ -127,10 +129,14 @@ public class BookingController {
         }
 
         // Restituisce gli slot liberi come Lista di String
-        return training.getSchedules().get(date).getAvailableSlots();
+        DailySchedule selectedSchedule = training.getSchedules().get(date);
+        return selectedSchedule.getAvailableSlots();
     }
 
-    //CHIAMATO ALLA PRESSIONE DEL TASTO MOSTRA RECAO (una volta inseriti tutti i dati)
+
+
+    // CHIAMATO ALLA RICHIESTA DI MOSTRARE UN RECAP (una volta inseriti tutti i dati)
+    // Ottiene la Booking finale e la restituisce come BookingRecapBean per inviare i dati del Recap al Controller grafico
     public BookingRecapBean getBookingRecap(SelectedSlotAndExtraBean lastBookingDataBean) {
         // Creazione della Booking
         BookingInterface currentBooking = createBooking(lastBookingDataBean);
@@ -138,6 +144,10 @@ public class BookingController {
         return new BookingRecapBean(currentBooking);
     }
 
+
+
+    // CHIAMATO ALLA CONFERMA DEL RECAP
+    // Si occupa di memorizzare la Booking confermata
     public void saveBooking() {
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
 
@@ -162,10 +172,16 @@ public class BookingController {
         ((Athlete) loggedUser).addBooking(currentBooking);
 
         updateDailySchedule();
+        bSession.clearBookingSession();
     }
 
 
+
+
+
     // OPERAZIONI PRIVATE
+    // Ricevuto il TimeSlot selezionato e le eventuali ExtraOptions, crea la Booking finale e la aggiunge alla BookingSession
+    // Restituisce la Booking finale
     private BookingInterface createBooking(SelectedSlotAndExtraBean slotAndExtra) {
         BookingInterface booking = new ConcreteBooking();
         BookingSession bSession = SessionManager.getInstance().getBookingSession();

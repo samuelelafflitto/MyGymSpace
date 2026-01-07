@@ -48,4 +48,10 @@ public class BookingSession {
     public void setBooking(BookingInterface booking) {
         this.booking = booking;
     }
+
+    public void clearBookingSession() {
+        this.training = null;
+        this.selectedDate = null;
+        this.booking = null;
+    }
 }
