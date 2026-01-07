@@ -11,7 +11,7 @@ public class UserDAOFsys extends UserDAO{
     private static final String DELIMITER = ";";
     private static final String HEADER = "firstname;lastname;username;password;type";
     private static final String PT_TYPE = "PT";
-    private static final String ATHLETE_TYPE = "ATHLETE";
+    private static final String ATHLETE_TYPE = "ATH";
 
     public UserDAOFsys() {
         File file = new File(FILE_PATH);
@@ -93,10 +93,10 @@ public class UserDAOFsys extends UserDAO{
                     String[] data = line.split(DELIMITER);
 
                     if (data.length >= 5) {
-                        String fName = data[0];
-                        String lName = data[1];
-                        String usr = data[2];
-                        String psw = data[3];
+                        String usr = data[0];
+                        String psw = data[1];
+                        String fName = data[2];
+                        String lName = data[3];
                         String type = data[4];
 
                         User user;
@@ -118,7 +118,7 @@ public class UserDAOFsys extends UserDAO{
     }
 
     private String formatUserAsLine (String username, User user) {
-        return String.join(DELIMITER, user.getFirstName(), user.getLastName(), username, user.getPassword(), user.getType());
+        return String.join(DELIMITER, username, user.getPassword(), user.getFirstName(), user.getLastName(), user.getType());
     }
 
     // Nella versione su Fsys non realizziamo le relazioni complesse che includono Training o Bookings
