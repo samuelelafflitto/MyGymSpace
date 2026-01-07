@@ -11,7 +11,7 @@ public class UserDAOMem extends UserDAO {
     private final Map<String, User> users;
     private static UserDAOMem instance;
     private static final String PT_TYPE = "PT";
-    private static final String ATHLETE_TYPE = "ATHLETE";
+    private static final String ATHLETE_TYPE = "ATH";
 
     protected UserDAOMem() {
         this.users = new HashMap<>();

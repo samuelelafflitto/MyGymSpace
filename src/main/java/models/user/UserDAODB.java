@@ -19,7 +19,7 @@ public class UserDAODB extends UserDAO {
     private final Properties queries;
 
     private static final String PT_TYPE = "PT";
-    private static final String ATHLETE_TYPE = "ATHLETE";
+    private static final String ATHLETE_TYPE = "ATH";
 
     public UserDAODB() {
         try {
@@ -80,7 +80,9 @@ public class UserDAODB extends UserDAO {
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, username);
             statement.setString(2, user.getPassword());
-            statement.setString(3, user.getType());
+            statement.setString(3, user.getFirstName());
+            statement.setString(4, user.getLastName());
+            statement.setString(5, user.getType());
 
             statement.executeUpdate();
         } catch (SQLException e) {

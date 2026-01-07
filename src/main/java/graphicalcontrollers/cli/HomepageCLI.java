@@ -8,6 +8,8 @@ import java.util.Scanner;
 public class HomepageCLI {
     private Scanner sc = new Scanner(System.in);
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
+    private static final String PT_TYPE = "PT";
+    private static final String ATHLETE_TYPE = "ATH";
 
     public void start() {
         System.out.println("------------------------");
@@ -40,7 +42,7 @@ public class HomepageCLI {
                 ? SessionManager.getInstance().getLoggedUser().getType()
                 : "None";
 
-        if(loggedUserType.equals("PT")) {
+        if(loggedUserType.equals(PT_TYPE)) {
             PersonalTrainerMenuCLI ptMenuCLI = new PersonalTrainerMenuCLI();
             while(true) {
                 ptMenuCLI.showMenu();
@@ -48,7 +50,7 @@ public class HomepageCLI {
                 String choice = sc.nextLine();
                 handlePTChoice(choice, ptMenuCLI);
             }
-        } else if (loggedUserType.equals("ATHLETE")) {
+        } else if (loggedUserType.equals(ATHLETE_TYPE)) {
             AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
             while (true) {
                 athleteMenuCLI.showMenu();

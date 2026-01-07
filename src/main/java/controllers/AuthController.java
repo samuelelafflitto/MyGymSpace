@@ -39,7 +39,7 @@ public class AuthController {
         String lastName = loginBean.getLastName();
         String username = loginBean.getUsername();
         String password = loginBean.getPassword();
-        String type = "ATHLETE";
+        String type = "ATH";
 
         Athlete user = new Athlete(firstName, lastName, username, password, type);
         try {
