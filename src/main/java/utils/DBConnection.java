@@ -17,7 +17,7 @@ public class DBConnection {
 
     static {
         try {
-            Properties prop = ResourceLoader.loadProperties("/config/config.properties");
+            Properties prop = ResourceLoader.loadProperties("/config/dbconfig.properties");
 
             URL = prop.getProperty("db.url");
             USER = prop.getProperty("db.user");
