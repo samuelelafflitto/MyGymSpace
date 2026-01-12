@@ -1,4 +1,4 @@
-module com.mygymspace.mygymspace {
+module mygymspace {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
