@@ -1,15 +1,15 @@
 package models.dailyschedule;
 
 import models.training.Training;
-import utils.ScheduleConfig;
-import utils.session.BookingSession;
-import utils.session.SessionManager;
+//import utils.ScheduleConfig;
+//import utils.session.BookingSession;
+//import utils.session.SessionManager;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
+//import java.time.temporal.ChronoUnit;
+//import java.util.ArrayList;
+//import java.util.List;
 
 public class DailySchedule {
     private final Training training;
@@ -92,7 +92,7 @@ public class DailySchedule {
     }
 
     // CREAZIONE DA PERSISTENZA
-    public static DailySchedule fromPersistence(Training training, LocalDate date, LocalTime mStart, LocalTime mEnd, LocalTime aStart, LocalTime aEnd, String persistenceBits) {
+    public static DailySchedule fromPersistence(Training training, LocalDate date, /*LocalTime mStart, LocalTime mEnd, LocalTime aStart, LocalTime aEnd,*/ String persistenceBits) {
         return new DailySchedule(training, date, /*mStart, mEnd, aStart, aEnd,*/ persistenceBits);
     }
 
