@@ -1,55 +1,37 @@
 package models.training;
 
 import models.booking.BookingInterface;
+import models.booking.BookingKey;
 import models.dailyschedule.DailySchedule;
+import models.dailyschedule.DailyScheduleDAO;
 import models.user.PersonalTrainer;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
 public class Training {
+    private PersonalTrainer personalTrainer;
     private String name;
     private String description;
-    private double basePrice;
-    private PersonalTrainer personalTrainer;
-    private Map<LocalDate, DailySchedule> schedules;
-    private final HashMap<String, BookingInterface> bookings;
+    private BigDecimal basePrice;
+    private HashMap<LocalDate, DailySchedule> schedules;
+    private HashMap<BookingKey, BookingInterface> bookings;
 
-    public Training(String name, String description, PersonalTrainer personalTrainer, double basePrice) {
+    public Training(/*PersonalTrainer personalTrainer, String name, String description, BigDecimal basePrice*/) {
+        /*this.personalTrainer = personalTrainer;
         this.name = name;
         this.description = description;
-        this.personalTrainer = personalTrainer;
-        this.basePrice = basePrice;
+        this.basePrice = basePrice;*/
 
         this.schedules = new HashMap<>();
         this.bookings = new HashMap<>();
     }
 
-    // SPOSTATO DEL BOOKING CONTROLLER
-    /*// Se non esiste gia una DailySchedule associata alla LocalDate la crea
-    public DailySchedule getDailySchedule(LocalDate date) {
-        if(!this.schedules.containsKey(date)) {
-            this.schedules.put(date, new DailySchedule(date));
-        }
-        return this.schedules.get(date);
+    // GET
+    public PersonalTrainer getPersonalTrainer() {
+        return personalTrainer;
     }
-
-    // Restituisce gli slot disponibili tramite la DailySchedule associata alla LocalDate
-    public List<String> getFreeSlots(LocalDate date) {
-        return getDailySchedule(date).getAvailableSlots();
-    }*/
-
-    public void addDailySchedule(DailySchedule ds) {
-        if(ds != null && ds.getDate() != null) {
-            this.schedules.put(ds.getDate(), ds);
-        }
-    }
-
-
-    public void addBooking(BookingInterface booking) {
-        this.bookings.put(booking.getId(), booking);
-    }
-
 
     public String getName() {
         return name;
@@ -59,19 +41,22 @@ public class Training {
         return description;
     }
 
-    public double getBasePrice() {
+    public BigDecimal getBasePrice() {
         return basePrice;
     }
 
-    public PersonalTrainer getPersonalTrainer() {
-        return personalTrainer;
+    public HashMap<LocalDate, DailySchedule> getSchedules() {
+        return schedules;
     }
 
-    public Map<LocalDate, DailySchedule> getSchedules() {
-        return this.schedules;
+    public HashMap<BookingKey, BookingInterface> getBookings() {
+        return bookings;
     }
 
-
+    // SET
+    public void setPersonalTrainer(PersonalTrainer personalTrainer) {
+        this.personalTrainer = personalTrainer;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -81,20 +66,29 @@ public class Training {
         this.description = description;
     }
 
-    public void setBasePrice(double basePrice) {
+    public void setBasePrice(BigDecimal basePrice) {
         this.basePrice = basePrice;
     }
 
-    public void setPersonalTrainer(PersonalTrainer personalTrainer) {
-        this.personalTrainer = personalTrainer;
+    public void setSchedules(HashMap<LocalDate, DailySchedule> schedules) {
+        this.schedules = schedules;
     }
 
-    public void setSchedules(Map<LocalDate, DailySchedule> schedules) {
-        if(schedules != null) {
-            this.schedules = schedules;
-        } else {
-            this.schedules = new HashMap<>();
+    public void setSchedules(List<DailySchedule> scheduleList) {
+        this.schedules.clear();
+        for (DailySchedule ds : scheduleList) {
+            this.schedules.put(ds.getDate(), ds);
         }
     }
 
+    public void setBookings(List<BookingInterface> bookingList) {
+        this.bookings.clear();
+        for (BookingInterface b : bookingList) {
+            this.bookings.put(b.getKey(), b);
+        }
+    }
+
+    public void addSchedule(DailySchedule dailySchedule) {
+        this.schedules.put(dailySchedule.getDate(), dailySchedule);
+    }
 }

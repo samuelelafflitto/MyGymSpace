@@ -1,13 +1,13 @@
 package models.user;
 
 public abstract class User {
-    private String firstName;
-    private String lastName;
     private String username;
     private String password;
+    private String firstName;
+    private String lastName;
     private String type;
 
-    protected User(String firstName, String lastName, String username, String password, String type) {
+    protected User(String username, String password, String firstName, String lastName, String type) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
