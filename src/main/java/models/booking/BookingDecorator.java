@@ -1,5 +1,10 @@
 package models.booking;
 
+import models.dailyschedule.DailySchedule;
+import models.training.Training;
+import models.user.Athlete;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -10,9 +15,29 @@ public abstract class BookingDecorator implements BookingInterface {
     }
 
     @Override
-    public String getId() {
-        return booking.getId();
+    public Athlete getAthlete() {
+        return booking.getAthlete();
     }
+
+    @Override
+    public Training getTraining() {
+        return booking.getTraining();
+    }
+
+    @Override
+    public DailySchedule getDailySchedule() {
+        return booking.getDailySchedule();
+    }
+
+    @Override
+    public LocalTime getSelectedSlot() {
+        return booking.getSelectedSlot();
+    }
+
+//    @Override
+//    public LocalTime getStartTime() {
+//        return booking.getStartTime();
+//    }
 
     @Override
     public String getDescription() {
@@ -20,27 +45,12 @@ public abstract class BookingDecorator implements BookingInterface {
     }
 
     @Override
-    public double getCost() {
-        return booking.getCost();
+    public BigDecimal getFinalPrice() {
+        return booking.getFinalPrice();
     }
 
     @Override
-    public String getAthlete() {
-        return booking.getAthlete();
-    }
-
-    @Override
-    public String getTraining () {
-        return booking.getTraining();
-    }
-
-    @Override
-    public LocalDate getDate() {
-        return booking.getDate();
-    }
-
-    @Override
-    public String getStartTime() {
-        return booking.getStartTime();
+    public BookingKey getKey() {
+        return booking.getKey();
     }
 }

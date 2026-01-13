@@ -2,8 +2,10 @@ package models.booking;
 
 import utils.PriceConfig;
 
+import java.math.BigDecimal;
+
 public class SaunaDecorator extends BookingDecorator {
-    private final double saunaCost;
+    private final BigDecimal saunaCost;
     public SaunaDecorator(BookingInterface booking) {
         super(booking);
         saunaCost = PriceConfig.getExtraPrice("sauna");
@@ -19,7 +21,7 @@ public class SaunaDecorator extends BookingDecorator {
     }
 
     @Override
-    public double getCost() {
-        return super.getCost() + saunaCost;
+    public BigDecimal getFinalPrice() {
+        return super.getFinalPrice().add(saunaCost);
     }
 }

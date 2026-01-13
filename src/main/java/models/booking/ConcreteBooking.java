@@ -1,28 +1,49 @@
 package models.booking;
 
-import java.time.LocalDate;
+import models.dailyschedule.DailySchedule;
+import models.training.Training;
+import models.user.Athlete;
+
+import java.math.BigDecimal;
 import java.time.LocalTime;
-import java.util.UUID;
 
 public class ConcreteBooking implements BookingInterface {
-    private String id;
+    private Athlete athlete;
+    private Training training;
+    private DailySchedule dailySchedule;
+    private LocalTime selectedSlot;
+    /*private LocalTime startTime;*/
     private String description;
-    private double cost;
-    private String athleteUsername;
-    private String trainingName;
-    private LocalDate date;
-    private String startTime;
+    private BigDecimal finalPrice;
 
     public ConcreteBooking () {
-        this.id = UUID.randomUUID().toString();
-        this.description = "";
     }
 
-    //GET
+    // GET
     @Override
-    public String getId() {
-        return id;
+    public Athlete getAthlete() {
+        return athlete;
     }
+
+    @Override
+    public Training getTraining() {
+        return training;
+    }
+
+    @Override
+    public DailySchedule getDailySchedule() {
+        return dailySchedule;
+    }
+
+    @Override
+    public LocalTime getSelectedSlot() {
+        return selectedSlot;
+    }
+
+//    @Override
+//    public LocalTime getStartTime() {
+//        return startTime;
+//    }
 
     @Override
     public String getDescription() {
@@ -30,57 +51,124 @@ public class ConcreteBooking implements BookingInterface {
     }
 
     @Override
-    public double getCost() {
-        return cost;
+    public BigDecimal getFinalPrice() {
+        return finalPrice;
     }
 
-    @Override
-    public String getAthlete() {
-        return athleteUsername;
+    // SET
+    public void setAthlete(Athlete athlete) {
+        this.athlete = athlete;
     }
 
-    @Override
-    public String getTraining() {
-        return trainingName;
+    public void setTraining(Training training) {
+        this.training = training;
     }
 
-    @Override
-    public LocalDate getDate() {
-        return date;
+    public void setDailySchedule(DailySchedule dailySchedule) {
+        this.dailySchedule = dailySchedule;
     }
 
-    @Override
-    public String getStartTime() {
-        return startTime;
+    public void setSelectedSlot(LocalTime selectedSlot) {
+        this.selectedSlot = selectedSlot;
     }
 
-    //SET
-    public void setId(String id) {
-        this.id = id;
-    }
+//    public void setStartTime(LocalTime startTime) {
+//        this.startTime = startTime;
+//    }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
+    public void setFinalPrice(BigDecimal finalPrice) {
+        this.finalPrice = finalPrice;
     }
 
-    public void setAthlete(String athleteUsername) {
-        this.athleteUsername = athleteUsername;
+
+    @Override
+    public BookingKey getKey() {
+        return new BookingKey(this.getTraining().getPersonalTrainer().getUsername(), this.getDailySchedule().getDate(), this.getSelectedSlot());
     }
 
-    public void setTrainingName(String trainingName) {
-        this.trainingName = trainingName;
-    }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
+
+
+    /*private String id;
+    private String description;
+    private double cost;
+    private String athleteUsername;
+    private String trainingName;
+    private LocalDate date;
+    private String startTime;*/
+
+
+
+//    //GET
+//    @Override
+//    public String getId() {
+//        return id;
+//    }
+//
+//    @Override
+//    public String getDescription() {
+//        return description;
+//    }
+//
+//    @Override
+//    public double getCost() {
+//        return cost;
+//    }
+//
+//    @Override
+//    public String getAthlete() {
+//        return athleteUsername;
+//    }
+//
+//    @Override
+//    public String getTraining() {
+//        return trainingName;
+//    }
+//
+//    @Override
+//    public LocalDate getDate() {
+//        return date;
+//    }
+//
+//    @Override
+//    public String getStartTime() {
+//        return startTime;
+//    }
+
+
+
+//    //SET
+//    public void setId(String id) {
+//        this.id = id;
+//    }
+//
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
+//
+//    public void setCost(double cost) {
+//        this.cost = cost;
+//    }
+//
+//    public void setAthlete(String athleteUsername) {
+//        this.athleteUsername = athleteUsername;
+//    }
+//
+//    public void setTrainingName(String trainingName) {
+//        this.trainingName = trainingName;
+//    }
+//
+//    public void setDate(LocalDate date) {
+//        this.date = date;
+//    }
+//
+//    public void setStartTime(String startTime) {
+//        this.startTime = startTime;
+//    }
 }
 

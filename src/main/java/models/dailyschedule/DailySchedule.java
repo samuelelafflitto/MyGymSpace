@@ -1,5 +1,6 @@
 package models.dailyschedule;
 
+import exceptions.InvalidTimeSlotException;
 import models.training.Training;
 //import utils.ScheduleConfig;
 //import utils.session.BookingSession;
@@ -27,7 +28,7 @@ public class DailySchedule {
     private StringBuilder timeSlots;
 
 
-    public DailySchedule(Training training, LocalDate date, /*LocalTime mStart, LocalTime mEnd, LocalTime aStart, LocalTime aEnd,*/ String persistenceBits) {
+    public DailySchedule(Training training, LocalDate date, /*LocalTime mStart, LocalTime mEnd, LocalTime aStart, LocalTime aEnd,*/ StringBuilder persistenceBits) {
         this.training = training;
         this.date = date;
 
@@ -92,7 +93,7 @@ public class DailySchedule {
     }
 
     // CREAZIONE DA PERSISTENZA
-    public static DailySchedule fromPersistence(Training training, LocalDate date, /*LocalTime mStart, LocalTime mEnd, LocalTime aStart, LocalTime aEnd,*/ String persistenceBits) {
+    public static DailySchedule fromPersistence(Training training, LocalDate date, /*LocalTime mStart, LocalTime mEnd, LocalTime aStart, LocalTime aEnd,*/ StringBuilder persistenceBits) {
         return new DailySchedule(training, date, /*mStart, mEnd, aStart, aEnd,*/ persistenceBits);
     }
 
@@ -146,8 +147,10 @@ public class DailySchedule {
 
 
     public void setSlotOccupied(int index) {
-        if(isValidIndex(index)) {
+        if(isValidIndex(index) && isSlotEmpty(index)) {
             timeSlots.setCharAt(index, '1');
+        } else {
+            throw new InvalidTimeSlotException();
         }
     }
 
@@ -230,6 +233,9 @@ public class DailySchedule {
         return index >= 0 && index < 24;
     }
 
+    private boolean isSlotEmpty(int index) {
+        return this.timeSlots.charAt(index) == '0';
+    }
 
 
     /*private final Map<LocalTime, Boolean> schedule;

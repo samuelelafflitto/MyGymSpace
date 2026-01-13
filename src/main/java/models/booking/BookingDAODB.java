@@ -1,8 +1,12 @@
 package models.booking;
 
 import exceptions.DataLoadException;
+import models.dailyschedule.DailySchedule;
+import models.dailyschedule.DailyScheduleDAO;
+import models.dao.factory.FactoryDAO;
 import models.training.Training;
-import models.user.Athlete;
+import models.training.TrainingDAO;
+import models.user.*;
 import utils.DBConnection;
 import utils.ResourceLoader;
 
@@ -29,17 +33,16 @@ public class BookingDAODB extends BookingDAO {
             throw new DataLoadException("Query INSERT_BOOKING non trovata");
 
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, booking.getId());
-            statement.setString(2, booking.getAthlete());
-            statement.setString(3, booking.getTraining());
-            statement.setDouble(4, booking.getCost());
-            statement.setDate(5, Date.valueOf(booking.getDate()));
-            statement.setTime(6, Time.valueOf(booking.getStartTime()));
-            statement.setString(7, booking.getDescription());
+            statement.setString(1, booking.getAthlete().getUsername());
+            statement.setString(2, booking.getTraining().getPersonalTrainer().getUsername());
+            statement.setDate(3, Date.valueOf(booking.getDailySchedule().getDate()));
+            statement.setTime(4, Time.valueOf(booking.getSelectedSlot()));
+            statement.setString(5, booking.getDescription());
+            statement.setBigDecimal(6, booking.getFinalPrice());
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel salvataggio della prenotazione " + booking.getId(), e);
+            throw new DataLoadException("Errore nel salvataggio della prenotazione", e);
         }
     }
 
@@ -90,20 +93,27 @@ public class BookingDAODB extends BookingDAO {
     private ConcreteBooking mapResultSetToBooking(ResultSet resultSet) throws SQLException {
         ConcreteBooking booking = new ConcreteBooking();
 
-        booking.setId(resultSet.getString("id"));
-        booking.setAthlete(resultSet.getString("athlete"));
-        booking.setTrainingName(resultSet.getString("training"));
-        booking.setCost(resultSet.getDouble("cost"));
+        // Ricavo Athlete e Personal Trainer dagli username nel DB
+        UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
+        Athlete ath = (Athlete)userDAO.getUserByUsername(resultSet.getString("athlete_username"));
+        PersonalTrainer pt = (PersonalTrainer)userDAO.getUserByUsername(resultSet.getString("pt_username"));
 
-        Date sqlDate = resultSet.getDate("date");
-        if(sqlDate != null)
-            booking.setDate(sqlDate.toLocalDate());
+        // Ricavo Training dal Personal Trainer
+        TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
+        Training t = trainingDAO.getTrainingByPT(pt);
 
-        Time sqlTime = resultSet.getTime("time");
-        if(sqlTime != null)
-            booking.setStartTime(sqlTime.toString());
+        // Ricavo DailySchedule da Training e la date nel DB
+        DailyScheduleDAO dsDAO = FactoryDAO.getInstance().createDailyScheduleDAO();
+        DailySchedule ds = dsDAO.loadSingleScheduleByTraining(t, resultSet.getDate("date").toLocalDate());
 
+        // Ricreo la ConcreteBooking vera e propria
+        booking.setAthlete(ath);
+        booking.setTraining(t);
+        booking.setDailySchedule(ds);
+        booking.setSelectedSlot(resultSet.getTime("selected_slot").toLocalTime());
         booking.setDescription(resultSet.getString("description"));
+        booking.setFinalPrice(resultSet.getBigDecimal("final_price"));
+
         return booking;
     }
 }

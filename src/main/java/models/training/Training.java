@@ -15,15 +15,10 @@ public class Training {
     private String name;
     private String description;
     private BigDecimal basePrice;
-    private HashMap<LocalDate, DailySchedule> schedules;
-    private HashMap<BookingKey, BookingInterface> bookings;
+    private final HashMap<LocalDate, DailySchedule> schedules;
+    private final HashMap<BookingKey, BookingInterface> bookings;
 
-    public Training(/*PersonalTrainer personalTrainer, String name, String description, BigDecimal basePrice*/) {
-        /*this.personalTrainer = personalTrainer;
-        this.name = name;
-        this.description = description;
-        this.basePrice = basePrice;*/
-
+    public Training() {
         this.schedules = new HashMap<>();
         this.bookings = new HashMap<>();
     }
@@ -70,9 +65,9 @@ public class Training {
         this.basePrice = basePrice;
     }
 
-    public void setSchedules(HashMap<LocalDate, DailySchedule> schedules) {
+    /*public void setSchedules(HashMap<LocalDate, DailySchedule> schedules) {
         this.schedules = schedules;
-    }
+    }*/
 
     public void setSchedules(List<DailySchedule> scheduleList) {
         this.schedules.clear();

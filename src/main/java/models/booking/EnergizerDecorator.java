@@ -2,8 +2,10 @@ package models.booking;
 
 import utils.PriceConfig;
 
+import java.math.BigDecimal;
+
 public class EnergizerDecorator extends BookingDecorator {
-    private final double energizerCost;
+    private final BigDecimal energizerCost;
     public EnergizerDecorator(BookingInterface booking) {
         super(booking);
         energizerCost = PriceConfig.getExtraPrice("energizer");
@@ -19,7 +21,7 @@ public class EnergizerDecorator extends BookingDecorator {
     }
 
     @Override
-    public double getCost() {
-        return super.getCost() + energizerCost;
+    public BigDecimal getFinalPrice() {
+        return super.getFinalPrice().add(energizerCost);
     }
 }

@@ -44,8 +44,10 @@ public class UserDAOMem extends UserDAO {
     public void addUser(String username, User user) {
         if(!users.containsKey(username)) {
             users.put(username, user);
+            System.out.println("[MEM] User " + username + " aggiunto correttamnente");
+        } else {
+            System.err.println("[MEM] Username già esistente: " + username);
         }
-        System.err.println("[MEM] Username già esistente: " + username);
     }
 
     /*@Override
@@ -60,19 +62,19 @@ public class UserDAOMem extends UserDAO {
     }*/
 
     private void initializeDemoData() {
-        PersonalTrainer pt = new PersonalTrainer("Mario", "Rossi", "trainer1", "pass1", PT_TYPE);
+        PersonalTrainer pt = new PersonalTrainer("trainer1", "pass1", "Mario", "Rossi", PT_TYPE);
         TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
         Training training = trainingDAO.getTrainingByPT(pt);
 
         if(training != null) {
             pt.setTraining(training);
             training.setPersonalTrainer(pt);
-        } else {
+        } /*else {
             System.out.println("[MEM] Nessun allenamento trovato per " + pt.getUsername());
-        }
+        }*/
         users.put(pt.getUsername(), pt);
 
-        Athlete ath = new Athlete("Luca", "Bianchi", "athlete1", "pass1",  ATHLETE_TYPE);
+        Athlete ath = new Athlete("athlete1", "pass1", "Luca", "Bianchi",  ATHLETE_TYPE);
         users.put(ath.getUsername(), ath);
 
         System.out.println("[MEM] Dati demo caricati: user='trainer1' e user='athlete1' (con psw='pass1')");

@@ -2,8 +2,10 @@ package models.booking;
 
 import utils.PriceConfig;
 
+import java.math.BigDecimal;
+
 public class VidAnalysisDecorator extends BookingDecorator {
-    private final double videoCost;
+    private final BigDecimal videoCost;
     public VidAnalysisDecorator(BookingInterface booking) {
         super(booking);
         videoCost = PriceConfig.getExtraPrice("video");
@@ -19,7 +21,7 @@ public class VidAnalysisDecorator extends BookingDecorator {
     }
 
     @Override
-    public double getCost() {
-        return super.getCost() + videoCost;
+    public BigDecimal getFinalPrice() {
+        return super.getFinalPrice().add(videoCost);
     }
 }

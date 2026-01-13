@@ -1,23 +1,23 @@
 package models.training;
 
 import exceptions.DataLoadException;
-import models.dailyschedule.DailySchedule;
+import models.dailyschedule.DailyScheduleDAO;
+import models.dao.factory.FactoryDAO;
 import models.user.PersonalTrainer;
 import utils.DBConnection;
 import utils.ResourceLoader;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.*;
 
 public class TrainingDAODB extends TrainingDAO {
     private final Properties queries;
 
-    public TrainingDAODB() {
+    public TrainingDAODB() throws DataLoadException {
         try {
             this.queries = ResourceLoader.loadProperties("/queries/training_queries.properties");
         } catch (Exception e) {
@@ -33,7 +33,10 @@ public class TrainingDAODB extends TrainingDAO {
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 Training t = mapResultSetCreatingPT(resultSet);
-                loadSchedulesForTraining(t, t.getPersonalTrainer().getUsername());
+
+                DailyScheduleDAO dsDAO = FactoryDAO.getInstance().createDailyScheduleDAO();
+                dsDAO.loadSchedulesByTraining(t);
+
                 list.add(t);
             }
         } catch (SQLException e) {
@@ -46,23 +49,48 @@ public class TrainingDAODB extends TrainingDAO {
     public Training getTrainingByPT(PersonalTrainer pt) {
         String sql = queries.getProperty("SELECT_TRAINING_BY_PT");
 
-        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+        Training training = null;
+        try(Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, pt.getUsername());
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if(resultSet.next()) {
-                    Training training = mapResultSetUsingExistingPT(resultSet, pt);
-                    loadSchedulesForTraining(training, pt.getUsername());
-                    return training;
+                    training = mapResultSetUsingExistingPT(resultSet, pt);
                 }
             }
         } catch (SQLException e) {
             throw new DataLoadException("Errore nel recupero dei dati del Database", e);
         }
+
+        if(training != null) {
+            return training;
+        }
         return null;
     }
 
-    @Override
+    // DA IMPLEMENTARE CON NUOVA SESSIONE CHE 'TIENE TRACCIA'
+//    @Override
+//    public Training getTrainingByPT(PersonalTrainer pt) {
+//        String sql = queries.getProperty("SELECT_TRAINING_BY_PT");
+//
+//        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+//            statement.setString(1, pt.getUsername());
+//
+//            try (ResultSet resultSet = statement.executeQuery()) {
+//                if(resultSet.next()) {
+//                    Training training = mapResultSetUsingExistingPT(resultSet, pt);
+//                    loadSchedulesForTraining(training);
+//                    return training;
+//                }
+//            }
+//        } catch (SQLException e) {
+//            throw new DataLoadException("Errore nel recupero dei dati del Database", e);
+//        }
+//        return null;
+//    }
+
+    // DA SPOSTARE IN DAILYSCHEDULE (V fatto)
+    /*@Override
     public void updateDailySchedule(PersonalTrainer pt, DailySchedule ds) {
         String sql = queries.getProperty("INSERT_UPDATE_SCHEDULE");
 
@@ -75,50 +103,70 @@ public class TrainingDAODB extends TrainingDAO {
         } catch (SQLException e) {
             throw new DataLoadException("Errore nel salvataggio dei dati nel Database", e);
         }
-    }
+    }*/
 
 
-
-    private void loadSchedulesForTraining(Training training, String ptUsername) {
-        String sql = queries.getProperty("SELECT_SCHEDULES_BY_PT");
-        if(sql == null) return;
-
-        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, ptUsername);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while(resultSet.next()) {
-                    LocalDate date = resultSet.getDate("date").toLocalDate();
-                    String bits = resultSet.getString("slots_bits");
-
-                    DailySchedule ds = new DailySchedule(date);
-                    ds.setSlotBits(bits);
-
-                    training.addDailySchedule(ds);
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("[WARNING] Impossibile caricare gli orari per " + ptUsername + ": " + e.getMessage());
-        }
-    }
+    // DA SPOSTARE IN DAILYSCHEDULE (V fatto)
+//    private void loadSchedulesForTraining(Training training) {
+//        String sql = queries.getProperty("SELECT_TRAINING_SCHEDULES");
+//        if(sql == null) return;
+//
+//        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+//            statement.setString(1, training.getPersonalTrainer().getUsername());
+//            try (ResultSet resultSet = statement.executeQuery()) {
+//                while(resultSet.next()) {
+////                    String ds_training = resultSet.getString("ds_training");
+//                    LocalDate selected_date = resultSet.getDate("selected_date").toLocalDate();
+//                    LocalTime morning_start = resultSet.getObject("morning_start", LocalTime.class);
+//                    LocalTime morning_end = resultSet.getObject("morning_end", LocalTime.class);
+//                    LocalTime afternoon_start = resultSet.getObject("afternoon_start", LocalTime.class);
+//                    LocalTime afternoon_end = resultSet.getObject("afternoon_end", LocalTime.class);
+//                    StringBuilder time_slots = resultSet.getObject("time_slots", StringBuilder.class);
+//
+//                    DailySchedule ds = DailySchedule.fromPersistence(training, selected_date, morning_start, morning_end, afternoon_start, afternoon_end, time_slots);
+//
+//                    training.addSchedule(ds);
+//                }
+//            }
+//        } catch (SQLException e) {
+//            throw new DataLoadException("Errore nel recupero degli orari disponibili per " + training.getName() + ": ", e);
+//        }
+//    }
 
     private Training mapResultSetCreatingPT(ResultSet resultSet) throws SQLException {
         String title = resultSet.getString("title");
         String description = resultSet.getString("description");
-        double price = resultSet.getDouble("price");
+        BigDecimal basePrice = resultSet.getBigDecimal("base_price");
 
-        String ptUsername = resultSet.getString("username");
+        String ptUsername = resultSet.getString("training_pt");
+        String ptPassword = resultSet.getString("password");
         String ptFirstName = resultSet.getString("first_name");
         String ptLastName = resultSet.getString("last_name");
 
-        PersonalTrainer personalTrainer = new PersonalTrainer(ptFirstName, ptLastName, ptUsername, null, "PersonalTrainer");
-        return new Training(title, description, personalTrainer, price);
+        PersonalTrainer personalTrainer = new PersonalTrainer(ptUsername, ptPassword, ptFirstName, ptLastName, "PT");
+        Training training = new Training();
+        training.setPersonalTrainer(personalTrainer);
+        training.setName(title);
+        training.setDescription(description);
+        training.setBasePrice(basePrice);
+
+        return training;
+        //return new Training(personalTrainer, title, description, basePrice);
     }
 
     private Training mapResultSetUsingExistingPT(ResultSet resultSet, PersonalTrainer pt) throws SQLException {
         String title = resultSet.getString("title");
         String description = resultSet.getString("description");
-        double price = resultSet.getDouble("price");
-        return new Training(title, description, pt, price);
+        BigDecimal base_price = resultSet.getBigDecimal("base_price");
+
+        Training training = new Training();
+        training.setPersonalTrainer(pt);
+        training.setName(title);
+        training.setDescription(description);
+        training.setBasePrice(base_price);
+
+        return training;
+        /*return new Training(title, description, pt, price);*/
     }
 
 

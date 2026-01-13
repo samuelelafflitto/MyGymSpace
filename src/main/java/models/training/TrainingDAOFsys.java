@@ -17,9 +17,4 @@ public class TrainingDAOFsys extends TrainingDAO {
         // Non implementato
         return null;
     }
-
-    @Override
-    public void updateDailySchedule(PersonalTrainer personalTrainer, DailySchedule ds) {
-        // Non implementato
-    }
 }

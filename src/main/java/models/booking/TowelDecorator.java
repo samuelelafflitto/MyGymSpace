@@ -2,8 +2,10 @@ package models.booking;
 
 import utils.PriceConfig;
 
+import java.math.BigDecimal;
+
 public class TowelDecorator extends BookingDecorator {
-    private final double towelCost;
+    private final BigDecimal towelCost;
     public TowelDecorator(BookingInterface booking) {
         super(booking);
         towelCost = PriceConfig.getExtraPrice("towel");
@@ -19,7 +21,7 @@ public class TowelDecorator extends BookingDecorator {
     }
 
     @Override
-    public double getCost() {
-        return super.getCost() + towelCost;
+    public BigDecimal getFinalPrice() {
+        return super.getFinalPrice().add(towelCost);
     }
 }

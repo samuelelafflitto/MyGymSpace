@@ -48,7 +48,10 @@ public class UserDAODB extends UserDAO {
         } catch (SQLException e) {
             throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
         }
-        return populateUser(user);
+        if (user != null) {
+            return populateUser(user);
+        }
+        return null;
     }
 
     @Override
@@ -69,7 +72,10 @@ public class UserDAODB extends UserDAO {
         } catch (SQLException e) {
             throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
         }
-        return (user != null) ? populateUser(user) : null;
+        if (user != null) {
+            return populateUser(user);
+        }
+        return null;
     }
 
     public void addUser(String username, User user) {
@@ -90,37 +96,18 @@ public class UserDAODB extends UserDAO {
         }
     }
 
-    /*@Override
-        public void addUser(String firstName, String lastName, String username, String password) {
-            String sql = queries.getProperty("INSERT_USER");
-            if (sql == null)
-                throw new DataLoadException("Query INSERT_USER non trovata");
-
-            try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, firstName);
-                statement.setString(2, lastName);
-                statement.setString(3, username);
-                statement.setString(4, password);
-                statement.setString(5, ATHLETE_TYPE);
-
-                statement.executeUpdate();
-            } catch (SQLException e) {
-                throw new DataLoadException("Errore durante l'inserimento dell'utente: " + username, e);
-            }
-        }*/
-
     private User mapUserFromResultSet(ResultSet resultSet) throws SQLException {
-        String firstName = resultSet.getString("first_name");
-        String lastName = resultSet.getString("last_name");
         String username = resultSet.getString("username");
         String password = resultSet.getString("password");
+        String firstName = resultSet.getString("first_name");
+        String lastName = resultSet.getString("last_name");
         String type = resultSet.getString("type");
 
         if (PT_TYPE.equals(type)) {
-            return new PersonalTrainer(firstName, lastName, username, password, type);
-        } else {
-            return new Athlete(firstName, lastName, username, password, type);
-        }
+            return new PersonalTrainer(username, password, firstName, lastName, type);
+        } else if (ATHLETE_TYPE.equals(type)) {
+            return new Athlete(username, password, firstName, lastName, type);
+        } else return null;
     }
 
     private User populateUser(User user) {

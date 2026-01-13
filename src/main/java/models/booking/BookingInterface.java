@@ -1,14 +1,21 @@
 package models.booking;
 
+import models.dailyschedule.DailySchedule;
+import models.user.Athlete;
+import models.training.Training;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public interface BookingInterface {
-    String getId();
+    Athlete getAthlete();
+    Training getTraining();
+    DailySchedule getDailySchedule();
+    LocalTime getSelectedSlot();
+    //LocalTime getStartTime();
     String getDescription();
-    double getCost();
-    String getAthlete();
-    String getTraining();
-    LocalDate getDate();
-    String getStartTime();
+    BigDecimal getFinalPrice();
+
+    BookingKey getKey();
 }

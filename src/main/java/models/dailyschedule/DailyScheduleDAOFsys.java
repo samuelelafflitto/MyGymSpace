@@ -5,14 +5,16 @@ import models.training.Training;
 import java.time.LocalDate;
 
 public class DailyScheduleDAOFsys extends DailyScheduleDAO {
-    @Override
-    public DailySchedule loadSchedule(Training training, LocalDate date) {
+    public void loadSchedulesByTraining(Training training) {
+        // Non implementato
+    }
+    public DailySchedule loadSingleScheduleByTraining(Training training, LocalDate date) {
         // Non implementato
         return null;
     }
 
     @Override
-    public void saveSchedule(Training training, DailySchedule schedule) {
-        // Non implementato
+    public void updateDailySchedule(Training training, DailySchedule dailySchedule) {
+        // Non Implementato
     }
 }

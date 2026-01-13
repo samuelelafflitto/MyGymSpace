@@ -9,13 +9,27 @@ import java.util.List;
 public class UserDAOFsys extends UserDAO{
     private static final String FILE_PATH = "/fsys/users.txt";
     private static final String DELIMITER = ";";
-    private static final String HEADER = "firstname;lastname;username;password;type";
+    private static final String HEADER = "username;password;firstname;lastname;type";
     private static final String PT_TYPE = "PT";
     private static final String ATHLETE_TYPE = "ATH";
 
     public UserDAOFsys() {
         File file = new File(FILE_PATH);
-        file.getParentFile().mkdirs();
+        File parent = file.getParentFile();
+
+        if(parent != null && !parent.exists() && !parent.mkdirs()) {
+            throw new DataLoadException("Impossibile creare la cartella: " + parent.getAbsolutePath());
+        }
+
+        if(!file.exists()) {
+            try {
+                if(file.createNewFile()) {
+                    initializeFile(file);
+                }
+            } catch (IOException e) {
+                throw new DataLoadException("Impossibile caricare il file di persistenza: " + FILE_PATH, e);
+            }
+        }
     }
 
     @Override
@@ -60,25 +74,6 @@ public class UserDAOFsys extends UserDAO{
         }
     }
 
-    /*@Override
-        public void addUser(String fName, String lName, String usr, String psw) {
-            File file = new File(FILE_PATH);
-            boolean fileExists = file.exists();
-
-            try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true))) {
-                if (!fileExists) {
-                    bufferedWriter.write(HEADER);
-                    bufferedWriter.newLine();
-                }
-
-                String line = formatUserAsLine(fName, lName, usr, psw, ATHLETE_TYPE);
-                bufferedWriter.write(line);
-                bufferedWriter.newLine();
-            } catch (IOException e) {
-                throw new DataLoadException("Errore scrittura su file users.txt: " + e.getMessage());
-            }
-        }*/
-
     private List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         File file = new File(FILE_PATH);
@@ -101,9 +96,9 @@ public class UserDAOFsys extends UserDAO{
 
                         User user;
                         if (PT_TYPE.equals(type)) {
-                            user = new PersonalTrainer(fName, lName, usr, psw, type);
+                            user = new PersonalTrainer(usr, psw, fName, lName, type);
                         } else {
-                            user = new Athlete(fName, lName, usr, psw, type);
+                            user = new Athlete(usr, psw, fName, lName, type);
                         }
                         users.add(user);
                     }
@@ -115,6 +110,13 @@ public class UserDAOFsys extends UserDAO{
             throw new DataLoadException("Errore lettura su file users.txt: " + e.getMessage());
         }
         return users;
+    }
+
+    private void initializeFile(File file) throws IOException {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
+            writer.println(HEADER);
+            writer.flush();
+        }
     }
 
     private String formatUserAsLine (String username, User user) {

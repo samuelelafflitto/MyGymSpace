@@ -1,13 +1,14 @@
 package models.training;
 
-import models.dailyschedule.DailySchedule;
 import models.user.PersonalTrainer;
 import utils.PriceConfig;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TrainingDAOMem extends TrainingDAO {
+
     private final List<Training> trainings;
     private static TrainingDAOMem instance;
 
@@ -38,23 +39,20 @@ public class TrainingDAOMem extends TrainingDAO {
         return null;
     }
 
-    @Override
-    public void updateDailySchedule(PersonalTrainer pt, DailySchedule ds) {
-        if(ds != null) {
-            System.out.println("[MEM] Simulazione salvataggio orari per PT: " + pt.getUsername());
-            System.out.println("Data: " + ds.getDate() + " -> Bitmask aggiornata: " + ds.getTimeSlotBits());
-        }
-    }
-
 
     private void initializeDemoData() {
-        PersonalTrainer pt = new PersonalTrainer("Mario", "Rossi", "trainer1", "pass1", "Personal Trainer");
+        PersonalTrainer pt = new PersonalTrainer("trainer 1", "pass1", "Mario", "Rossi", "PT");
 
         String title = "Box";
-        String description = "Private Box Training Session with Personal Trainer";
-        double price = PriceConfig.getPrice("training.boxing.price", 20.00);
+        String description = "Sessione privata di Box con Personal Trainer";
+        BigDecimal price = PriceConfig.getPrice("training.boxing.price", new BigDecimal("20.00"));
 
-        Training demoTraining = new Training(title, description, pt, price);
+        Training demoTraining = new Training();
+        demoTraining.setPersonalTrainer(pt);
+        demoTraining.setName(title);
+        demoTraining.setDescription(description);
+        demoTraining.setBasePrice(price);
+
         this.trainings.add(demoTraining);
     }
 }
