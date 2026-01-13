@@ -1,2 +1,2 @@
-firstname;lastname;username;password;type
-Mario;Rossi;trainer1;pass1;PersonalTrainer
+username;password;firstname;lastname;type
+trainer1;pass1;Mario;Rossi;PT
