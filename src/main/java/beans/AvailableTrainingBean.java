@@ -1,12 +1,16 @@
 package beans;
 
-import models.user.PersonalTrainer;
+import java.math.BigDecimal;
 
 public class AvailableTrainingBean {
+    private String ptUsername;
     private String name;
     private String description;
-    private double basePrice;
-    private PersonalTrainer personalTrainer;
+    private BigDecimal basePrice;
+
+    public String getPersonalTrainer() {
+        return ptUsername;
+    }
 
     public String getName() {
         return name;
@@ -16,12 +20,12 @@ public class AvailableTrainingBean {
         return description;
     }
 
-    public double getBasePrice() {
+    public BigDecimal getBasePrice() {
         return basePrice;
     }
 
-    public PersonalTrainer getPersonalTrainer() {
-        return personalTrainer;
+    public void setPersonalTrainer(String ptUsername) {
+        this.ptUsername = ptUsername;
     }
 
     public void setName(String name) {
@@ -32,11 +36,7 @@ public class AvailableTrainingBean {
         this.description = description;
     }
 
-    public void setBasePrice(double basePrice) {
+    public void setBasePrice(BigDecimal basePrice) {
         this.basePrice = basePrice;
-    }
-
-    public void setPersonalTrainer(PersonalTrainer personalTrainer) {
-        this.personalTrainer = personalTrainer;
     }
 }

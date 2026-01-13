@@ -1,72 +1,75 @@
 package beans;
 
 import models.booking.BookingInterface;
-import models.booking.ConcreteBooking;
-import models.training.Training;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class BookingRecapBean {
-    String bookingId;
-    String selectedTraining;
-    LocalDate selectedDate;
-    String selectedSlot;
-    String bookingDescription;
-    double bookingCost;
+    String trainingName;
+    String ptTraining;
+    LocalDate date;
+    LocalTime startTime;
+    String description;
+    BigDecimal price;
 
     public BookingRecapBean(BookingInterface booking) {
-        selectedTraining = booking.getTraining();
-        selectedDate = booking.getDate();
-        selectedSlot = booking.getStartTime().toString();
-        bookingDescription = booking.getDescription();
-        bookingCost = booking.getCost();
+        trainingName = booking.getTraining().getName();
+        ptTraining = booking.getTraining().getPersonalTrainer().getLastName();
+        date = booking.getDailySchedule().getDate();
+        startTime = booking.getSelectedSlot();
+        description = booking.getDescription();
+        price = booking.getFinalPrice();
     }
 
-    public String getBookingId() {
-        return bookingId;
+    // GET
+    public String getTrainingName() {
+        return trainingName;
     }
 
-    public String getSelectedTraining() {
-        return selectedTraining;
+    public String getPtTraining() {
+        return ptTraining;
     }
 
-    public LocalDate getSelectedDate() {
-        return selectedDate;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public String getSelectedSlot() {
-        return selectedSlot;
+    public LocalTime getStartTime() {
+        return startTime;
     }
 
-    public String getBookingDescription() {
-        return bookingDescription;
+    public String getDescription() {
+        return description;
     }
 
-    public double getBookingCost() {
-        return bookingCost;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setBookingId(String bookingId) {
-        this.bookingId = bookingId;
+    // SET
+    public void setTrainingName(String trainingName) {
+        this.trainingName = trainingName;
     }
 
-    public void setSelectedTraining(String selectedTraining) {
-        this.selectedTraining = selectedTraining;
+    public void setPtTraining(String ptTraining) {
+        this.ptTraining = ptTraining;
     }
 
-    public void setSelectedDate(LocalDate selectedDate) {
-        this.selectedDate = selectedDate;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public void setSelectedSlot(String selectedSlot) {
-        this.selectedSlot = selectedSlot;
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
     }
 
-    public void setBookingDescription(String bookingDescription) {
-        this.bookingDescription = bookingDescription;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setBookingPrice(double bookingPrice) {
-        this.bookingCost = bookingPrice;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

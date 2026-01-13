@@ -1,20 +1,10 @@
 package beans;
 
 public class LoginBean {
-    private String firstName;
-    private String lastName;
     private String username;
     private String password;
 
     public LoginBean() {
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
     }
 
     public String getUsername() {
@@ -23,14 +13,6 @@ public class LoginBean {
 
     public String getPassword() {
         return password;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public void setUsername(String username) {

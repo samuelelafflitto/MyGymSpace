@@ -1,5 +1,8 @@
 package beans;
 
+import exceptions.InvalidSelectionException;
+import exceptions.InvalidTimeSlotException;
+
 import java.time.LocalTime;
 
 public class SelectedSlotAndExtraBean {
@@ -8,6 +11,13 @@ public class SelectedSlotAndExtraBean {
     private boolean sauna;
     private boolean energizer;
     private boolean video;
+
+    public SelectedSlotAndExtraBean() {
+        this.towel = false;
+        this.sauna = false;
+        this.energizer = false;
+        this.video = false;
+    }
 
     public String getSelectedSlot() {
         return selectedSlot;
@@ -29,23 +39,44 @@ public class SelectedSlotAndExtraBean {
         return video;
     }
 
-    public void setSelectedSlot(String selectedSlot) {
-        this.selectedSlot = selectedSlot;
+    public void setSelectedSlot(int selectedSlot) {
+        if(!checkSlot(selectedSlot)) {
+            throw new InvalidTimeSlotException();
+        }
+        this.selectedSlot = Integer.toString(selectedSlot);
     }
 
-    public void setTowel(boolean towel) {
-        this.towel = towel;
+    public void setTowel(String input) {
+        if(checkExtraSelector(input))
+            this.towel = true;
+        throw new InvalidSelectionException();
     }
 
-    public void setSauna(boolean sauna) {
-        this.sauna = sauna;
+    public void setSauna(String input) {
+        if(checkExtraSelector(input))
+            this.sauna = true;
+        throw new InvalidSelectionException();
     }
 
-    public void setEnergizer(boolean energizer) {
-        this.energizer = energizer;
+    public void setEnergizer(String input) {
+        if(checkExtraSelector(input))
+            this.energizer = true;
+        throw new InvalidSelectionException();
     }
 
-    public void setVideo(boolean video) {
-        this.video = video;
+    public void setVideo(String input) {
+        if(checkExtraSelector(input))
+            this.video = true;
+        throw new InvalidSelectionException();
+    }
+
+
+
+    private boolean checkSlot(int enteredSlot) {
+        return enteredSlot >= 0 && enteredSlot <= 23;
+    }
+
+    private boolean checkExtraSelector(String selector) {
+        return selector.equals("y") || selector.equals("n");
     }
 }
