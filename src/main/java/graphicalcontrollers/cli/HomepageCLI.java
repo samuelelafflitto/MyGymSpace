@@ -14,77 +14,69 @@ public class HomepageCLI {
     public void start() {
         System.out.println("------------------------");
         System.out.println("BENVENUTO IN MYGYMSPACE!");
-        System.out.println("------------------------");
         loadMenu();
     }
 
-    private void loadMenu() {
-
-        User currentUser = SessionManager.getInstance().getLoggedUser();
-
-        if (currentUser == null) {
-            /*System.out.print("Nessun utente loggato: caricamento Menu Guest...");*/
-            GuestMenuCLI guestMenuCLI = new GuestMenuCLI();
-            while (true) {
-                guestMenuCLI.showMenu();
-                System.out.println("-> ");
-                String choice = sc.nextLine();
-                handleGuestChoice(choice, guestMenuCLI);
-
-                /*if(SessionManager.getInstance().getLoggedUser() != null) {
-                    loadMenu();
-                    return;
-                }*/
-            }
-        }
-
-        String loggedUserType = (SessionManager.getInstance().getLoggedUser().getType() != null)
+    public void loadMenu() {
+        String loggedUserType = (SessionManager.getInstance().getLoggedUser() != null)
                 ? SessionManager.getInstance().getLoggedUser().getType()
-                : "None";
+                : null;
 
-        if(loggedUserType.equals(PT_TYPE)) {
-            PersonalTrainerMenuCLI ptMenuCLI = new PersonalTrainerMenuCLI();
+        if(loggedUserType == null) {
+            GuestMenuCLI guestMenu = new GuestMenuCLI();
             while(true) {
-                ptMenuCLI.showMenu();
-                System.out.println("-> ");
+                guestMenu.showMenu();
+                System.out.print("--> ");
                 String choice = sc.nextLine();
-                handlePTChoice(choice, ptMenuCLI);
+                handleGuestChoice(choice, guestMenu);
+            }
+        } else if (loggedUserType.equals(PT_TYPE)) {
+            PersonalTrainerMenuCLI personalTrainerMenu = new PersonalTrainerMenuCLI();
+            while (true) {
+                personalTrainerMenu.showMenu();
+                System.out.print("--> ");
+                String choice = sc.nextLine();
+                handlePTChoice(choice, personalTrainerMenu);
             }
         } else if (loggedUserType.equals(ATHLETE_TYPE)) {
-            AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
+            AthleteMenuCLI athleteMenu = new AthleteMenuCLI();
             while (true) {
-                athleteMenuCLI.showMenu();
-                System.out.println("-> ");
+                athleteMenu.showMenu();
+                System.out.print("--> ");
                 String choice = sc.nextLine();
-                handleAthleteChoice(choice, athleteMenuCLI);
+                handleAthleteChoice(choice, athleteMenu);
             }
-        }/*else {
-            GuestMenuCLI guestMenuCLI = new GuestMenuCLI();
-            while (true) {
-                guestMenuCLI.showMenu();
-                System.out.println("-> ");
-                String choice = sc.nextLine();
-                handleGuestChoice(choice, guestMenuCLI);
-            }
-        }*/
+        }
     }
 
-    private void handlePTChoice(String choice, PersonalTrainerMenuCLI menuCLI) {
+    private void handleGuestChoice(String choice, GuestMenuCLI guestMenu) {
         switch (choice) {
             case "1":
-                menuCLI.goToHome();
+                guestMenu.goToEvents();
                 break;
             case "2":
-                menuCLI.goToAddEvent();
+                guestMenu.goToLogin();
+                break;
+            default:
+                System.out.println(INVALIDINPUT);
+                break;
+
+        }
+    }
+
+    private void handlePTChoice(String choice, PersonalTrainerMenuCLI ptMenu) {
+        switch (choice) {
+            case "1":
+                ptMenu.goToAddEvent();
+                break;
+            case "2":
+                ptMenu.goToManageEvents();
                 break;
             case "3":
-                menuCLI.goToManageEvents();
+                ptMenu.goToAthleteBookings();
                 break;
             case "4":
-                menuCLI.goToAthleteBookings();
-                break;
-            case "5":
-                menuCLI.logout();
+                ptMenu.goToMyProfile();
                 break;
             default:
                 System.out.println(INVALIDINPUT);
@@ -92,39 +84,19 @@ public class HomepageCLI {
         }
     }
 
-    private void handleAthleteChoice(String choice, AthleteMenuCLI menuCLI) {
+    private void handleAthleteChoice(String choice, AthleteMenuCLI athleteMenu) {
         switch (choice) {
             case "1":
-                menuCLI.goToHome();
+                athleteMenu.goToBookASession();
                 break;
             case "2":
-                menuCLI.goToBook();
+                athleteMenu.goToEvents();
                 break;
             case "3":
-                menuCLI.goToEvents();
+                athleteMenu.goToMyBookings();
                 break;
             case "4":
-                menuCLI.goToMyBookings();
-                break;
-            case "5":
-                menuCLI.logout();
-                break;
-            default:
-                System.out.println(INVALIDINPUT);
-                break;
-        }
-    }
-
-    private void handleGuestChoice(String choice, GuestMenuCLI menuCLI) {
-        switch (choice) {
-            case "1":
-                menuCLI.goToHome();
-                break;
-            case "2":
-                menuCLI.goToEvents();
-                break;
-            case "3":
-                menuCLI.login();
+                athleteMenu.goToMyProfile();
                 break;
             default:
                 System.out.println(INVALIDINPUT);

@@ -1,0 +1,81 @@
+package graphicalcontrollers.cli;
+
+import beans.BookingRecapBean;
+import controllers.BookingController;
+import exceptions.InvalidTimeSlotException;
+import models.booking.BookingInterface;
+import utils.session.BookingSession;
+import utils.session.SessionManager;
+
+import java.util.Scanner;
+
+public class RecapPageCLI {
+    private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
+    BookingSession bSession = SessionManager.getInstance().getBookingSession();
+    BookingController bController = new BookingController();
+    AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
+    private final Scanner sc = new Scanner(System.in);
+
+    BookingRecapBean bookingRecap;
+
+    public void start() {
+        while(true) {
+            System.out.println("------------------------");
+            showRecap();
+
+            System.out.println("-----------------------");
+            System.out.println("1) Conferma e prenota");
+            System.out.println("2) Annulla");
+            System.out.println("--> ");
+
+            String choice = sc.nextLine();
+            handleChoice(choice);
+        }
+    }
+
+    private void handleChoice(String choice) {
+        switch (choice) {
+            // Conferma e prenota
+            case "1":
+                try {
+                    bController.saveBooking();
+                } catch (InvalidTimeSlotException e) {
+                    e.handleException();
+                    clearAndGoToHome();
+                }
+                break;
+            // Annulla e torna alla Home
+            case "2":
+                clearAndGoToHome();
+                break;
+            default:
+                System.out.println(INVALIDINPUT);
+                break;
+        }
+    }
+
+    private void showRecap() {
+        BookingInterface booking = bSession.getBooking();
+        bookingRecap = new BookingRecapBean(booking);
+
+        System.out.println("Allenamento: " + bookingRecap.getTrainingName() + " - PT: " + bookingRecap.getPtTraining());
+        System.out.println("Data e ora: " + bookingRecap.getDate() + ", " + bookingRecap.getStartTime());
+        System.out.println("Extra selezionati: " + bookingRecap.getDescription());
+        System.out.println("Costo totale: " + bookingRecap.getPrice());
+    }
+
+
+
+
+
+    private void clearBookingSessionIfBookingFailed() {
+        BookingSession bSession = SessionManager.getInstance().getBookingSession();
+        bSession.clearBookingSession();
+    }
+
+    private void clearAndGoToHome() {
+        clearBookingSessionIfBookingFailed();
+        athleteMenuCLI.goToHome();
+    }
+
+}
