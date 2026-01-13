@@ -1,10 +1,11 @@
-module mygymspace {
+module mygymspace.mygymspace {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
     requires java.sql;
     requires java.desktop;
 
+    exports exceptions;
     exports utils.session;
     exports utils;
     exports models.user;
