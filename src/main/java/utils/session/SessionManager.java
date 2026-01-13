@@ -8,7 +8,7 @@ public class SessionManager {
     private static SessionManager instance;
     private User loggedUser;
 
-    private HashMap<String, BookingSession> bookingSessionHashMap;
+    private final HashMap<String, BookingSession> bookingSessionHashMap;
 
     protected SessionManager() {
         bookingSessionHashMap = new HashMap<>();

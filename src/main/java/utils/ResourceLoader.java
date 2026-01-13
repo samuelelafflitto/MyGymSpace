@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class ResourceLoader {
 
-    private ResourceLoader() {
+    private ResourceLoader() throws IllegalStateException {
         throw new IllegalStateException("Utility class");
     }
 
@@ -16,6 +16,7 @@ public class ResourceLoader {
         Properties prop = new Properties();
 
         try (InputStream in = ResourceLoader.class.getResourceAsStream(resourcePath)) {
+            System.out.println(in);
             if (in == null) {
                 throw new DataLoadException("Impossibile trovate il file: " + resourcePath);
             }

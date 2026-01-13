@@ -1,6 +1,7 @@
 package utils.session;
 
 import models.booking.BookingInterface;
+import models.dailyschedule.DailySchedule;
 import models.training.Training;
 
 import java.time.LocalDate;
@@ -8,17 +9,25 @@ import java.time.LocalTime;
 
 public class BookingSession {
     private Training training;
+    private DailySchedule dailySchedule;
     private LocalDate selectedDate;
     //private LocalTime selectedTimeSlot;
     private BookingInterface booking;
 
-    public BookingSession(Training training, LocalDate selectedDate) {
+    public BookingSession(Training training/*, LocalDate selectedDate*/) {
         this.training = training;
-        this.selectedDate = selectedDate;
+        this.dailySchedule = null;
+        this.selectedDate = null;
+        this.booking = null;
+        /*this.selectedDate = selectedDate;*/
     }
 
     public Training getTraining() {
         return training;
+    }
+
+    public DailySchedule getDailySchedule() {
+        return dailySchedule;
     }
 
     public LocalDate getDate() {
@@ -35,6 +44,10 @@ public class BookingSession {
 
     public void setTraining(Training training) {
         this.training = training;
+    }
+
+    public void setDailySchedule(DailySchedule dailySchedule) {
+        this.dailySchedule = dailySchedule;
     }
 
     public void setDate(LocalDate selectedDate) {

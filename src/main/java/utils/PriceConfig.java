@@ -2,13 +2,14 @@ package utils;
 
 import exceptions.DataLoadException;
 
+import java.math.BigDecimal;
 import java.util.Properties;
 
 public class PriceConfig {
     private static Properties prices;
-    private static final double DEFAULT_EXTRA_PRICE = 5.0;
+    private static final BigDecimal DEFAULT_EXTRA_PRICE = new BigDecimal("5.0");
 
-    private PriceConfig() {
+    private PriceConfig() throws IllegalStateException {
         throw new IllegalStateException("Utility class");
     }
 
@@ -20,22 +21,40 @@ public class PriceConfig {
         }
     }
 
-    public static double getPrice(String finalKey, double defaultPrice) {
+    public static String getName(String finalKey) {
+        String name = prices.getProperty(finalKey);
+        if (name == null) {
+            throw new DataLoadException("Dato non trovato nel file.");
+        }
+        return name;
+    }
+
+    public static BigDecimal getPrice(String finalKey, BigDecimal defaultPrice) {
         if (finalKey == null) return defaultPrice;
 
         String value   = prices.getProperty(finalKey);
         if (value == null) return defaultPrice;
 
         try {
-            return Double.parseDouble(value);
+            return new BigDecimal(value);
         } catch (NumberFormatException _) {
             return defaultPrice;
         }
     }
 
-    public static double getExtraPrice(String extraName) {
+    public static String getExtraName(String extraName) {
+        String key = "name." + extraName.toLowerCase();
+        String name = getName(key);
+
+        if (name == null)
+            throw new DataLoadException("Dato non trovato nel file.");
+
+        return name;
+    }
+
+    public static BigDecimal getExtraPrice(String extraName) {
         if (extraName == null)
-            return 0.0;
+            return new BigDecimal("0.0");
 
         String key = "price." + extraName.toLowerCase();
         return getPrice (key, DEFAULT_EXTRA_PRICE);
