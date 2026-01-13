@@ -15,7 +15,7 @@ public class GuestMenuCLI {
         new HomepageCLI().start();
     }
 
-    public void goToEvents() {
+    public void goToEvents() {// Da implementare
 
     }
 

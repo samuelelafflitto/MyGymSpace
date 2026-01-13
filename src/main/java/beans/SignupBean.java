@@ -4,7 +4,7 @@ public class SignupBean extends LoginBean {
     private String firstName;
     private String lastName;
 
-    public SignupBean() {
+    public SignupBean() {// Il costruttore non ha bisogno di parametri
     }
 
     public String getFirstName() {

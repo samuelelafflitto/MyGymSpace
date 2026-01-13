@@ -14,7 +14,7 @@ import utils.session.SessionManager;
 public class AuthController {
     private static final String ATHLETE_TYPE = "ATH";
 
-    public AuthController() {
+    public AuthController() {// Il costruttore non ha bisogno di parametri
     }
 
     public boolean authUser(LoginBean loginBean) {

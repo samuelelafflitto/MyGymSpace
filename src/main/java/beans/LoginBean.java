@@ -4,7 +4,7 @@ public class LoginBean {
     private String username;
     private String password;
 
-    public LoginBean() {
+    public LoginBean() {// Il costruttore non ha bisogno di parametri
     }
 
     public String getUsername() {

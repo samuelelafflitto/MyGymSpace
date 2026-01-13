@@ -17,19 +17,19 @@ public class PersonalTrainerMenuCLI {
         new HomepageCLI().start();
     }
 
-    public void goToAddEvent() {
+    public void goToAddEvent() {// Da implementare
 
     }
 
-    public void goToManageEvents() {
+    public void goToManageEvents() {// Da implementare
 
     }
 
-    public void goToAthleteBookings() {
+    public void goToAthleteBookings() {// Da implementare
 
     }
 
-    public void goToMyProfile() {
+    public void goToMyProfile() {// Da implementare
 
     }
 

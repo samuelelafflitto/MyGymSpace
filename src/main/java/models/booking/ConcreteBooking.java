@@ -16,7 +16,7 @@ public class ConcreteBooking implements BookingInterface {
     private String description;
     private BigDecimal finalPrice;
 
-    public ConcreteBooking () {
+    public ConcreteBooking () {// Il costruttore non ha bisogno di parametri
     }
 
     // GET

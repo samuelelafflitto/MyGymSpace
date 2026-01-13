@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TrainingSelectionPageCLI {
+    private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
+    private static final String SEPARATOR = "------------------------";
     BookingController bController = new BookingController();
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
     private Scanner sc = new Scanner(System.in);
@@ -18,7 +20,7 @@ public class TrainingSelectionPageCLI {
 
     public void start() {
         while (true) {
-            System.out.println("------------------------");
+            System.out.println(SEPARATOR);
             System.out.println("1) Seleziona Allenamento");
             System.out.println("2) Annulla prenotazione");
             System.out.println("3) Torna alla Homepage");
@@ -52,6 +54,9 @@ public class TrainingSelectionPageCLI {
             case "4":
                 athleteMenuCLI.logout();
                 break;
+            default:
+                System.out.println(INVALIDINPUT);
+                break;
         }
     }
 
@@ -69,7 +74,7 @@ public class TrainingSelectionPageCLI {
         }
 
         // Viene mostrata la lista
-        System.out.println("------------------------");
+        System.out.println(SEPARATOR);
         for(int i = 0; i < trainings.size(); i++) {
             AvailableTrainingBean training = trainings.get(i);
             showTrainingDetails(training, i + 1);
@@ -107,7 +112,7 @@ public class TrainingSelectionPageCLI {
         System.out.println("Personal Trainer: " +  tBean.getPersonalTrainer());
         System.out.println("Descrizione: " + tBean.getDescription());
         System.out.println("Prezzo base: " + tBean.getBasePrice() + "€");
-        System.out.println("------------------------");
+        System.out.println(SEPARATOR);
     }
 
     private void onSelection(AvailableTrainingBean bean) {

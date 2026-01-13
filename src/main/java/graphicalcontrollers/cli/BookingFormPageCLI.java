@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 public class BookingFormPageCLI {
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
+    private static final String SEPARATOR = "------------------------";
     BookingController bController = new BookingController();
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
     private final Scanner sc = new Scanner(System.in);
@@ -35,7 +36,7 @@ public class BookingFormPageCLI {
     public void start() {
 
         while (true) {
-            System.out.println("------------------------");
+            System.out.println(SEPARATOR);
             System.out.println("1) Inserisci la Data");
             System.out.println("2) Indietro");
             System.out.println("3) Torna alla Homepage");
@@ -91,6 +92,7 @@ public class BookingFormPageCLI {
             // Torna alla Homepage (annulla la prenotazione)
             case "3":
                 clearAndGoToHome();
+                break;
             // Logout
             case "4":
                 athleteMenuCLI.logout();
@@ -144,9 +146,9 @@ public class BookingFormPageCLI {
         try {
             slots = bController.getAvailableSlots();
 
-            System.out.println("------------------------");
+            System.out.println(SEPARATOR);
             System.out.println("TIME SLOT DISPONIBILI per il giorno " + selectedD.getSelectedDate().toString());
-            System.out.println("------------------------");
+            System.out.println(SEPARATOR);
 
             for (String slot : slots) {
                 System.out.println("1) " + slot);
@@ -250,9 +252,9 @@ public class BookingFormPageCLI {
 
     }
 
-    private void getConfirmation() {
-
-    }
+//    private void getConfirmation() {
+//
+//    }
 
 
 

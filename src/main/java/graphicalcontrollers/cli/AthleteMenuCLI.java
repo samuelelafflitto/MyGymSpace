@@ -21,15 +21,15 @@ public class AthleteMenuCLI {
         new TrainingSelectionPageCLI().start();
     }
 
-    public void goToEvents() {
+    public void goToEvents() {// Da implementare
 
     }
 
-    public void goToMyBookings() {
+    public void goToMyBookings() {// Da implementare
 
     }
 
-    public void goToMyProfile() {
+    public void goToMyProfile() {// Da implementare
 
     }
 
