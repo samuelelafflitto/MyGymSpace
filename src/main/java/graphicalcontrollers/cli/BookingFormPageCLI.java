@@ -1,6 +1,5 @@
 package graphicalcontrollers.cli;
 
-import beans.BookingRecapBean;
 import beans.SelectedDateBean;
 import beans.SelectedSlotAndExtraBean;
 import beans.SelectedTrainingBean;

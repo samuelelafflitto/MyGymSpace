@@ -3,7 +3,6 @@ package models.training;
 import models.booking.BookingInterface;
 import models.booking.BookingKey;
 import models.dailyschedule.DailySchedule;
-import models.dailyschedule.DailyScheduleDAO;
 import models.user.PersonalTrainer;
 
 import java.math.BigDecimal;
@@ -40,11 +39,11 @@ public class Training {
         return basePrice;
     }
 
-    public HashMap<LocalDate, DailySchedule> getSchedules() {
+    public Map<LocalDate, DailySchedule> getSchedules() {
         return schedules;
     }
 
-    public HashMap<BookingKey, BookingInterface> getBookings() {
+    public Map<BookingKey, BookingInterface> getBookings() {
         return bookings;
     }
 

@@ -5,13 +5,13 @@ public enum DateErrorType {
     HOLIDAY("Impossibile selezionare la data in quanto giorno festivo."),
     FULL_SCHEDULE("Impossibile prenotare questa data in quanto tutti gli slot sono occupati.");
 
-    private final String MSG;
+    private final String msg;
 
     DateErrorType(String msg) {
-        this.MSG = msg;
+        this.msg = msg;
     }
 
     public String getMSG() {
-        return MSG;
+        return msg;
     }
 }

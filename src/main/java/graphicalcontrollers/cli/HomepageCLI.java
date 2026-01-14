@@ -1,6 +1,5 @@
 package graphicalcontrollers.cli;
 
-import models.user.User;
 import utils.session.SessionManager;
 
 import java.util.Scanner;

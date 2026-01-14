@@ -1,6 +1,5 @@
 package models.training;
 
-import models.dailyschedule.DailySchedule;
 import models.user.PersonalTrainer;
 
 import java.util.List;

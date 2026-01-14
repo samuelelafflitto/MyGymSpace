@@ -5,7 +5,6 @@ import models.user.Athlete;
 import models.training.Training;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 public interface BookingInterface {

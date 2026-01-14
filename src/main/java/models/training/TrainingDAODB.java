@@ -120,7 +120,7 @@ public class TrainingDAODB extends TrainingDAO {
 //            statement.setString(1, training.getPersonalTrainer().getUsername());
 //            try (ResultSet resultSet = statement.executeQuery()) {
 //                while(resultSet.next()) {
-////                    String ds_training = resultSet.getString("ds_training");
+//                    String ds_training = resultSet.getString("ds_training");
 //                    LocalDate selected_date = resultSet.getDate("selected_date").toLocalDate();
 //                    LocalTime morning_start = resultSet.getObject("morning_start", LocalTime.class);
 //                    LocalTime morning_end = resultSet.getObject("morning_end", LocalTime.class);
@@ -162,13 +162,13 @@ public class TrainingDAODB extends TrainingDAO {
     private Training mapResultSetUsingExistingPT(ResultSet resultSet, PersonalTrainer pt) throws SQLException {
         String title = resultSet.getString("title");
         String description = resultSet.getString("description");
-        BigDecimal base_price = resultSet.getBigDecimal("base_price");
+        BigDecimal basePrice = resultSet.getBigDecimal("base_price");
 
         Training training = new Training();
         training.setPersonalTrainer(pt);
         training.setName(title);
         training.setDescription(description);
-        training.setBasePrice(base_price);
+        training.setBasePrice(basePrice);
 
         return training;
         /*return new Training(title, description, pt, price);*/

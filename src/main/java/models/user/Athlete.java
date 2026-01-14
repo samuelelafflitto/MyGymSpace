@@ -5,6 +5,7 @@ import models.booking.BookingKey;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Athlete extends User {
     private HashMap<BookingKey, BookingInterface> myBookings;
@@ -14,7 +15,7 @@ public class Athlete extends User {
         myBookings = new HashMap<>();
     }
 
-    public HashMap<BookingKey, BookingInterface> getBookings() {
+    public Map<BookingKey, BookingInterface> getBookings() {
         return myBookings;
     }
 
@@ -27,5 +28,6 @@ public class Athlete extends User {
 
     public void addBooking(BookingInterface booking) {
         BookingKey key = new BookingKey(booking.getTraining().getPersonalTrainer().getUsername(), booking.getDailySchedule().getDate(), booking.getSelectedSlot());
+        this.myBookings.put(key, booking);
     }
 }

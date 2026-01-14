@@ -3,7 +3,6 @@ package graphicalcontrollers.cli;
 import beans.LoginBean;
 import controllers.AuthController;
 import exceptions.UserSearchFailedException;
-import utils.session.SessionManager;
 
 import java.util.Scanner;
 

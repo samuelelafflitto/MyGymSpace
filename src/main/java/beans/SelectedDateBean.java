@@ -1,6 +1,5 @@
 package beans;
 
-import controllers.BookingController;
 import exceptions.DateException;
 import exceptions.InvalidDateFormatException;
 

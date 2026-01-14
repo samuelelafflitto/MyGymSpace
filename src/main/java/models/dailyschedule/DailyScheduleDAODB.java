@@ -33,19 +33,19 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
             statement.setString(1, training.getPersonalTrainer().getUsername());
             try (ResultSet resultSet = statement.executeQuery()) {
                 while(resultSet.next()) {
-                    String ds_training = resultSet.getString("ds_training");
+                    String dsTraining = resultSet.getString("ds_training");
                     UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
-                    PersonalTrainer pt = (PersonalTrainer) userDAO.getUserByUsername(ds_training);
+                    PersonalTrainer pt = (PersonalTrainer) userDAO.getUserByUsername(dsTraining);
 
                     TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
                     Training t = trainingDAO.getTrainingByPT(pt);
 
-                    LocalDate selected_date = resultSet.getDate("selected_date").toLocalDate();
+                    LocalDate selectedDate = resultSet.getDate("selected_date").toLocalDate();
 
                     String ts = resultSet.getString("time_slots");
                     StringBuilder timeSlots = new StringBuilder(ts);
 
-                    DailySchedule ds = DailySchedule.fromPersistence(t, selected_date, timeSlots);
+                    DailySchedule ds = DailySchedule.fromPersistence(t, selectedDate, timeSlots);
 
                     training.addSchedule(ds);
                 }
@@ -74,9 +74,9 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
                     LocalTime aEnd = resultSet.getObject("afternoon_end", LocalTime.class);*/
 
                     String ts = resultSet.getString("time_slots");
-                    StringBuilder time_slots = new StringBuilder(ts);
+                    StringBuilder timeSlots = new StringBuilder(ts);
 
-                    return DailySchedule.fromPersistence(training, date, time_slots);
+                    return DailySchedule.fromPersistence(training, date, timeSlots);
                 }
             }
         } catch (SQLException e) {

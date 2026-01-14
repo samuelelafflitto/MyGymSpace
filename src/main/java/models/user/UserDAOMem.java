@@ -1,8 +1,6 @@
 package models.user;
 
 import models.dao.factory.FactoryDAO;
-import models.training.Training;
-import models.training.TrainingDAO;
 import models.training.TrainingDAOMem;
 
 import java.util.HashMap;
