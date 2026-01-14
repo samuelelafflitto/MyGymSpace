@@ -14,7 +14,7 @@ public class TrainingDAOMem extends TrainingDAO {
 
     protected TrainingDAOMem() {
         trainings = new ArrayList<>();
-        initializeDemoData();
+        /*initializeDemoData();*/
     }
 
     public static synchronized TrainingDAOMem getInstance() {
@@ -31,6 +31,8 @@ public class TrainingDAOMem extends TrainingDAO {
 
     @Override
     public Training getTrainingByPT(PersonalTrainer personalTrainer) {
+        // TODO personalTrainer è null --> non riesce a ricavare il Training
+
         for (Training training : this.trainings) {
             if (training.getPersonalTrainer() != null && training.getPersonalTrainer().getUsername().equals(personalTrainer.getUsername())) {
                 return training;
@@ -39,20 +41,29 @@ public class TrainingDAOMem extends TrainingDAO {
         return null;
     }
 
+    @Override
+    public void initializeDemoData(PersonalTrainer pt1, PersonalTrainer pt2) {
+        String title1 = "Box";
+        String description1 = "Sessione privata di Box con Personal Trainer";
+        BigDecimal price1 = PriceConfig.getPrice("training.boxing.price", new BigDecimal("20.00"));
 
-    private void initializeDemoData() {
-        PersonalTrainer pt = new PersonalTrainer("trainer 1", "pass1", "Mario", "Rossi", "PT");
+        String title2 = "Sala Pesi";
+        String description2 = "Sessione privata di Sala Pesi con Personal Trainer";
+        BigDecimal price2 = PriceConfig.getPrice("training.weight.price", new BigDecimal("18.00"));
 
-        String title = "Box";
-        String description = "Sessione privata di Box con Personal Trainer";
-        BigDecimal price = PriceConfig.getPrice("training.boxing.price", new BigDecimal("20.00"));
+        Training demoTraining1 = new Training();
+        demoTraining1.setPersonalTrainer(pt1);
+        demoTraining1.setName(title1);
+        demoTraining1.setDescription(description1);
+        demoTraining1.setBasePrice(price1);
 
-        Training demoTraining = new Training();
-        demoTraining.setPersonalTrainer(pt);
-        demoTraining.setName(title);
-        demoTraining.setDescription(description);
-        demoTraining.setBasePrice(price);
+        Training demoTraining2 = new Training();
+        demoTraining2.setPersonalTrainer(pt2);
+        demoTraining2.setName(title2);
+        demoTraining2.setDescription(description2);
+        demoTraining2.setBasePrice(price2);
 
-        this.trainings.add(demoTraining);
+        this.trainings.add(demoTraining1);
+        this.trainings.add(demoTraining2);
     }
 }

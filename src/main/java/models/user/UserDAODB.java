@@ -78,6 +78,7 @@ public class UserDAODB extends UserDAO {
         return null;
     }
 
+    @Override
     public void addUser(String username, User user) {
         String sql = queries.getProperty("INSERT_USER");
         if (sql == null)
@@ -94,6 +95,11 @@ public class UserDAODB extends UserDAO {
         } catch (SQLException e) {
             throw new DataLoadException("Errore durante l'inserimento dell'utente: " + username, e);
         }
+    }
+
+    @Override
+    public void initializeDemoData() {
+        // Usato solo in modalità demo
     }
 
     private User mapUserFromResultSet(ResultSet resultSet) throws SQLException {

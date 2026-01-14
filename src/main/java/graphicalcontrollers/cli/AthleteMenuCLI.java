@@ -18,7 +18,15 @@ public class AthleteMenuCLI {
     }
 
     public void goToBookASession() {
-        new TrainingSelectionPageCLI().start();
+        SessionManager sM = SessionManager.getInstance();
+
+        if(sM.getLoggedUser() != null) {
+            if(sM.getBookingSession() != null)
+                SessionManager.getInstance().freeBookingSession();
+            new TrainingSelectionPageCLI().start();
+        } else {// Non dovrebbe mai accadere a runtime
+            new LoginCLI().start();
+        }
     }
 
     public void goToEvents() {// Da implementare

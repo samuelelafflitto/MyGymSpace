@@ -2,21 +2,18 @@ package controllers;
 
 import beans.*;
 import exceptions.*;
-import graphicalcontrollers.cli.HomepageCLI;
 import models.booking.*;
 import models.dailyschedule.DailySchedule;
 import models.dailyschedule.DailyScheduleDAO;
 import models.dao.factory.FactoryDAO;
 import models.training.Training;
-import models.user.Athlete;
-import models.user.PersonalTrainer;
-import models.user.User;
-import models.user.UserDAO;
+import models.user.*;
 import utils.HolidayChecker;
 import utils.ScheduleConfig;
 import utils.session.BookingSession;
 import utils.session.SessionManager;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -24,6 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingController {
+    private static final String PT_TYPE = "PT";
+    private static final String ATHLETE_TYPE = "ATH";
+
     // CHECK SESSIONE APERTA
     private boolean isBookingSessionOpen() {
         return SessionManager.getInstance().getBookingSession() != null;
@@ -64,13 +64,37 @@ public class BookingController {
     // Ricevo allenamento selezionato, avvio nuova BookingSession con Training inserito
     // VERIFICA ESISTENZA ALLENAMENTO SELEZIONATO E CREAZIONE NUOVA BOOKINGSESSION
     public void setBookingSessionTraining(AvailableTrainingBean selectedTrainingBean) {
-        String trainingName = selectedTrainingBean.getName();
-        String ptUsername = selectedTrainingBean.getPersonalTrainer();
+        List<Training> trainings = new ArrayList<>();
 
-        UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
-        PersonalTrainer personalTrainer = (PersonalTrainer) userDAO.getUserByUsername(ptUsername);
+        try {
+            trainings = FactoryDAO.getInstance().createTrainingDAO().getAvailableTrainings();
+        } catch (DataLoadException e) {
+            System.out.println(e.getMessage());
+        }
 
-        List<Training> allTrainings = new ArrayList<>();
+        for(Training t: trainings) {
+            if(t.getName().equals(selectedTrainingBean.getName())) {
+                BookingSession bSession = new BookingSession(t);
+                SessionManager.getInstance().createBookingSession(bSession);
+                System.out.println(bSession.getTraining().getName());
+            }
+        }
+
+
+//        String trainingName = selectedTrainingBean.getName();
+//        String ptUsername = selectedTrainingBean.getPersonalTrainer();
+//
+//        UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
+//        PersonalTrainer personalTrainer = (PersonalTrainer) userDAO.getUserByUsername(ptUsername);
+//
+//        TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
+//        Training selectedTraining = trainingDAO.getTrainingByPT(personalTrainer);
+//
+//        BookingSession bookingSession = new BookingSession(selectedTraining);
+//        SessionManager.getInstance().createBookingSession(bookingSession);
+
+
+        /*List<Training> allTrainings = new ArrayList<>();
 
         try {
             allTrainings = FactoryDAO.getInstance().createTrainingDAO().getAvailableTrainings();
@@ -85,7 +109,7 @@ public class BookingController {
                 BookingSession bSession = new BookingSession(t);
                 SessionManager.getInstance().createBookingSession(bSession);
             }
-        }
+        }*/
     }
 
     public void setBookingSessionDate(SelectedDateBean selectedDateBean) {
@@ -99,9 +123,8 @@ public class BookingController {
     public void setBookingSessionBooking(SelectedSlotAndExtraBean selectedSlotAndExtraBean) {
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
 
-        BookingInterface booking = createBooking(selectedSlotAndExtraBean);
-
-        bSession.setBooking(booking);
+        // Creazione Booking e salvataggio in BookingSession
+        createBooking(selectedSlotAndExtraBean);
     }
 
     public SelectedTrainingBean getSelectedTrainingBean(AvailableTrainingBean bean) {
@@ -167,7 +190,7 @@ public class BookingController {
 
         // Trasformo orario di inizio (mattina e pomeriggio) in indici
         int morningStartIndex = Integer.parseInt(morningStart.toString().split(":")[0]);
-        int afternoonStartIndex = Integer.parseInt(morningStart.toString().split(":")[0]);
+        int afternoonStartIndex = Integer.parseInt(afternoonStart.toString().split(":")[0]);
 
         // Uso indici per popolare Lista quando slot sono liberi
         for(int i = morningStartIndex; i < (morningStartIndex + mSlot); i++) {
@@ -192,7 +215,11 @@ public class BookingController {
 
     // CHIAMATO ALLA RICHIESTA DI MOSTRARE UN RECAP (una volta inseriti tutti i dati)
     // Ottiene la Booking finale e la restituisce come BookingRecapBean per inviare i dati del Recap al Controller grafico
-    public BookingRecapBean getBookingRecap(SelectedSlotAndExtraBean lastBookingDataBean) {
+    public BookingRecapBean getBookingRecap(/*SelectedSlotAndExtraBean lastBookingDataBean*/) {
+
+        System.out.println("DEBUG - Sessione per utente " + SessionManager.getInstance().getLoggedUser().getUsername() +
+                ": " + System.identityHashCode(SessionManager.getInstance().getBookingSession()));
+
         // Creazione della Booking
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
         BookingInterface currentBooking = bSession.getBooking();
@@ -234,8 +261,8 @@ public class BookingController {
 
     public void checkAttempts(int currAttempt, int maxAttempts) throws RuntimeException{
         if(currAttempt < maxAttempts) {
-            String msg = AttemptsErrorType.REMAINING.getMSG(maxAttempts -  currAttempt);
-            throw new AttemptsException(AttemptsErrorType.REMAINING, msg);
+//            String msg = AttemptsErrorType.REMAINING.getMSG(maxAttempts -  currAttempt);
+            throw new AttemptsException(AttemptsErrorType.REMAINING, (maxAttempts - currAttempt));
         }
         throw new AttemptsException(AttemptsErrorType.MAX_ATTEMPTS_REACHED);
     }
@@ -277,7 +304,12 @@ public class BookingController {
 
     // Ricevuto il TimeSlot selezionato e le eventuali ExtraOptions, crea la Booking finale e la aggiunge alla BookingSession
     // Restituisce la Booking finale
-    private BookingInterface createBooking(SelectedSlotAndExtraBean slotAndExtra) {
+    private void createBooking(SelectedSlotAndExtraBean slotAndExtra) {
+
+        // Da inserire sia in createBooking che in getBookingRecap
+        System.out.println("DEBUG - Sessione per utente " + SessionManager.getInstance().getLoggedUser().getUsername() +
+                ": " + System.identityHashCode(SessionManager.getInstance().getBookingSession()));
+
         BookingInterface booking = new ConcreteBooking();
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
 
@@ -289,11 +321,22 @@ public class BookingController {
 
         String selectedSlot = slotAndExtra.getSelectedSlot();
 
+        // Normalizzazione orario
+        if(!selectedSlot.contains(":")) {
+            selectedSlot = selectedSlot + ":00";
+        }
+        if(selectedSlot.length() == 4) {
+            selectedSlot = "0" +  selectedSlot;
+        }
+
+        BigDecimal basePrice = training.getBasePrice();
+
         ConcreteBooking concreteBooking = (ConcreteBooking) booking;
         concreteBooking.setAthlete(athlete);
         concreteBooking.setTraining(training);
         concreteBooking.setDailySchedule(dailySchedule);
         concreteBooking.setSelectedSlot(LocalTime.parse(selectedSlot));
+        concreteBooking.setFinalPrice(basePrice);
 //        concreteBooking.setStartTime(LocalTime.parse(selectedSlot));
 
         if(slotAndExtra.isTowel()) {
@@ -312,10 +355,12 @@ public class BookingController {
             booking = new VidAnalysisDecorator(booking);
         }
 
-        // currentBooking viene memorizzata nella BookingSession
-        BookingSession currentBookingSession =  SessionManager.getInstance().getBookingSession();
-        currentBookingSession.setBooking(booking);
-        return booking;
+        bSession.setBooking(booking);
+
+//        // currentBooking viene memorizzata nella BookingSession
+//        BookingSession currentBookingSession =  SessionManager.getInstance().getBookingSession();
+//        currentBookingSession.setBooking(booking);
+//        return booking;
     }
 
     // CHIAMATO PER OTTENERE LA DAILYSCHEDULE ASSOCIATA AL GIORNO
@@ -358,5 +403,10 @@ public class BookingController {
 
         DailyScheduleDAO dsDAO = FactoryDAO.getInstance().createDailyScheduleDAO();
         dsDAO.updateDailySchedule(currentTraining, dailySchedule);
+    }
+
+    public void initializeDemoData() {
+        UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
+        userDAO.initializeDemoData();
     }
 }

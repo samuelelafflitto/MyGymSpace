@@ -6,7 +6,7 @@ import utils.session.SessionManager;
 import java.util.Scanner;
 
 public class HomepageCLI {
-    private Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
     private static final String PT_TYPE = "PT";
     private static final String ATHLETE_TYPE = "ATH";
@@ -58,7 +58,7 @@ public class HomepageCLI {
                 guestMenu.goToLogin();
                 break;
             default:
-                System.out.println(INVALIDINPUT);
+                System.out.println("\n" + INVALIDINPUT);
                 break;
 
         }
@@ -79,7 +79,7 @@ public class HomepageCLI {
                 ptMenu.goToMyProfile();
                 break;
             default:
-                System.out.println(INVALIDINPUT);
+                System.out.println("\n" + INVALIDINPUT);
                 break;
         }
     }
@@ -99,7 +99,7 @@ public class HomepageCLI {
                 athleteMenu.goToMyProfile();
                 break;
             default:
-                System.out.println(INVALIDINPUT);
+                System.out.println("\n" + INVALIDINPUT);
                 break;
         }
     }

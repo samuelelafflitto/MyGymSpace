@@ -3,6 +3,7 @@ package models.user;
 import models.dao.factory.FactoryDAO;
 import models.training.Training;
 import models.training.TrainingDAO;
+import models.training.TrainingDAOMem;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +16,7 @@ public class UserDAOMem extends UserDAO {
 
     protected UserDAOMem() {
         this.users = new HashMap<>();
-        initializeDemoData();
+//        initializeDemoData();
     }
 
     public static UserDAOMem getInstance() {
@@ -61,23 +62,19 @@ public class UserDAOMem extends UserDAO {
         }
     }*/
 
-    private void initializeDemoData() {
-        PersonalTrainer pt = new PersonalTrainer("trainer1", "pass1", "Mario", "Rossi", PT_TYPE);
-        TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
-        Training training = trainingDAO.getTrainingByPT(pt);
+    public void initializeDemoData() {
+        // Creazione Entità User
+        PersonalTrainer pt1 = new PersonalTrainer ("trainer1", "pass1", "Mario", "Rossi", PT_TYPE);
+        PersonalTrainer pt2 = new PersonalTrainer ("trainer2", "pass2", "Luigi", "Mangione", PT_TYPE);
+        Athlete athlete = new Athlete ("athlete1", "pass1", "Luca", "Bianchi",  ATHLETE_TYPE);
 
-        if(training != null) {
-            pt.setTraining(training);
-            training.setPersonalTrainer(pt);
-        } /*else {
-            System.out.println("[MEM] Nessun allenamento trovato per " + pt.getUsername());
-        }*/
-        users.put(pt.getUsername(), pt);
+        // Aggiunta Users
+        users.put(pt1.getUsername(), pt1);
+        users.put(pt2.getUsername(), pt2);
+        users.put(athlete.getUsername(), athlete);
 
-        Athlete ath = new Athlete("athlete1", "pass1", "Luca", "Bianchi",  ATHLETE_TYPE);
-        users.put(ath.getUsername(), ath);
-
-        System.out.println("[MEM] Dati demo caricati: user='trainer1' e user='athlete1' (con psw='pass1')");
+        TrainingDAOMem trainingDAO = (TrainingDAOMem) FactoryDAO.getInstance().createTrainingDAO();
+        trainingDAO.initializeDemoData(pt1, pt2);
     }
 
 }

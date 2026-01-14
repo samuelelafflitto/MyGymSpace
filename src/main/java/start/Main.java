@@ -1,5 +1,6 @@
 package start;
 
+import controllers.BookingController;
 import exceptions.DataLoadException;
 import graphicalcontrollers.cli.HomepageCLI;
 import javafx.application.Application;
@@ -14,6 +15,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 public class Main extends Application {
+    private static final Scanner sc = new Scanner(System.in);
     private static String persistenceMode = "demo";
     private static String selectedTheme = "light";
     private static boolean isCLI = false;
@@ -27,32 +29,30 @@ public class Main extends Application {
             throw new DataLoadException("Impossibile avviare MyGymSpace", e);
         }
 
-        Scanner sc = new Scanner(System.in);
-
         System.out.println("\nBENVENUTO IN MYGYMSPACE");
         System.out.println("------------------------");
         System.out.println("Scegli la modalità di esecuzione:");
         System.out.println("1. GUI (Interfaccia Grafica)");
         System.out.println("2. CLI (Riga di Comando)");
-        System.out.println("-> ");
+        System.out.print("-> ");
 
         String modeChoice = sc.nextLine();
 
         switch (modeChoice) {
             case "1":
-                System.out.println("[INFO] Avvio modalità GUI...");
+                System.out.println("\n[INFO] Avvio modalità GUI...");
                 askTheme(sc);
                 launch(args);
                 break;
 
             case "2":
-                System.out.println("[INFO] Avvio la modalità CLI...");
+                System.out.println("\n[INFO] Avvio la modalità CLI...");
                 isCLI = true;
                 startCLI();
                 break;
 
             default:
-                System.out.println("[INFO] Opzione selezionata non valida, avvio modalità CLI...");
+                System.out.println("\n[INFO] Opzione selezionata non valida, avvio modalità CLI...");
                 isCLI = true;
                 startCLI();
                 break;
@@ -61,7 +61,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        if (isCLI)
+        if (isCLI())
             return;
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/views/GuestHomepage.fxml"));
@@ -83,6 +83,8 @@ public class Main extends Application {
     }
 
     private static void startCLI() {
+        BookingController bController = new BookingController();
+        bController.initializeDemoData();
         HomepageCLI homeCLI = new HomepageCLI();
         homeCLI.start();
     }
@@ -91,7 +93,7 @@ public class Main extends Application {
         System.out.println("\nScegli il tema grafico:");
         System.out.println("1. Light mode");
         System.out.println("2. Dark mode");
-        System.out.println("-> ");
+        System.out.print("--> ");
 
         String themeChoice = sc.nextLine();
         switch (themeChoice) {

@@ -17,4 +17,9 @@ public class TrainingDAOFsys extends TrainingDAO {
         // Non implementato
         return null;
     }
+
+    @Override
+    public void initializeDemoData(PersonalTrainer pt1, PersonalTrainer pt2) {
+        // Usato solo in modalità demo
+    }
 }

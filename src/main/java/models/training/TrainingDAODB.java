@@ -68,6 +68,11 @@ public class TrainingDAODB extends TrainingDAO {
         return null;
     }
 
+    @Override
+    public void initializeDemoData(PersonalTrainer pt1, PersonalTrainer pt2) {
+        // Usato solo in modalità demo
+    }
+
     // DA IMPLEMENTARE CON NUOVA SESSIONE CHE 'TIENE TRACCIA'
 //    @Override
 //    public Training getTrainingByPT(PersonalTrainer pt) {

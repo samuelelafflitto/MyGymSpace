@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class TrainingSelectionPageCLI {
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
     private static final String SEPARATOR = "------------------------";
-    BookingController bController = new BookingController();
+//    BookingController bController = new BookingController();
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
     private Scanner sc = new Scanner(System.in);
 
@@ -24,7 +24,6 @@ public class TrainingSelectionPageCLI {
             System.out.println("1) Seleziona Allenamento");
             System.out.println("2) Annulla prenotazione");
             System.out.println("3) Torna alla Homepage");
-            System.out.println("4) Logout");
             System.out.println("--> ");
 
             String choice = sc.nextLine();
@@ -36,9 +35,7 @@ public class TrainingSelectionPageCLI {
         switch (choice) {
             case "1":
                 try {
-                    if(selectTraining()) {
-                        goToBookingForm();
-                    }
+                    selectTraining();
                 } catch (TrainingsSearchFailedException e) {
                     // Gestione eccezione "non ci sono allenamenti"
                     e.handleException();
@@ -51,9 +48,6 @@ public class TrainingSelectionPageCLI {
             case "2", "3":
                 athleteMenuCLI.goToHome();
                 break;
-            case "4":
-                athleteMenuCLI.logout();
-                break;
             default:
                 System.out.println(INVALIDINPUT);
                 break;
@@ -61,11 +55,12 @@ public class TrainingSelectionPageCLI {
     }
 
 
-    private void goToBookingForm() {
-        new BookingFormPageCLI().start();
-    }
+//    private void goToBookingForm() {
+//        new BookingFormPageCLI().start();
+//    }
 
-    private boolean selectTraining() {
+    private void selectTraining() {
+        BookingController bController = new BookingController();
         List<AvailableTrainingBean> trainings = bController.getAvailableTrainings();
 
         // Controlla se la lista ottenuta è vuota
@@ -86,16 +81,17 @@ public class TrainingSelectionPageCLI {
         while(attempts < MAX_ATTEMPTS) {
             System.out.println("Selezionare un allenamento tra quelli visualizzati:");
             // Raccoglie indice dell'allenamento da selezionare
-            int input = sc.nextInt();
-            int selectedTrainingIndex = input - 1;
+            int selectedTraining = Integer.parseInt(sc.nextLine()) - 1;
+
+//            int input = sc.nextInt();
+//            int selectedTrainingIndex = input - 1;
 
             // Controlla se l'indice inserito rientra nel range della lista
-            if(selectedTrainingIndex >= 0 && selectedTrainingIndex < trainings.size()) {
+            if(selectedTraining >= 0 && selectedTraining < trainings.size()) {
                 // Se si, ricrea il Bean con l'allenamento selezionato
-                AvailableTrainingBean selectedT = trainings.get(selectedTrainingIndex);
+                AvailableTrainingBean selectedT = trainings.get(selectedTraining);
                 // Setta la BookingSession con il Training
                 onSelection(selectedT);
-                return true;
             } else {
                 attempts++;
                 System.out.println("Selezione non valida. Inserire un numero tra 1 e " + trainings.size());
@@ -116,7 +112,9 @@ public class TrainingSelectionPageCLI {
     }
 
     private void onSelection(AvailableTrainingBean bean) {
+        BookingController bController = new BookingController();
         bController.setBookingSessionTraining(bean);
+        new BookingFormPageCLI().start();
     }
 
     private void checkAttempts(int currAttempt) {

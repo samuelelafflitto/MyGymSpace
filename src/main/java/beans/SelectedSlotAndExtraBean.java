@@ -12,11 +12,7 @@ public class SelectedSlotAndExtraBean {
     private boolean energizer;
     private boolean video;
 
-    public SelectedSlotAndExtraBean() {
-        this.towel = false;
-        this.sauna = false;
-        this.energizer = false;
-        this.video = false;
+    public SelectedSlotAndExtraBean() {// Il costruttore non ha bisogno di parametri
     }
 
     public String getSelectedSlot() {
@@ -48,26 +44,26 @@ public class SelectedSlotAndExtraBean {
 
     public void setTowel(String input) {
         if(checkExtraSelector(input))
-            this.towel = true;
-        throw new InvalidSelectionException();
+            this.towel = input.equals("y");
+        else throw new InvalidSelectionException();
     }
 
     public void setSauna(String input) {
         if(checkExtraSelector(input))
-            this.sauna = true;
-        throw new InvalidSelectionException();
+            this.sauna = input.equals("y");
+        else throw new InvalidSelectionException();
     }
 
     public void setEnergizer(String input) {
         if(checkExtraSelector(input))
-            this.energizer = true;
-        throw new InvalidSelectionException();
+            this.energizer = input.equals("y");
+        else throw new InvalidSelectionException();
     }
 
     public void setVideo(String input) {
         if(checkExtraSelector(input))
-            this.video = true;
-        throw new InvalidSelectionException();
+            this.video = input.equals("y");
+        else throw new InvalidSelectionException();
     }
 
 

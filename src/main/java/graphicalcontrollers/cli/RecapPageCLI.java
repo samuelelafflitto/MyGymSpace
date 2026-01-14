@@ -55,8 +55,7 @@ public class RecapPageCLI {
     }
 
     private void showRecap() {
-        BookingInterface booking = bSession.getBooking();
-        bookingRecap = new BookingRecapBean(booking);
+        bookingRecap = bController.getBookingRecap();
 
         System.out.println("Allenamento: " + bookingRecap.getTrainingName() + " - PT: " + bookingRecap.getPtTraining());
         System.out.println("Data e ora: " + bookingRecap.getDate() + ", " + bookingRecap.getStartTime());

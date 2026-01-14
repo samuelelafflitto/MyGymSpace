@@ -8,21 +8,22 @@ import utils.session.SessionManager;
 import java.util.Scanner;
 
 public class LoginCLI {
+    private static final Scanner sc = new Scanner(System.in);
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
 
     GuestMenuCLI guestMenuCLI =  new GuestMenuCLI();
 
-    private Scanner sc = new Scanner(System.in);
+
 
     public void start() {
         while (true) {
-            System.out.println("------------------------");
+            System.out.println("\n------------------------");
             System.out.println("LOG IN PAGE");
             System.out.println("------------------------");
             System.out.println("1) Log In");
             System.out.println("2) Sign Up");
             System.out.println("3) Torna alla Homepage");
-            System.out.println("-> ");
+            System.out.print("--> ");
             String choice = sc.nextLine();
 
             switch (choice) {
@@ -43,12 +44,12 @@ public class LoginCLI {
     }
 
     private void login() {
-        System.out.println("----------------------------");
+        System.out.println("\n----------------------------");
 
-        System.out.println("Inserisci il tuo username: ");
+        System.out.print("Inserisci il tuo username: ");
         String username = sc.nextLine();
 
-        System.out.println("Inserisci la tua password: ");
+        System.out.print("Inserisci la tua password: ");
         String password = sc.nextLine();
 
         LoginBean loginBean = new LoginBean();
@@ -58,12 +59,12 @@ public class LoginCLI {
         AuthController authController = new AuthController();
 
         try {
-            authController.authUser(loginBean);
-            System.out.println("Login riuscito! Benvenuto, " + username);
-            new HomepageCLI().start();
+            if(authController.authUser(loginBean)) {
+                System.out.println("\nLogin riuscito! Benvenuto, " + username);
+                new HomepageCLI().start();
+            }
         } catch (UserSearchFailedException e) {
             e.handleException();
-            this.login();
         }
     }
 

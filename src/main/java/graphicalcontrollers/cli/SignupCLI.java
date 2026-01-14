@@ -3,7 +3,6 @@ package graphicalcontrollers.cli;
 import beans.SignupBean;
 import controllers.AuthController;
 import exceptions.ExistingUserException;
-import utils.session.SessionManager;
 
 import java.util.Scanner;
 
@@ -16,13 +15,13 @@ public class SignupCLI {
 
     public void start() {
         while (true) {
-            System.out.println("------------------------");
+            System.out.println("\n------------------------");
             System.out.println("SIGN UP PAGE");
             System.out.println("------------------------");
             System.out.println("1) Sign Up");
             System.out.println("2) Log In");
             System.out.println("3) Torna alla Homepage");
-            System.out.println("-> ");
+            System.out.print("--> ");
             String choice = sc.nextLine();
 
             switch (choice) {
@@ -43,18 +42,18 @@ public class SignupCLI {
     }
 
     public void signup() {
-        System.out.println("----------------------------");
+        System.out.println("\n----------------------------");
 
-        System.out.println("Inserisci il tuo Nome: ");
+        System.out.print("Inserisci il tuo Nome: ");
         String firstName = sc.nextLine();
 
-        System.out.println("Inserisci il tuo Cognome: ");
+        System.out.print("Inserisci il tuo Cognome: ");
         String lastName = sc.nextLine();
 
-        System.out.println("Inserisci il tuo username: ");
+        System.out.print("Inserisci il tuo username: ");
         String username = sc.nextLine();
 
-        System.out.println("Inserisci la tua password: ");
+        System.out.print("Inserisci la tua password: ");
         String password = sc.nextLine();
 
         SignupBean signupBean = new SignupBean();
@@ -66,12 +65,12 @@ public class SignupCLI {
         AuthController authController = new AuthController();
 
         try {
-            authController.registerUser(signupBean);
-            System.out.println("Registrazione riuscita! Benvenuto, " + username + "!");
-            new HomepageCLI().start();
+            if(authController.registerUser(signupBean)) {
+                System.out.println("Registrazione riuscita! Benvenuto, " + username + "!");
+                new HomepageCLI().start();
+            }
         } catch(ExistingUserException e) {
             e.handleException();
-            this.signup();
         }
     }
 

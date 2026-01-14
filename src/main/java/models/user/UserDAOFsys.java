@@ -74,6 +74,11 @@ public class UserDAOFsys extends UserDAO{
         }
     }
 
+    @Override
+    public void initializeDemoData() {
+        // Usato solo in modalità demo
+    }
+
     private List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         File file = new File(FILE_PATH);

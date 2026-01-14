@@ -12,13 +12,14 @@ import utils.session.SessionManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class BookingFormPageCLI {
+    private Scanner sc = new Scanner(System.in);
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
     private static final String SEPARATOR = "------------------------";
     BookingController bController = new BookingController();
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
-    private final Scanner sc = new Scanner(System.in);
 
     String enteredDate;
     SelectedDateBean selectedD;
@@ -34,7 +35,6 @@ public class BookingFormPageCLI {
     private static final int MAX_ATTEMPTS = 3;
 
     public void start() {
-
         while (true) {
             System.out.println(SEPARATOR);
             System.out.println("1) Inserisci la Data");
@@ -58,12 +58,12 @@ public class BookingFormPageCLI {
                         showTimeSlots();
 
                         // Raccolta time slot selezionato
-                        selectTimeSlot();
+//                        selectTimeSlot();
 
                         // Raccolta opzioni extra
-                        selectExtraOptions();
+//                        selectExtraOptions();
 
-                        goToRecapPage();
+//                        goToRecapPage();
 
 //                        //Mostra un recap della prenotazione
 //                        showRecap();
@@ -150,9 +150,11 @@ public class BookingFormPageCLI {
             System.out.println("TIME SLOT DISPONIBILI per il giorno " + selectedD.getSelectedDate().toString());
             System.out.println(SEPARATOR);
 
-            for (String slot : slots) {
-                System.out.println("1) " + slot);
+            for(int i = 0; i < slots.size(); i++) {
+                System.out.println((i+1) + ") " + slots.get(i));
             }
+
+            selectTimeSlot();
 
         } catch (DateException e) {
             e.handleException();
@@ -168,7 +170,13 @@ public class BookingFormPageCLI {
 
             try {
                 slotAndExtraBean = new SelectedSlotAndExtraBean();
-                selectedSlot = sc.nextInt();
+                // Raccoglie input
+                int input = sc.nextInt();
+                //Risale a orario di inizio slot
+                String hourSelected = slots.get(input - 1);
+                //Ricava slot orario
+                int selectedSlot = Integer.parseInt(hourSelected.split(":")[0]);
+
                 slotAndExtraBean.setSelectedSlot(selectedSlot);
             } catch (InvalidTimeSlotException e) {
                 attempts++;
@@ -177,6 +185,8 @@ public class BookingFormPageCLI {
                     bController.checkAttempts(attempts, MAX_ATTEMPTS);
                 }
             }
+
+            selectExtraOptions();
         }
     }
 
@@ -186,75 +196,55 @@ public class BookingFormPageCLI {
         int attempts3 = 0;
         int attempts4 = 0;
 
+        if(sc.hasNextLine()) {
+            sc.nextLine();
+        }
+
         System.out.println("\nIndicare se si vogliono aggiungere le seguenti opzioni extra o no (y/n)");
 
         try {
-            while(attempts1 < MAX_ATTEMPTS) {
-                try {
-                    System.out.println(PriceConfig.getExtraName("towel") + " (" + PriceConfig.getExtraPrice("towel") + ")" + ": ");
-                    String extraSelection1 = sc.nextLine();
-                    slotAndExtraBean.setTowel(extraSelection1);  // Può lanciare InvalidSelectionException
-                } catch (InvalidSelectionException e1) {
-                    attempts1++;
-                    e1.handleException();
-                    attemptsErrorTypeCheck(attempts1);
-                }
-            }
+            askExtra("towel", slotAndExtraBean::setTowel);
+            askExtra("sauna", slotAndExtraBean::setSauna);
+            askExtra("energizer", slotAndExtraBean::setEnergizer);
+            askExtra("video", slotAndExtraBean::setVideo);
 
-            while(attempts2 < MAX_ATTEMPTS) {
-                try {
-                    System.out.println(PriceConfig.getExtraName("sauna") + " (" + PriceConfig.getExtraPrice("sauna") + ")" + ": ");
-                    String extraSelection2 = sc.nextLine();
-                    slotAndExtraBean.setSauna(extraSelection2);
-                } catch (InvalidSelectionException e1) {
-                    attempts2++;
-                    e1.handleException();
-                    attemptsErrorTypeCheck(attempts2);
-                }
-            }
-
-            while(attempts3 < MAX_ATTEMPTS) {
-                try {
-                    System.out.println(PriceConfig.getExtraName("energizer") + " (" + PriceConfig.getExtraPrice("energizer") + ")" + ": ");
-                    String extraSelection3 = sc.nextLine();
-                    slotAndExtraBean.setEnergizer(extraSelection3);
-                } catch (InvalidSelectionException e1) {
-                    attempts3++;
-                    e1.handleException();
-                    attemptsErrorTypeCheck(attempts3);
-                }
-            }
-
-            while(attempts4 < MAX_ATTEMPTS) {
-                try {
-                    System.out.println(PriceConfig.getExtraName("video") + " (" + PriceConfig.getExtraPrice("video") + ")" + ": ");
-                    String extraSelection4 = sc.nextLine();
-                    slotAndExtraBean.setVideo(extraSelection4);
-                } catch (InvalidSelectionException e1) {
-                    attempts4++;
-                    e1.handleException();
-                    attemptsErrorTypeCheck(attempts4);
-                }
-            }
         } catch (DataLoadException e) {
             System.out.println(e.getMessage());
         }
 
         bController.setBookingSessionBooking(slotAndExtraBean);
+        goToRecapPage();
     }
 
     private void goToRecapPage() {
         new RecapPageCLI().start();
     }
 
-    private void showRecap() {
-        recapBean = bController.getBookingRecap(slotAndExtraBean);
-
-    }
-
-//    private void getConfirmation() {
+//    private void showRecap() {
+//        recapBean = bController.getBookingRecap(/*slotAndExtraBean*/);
 //
 //    }
+
+
+    // Utilizzo di un setter per richiamare le varie opzioni extra con un unico metodo privato
+    private void askExtra(String extraKey, Consumer<String> setter) {
+        int localAttempts = 0;
+
+        while(localAttempts < MAX_ATTEMPTS) {
+            try {
+                System.out.println(PriceConfig.getExtraName(extraKey) + " (+" + PriceConfig.getExtraPrice(extraKey) + "€)" + ": ");
+                String extraSelection = sc.nextLine();
+
+                setter.accept(extraSelection);
+//                slotAndExtraBean.setVideo(extraSelection4);
+                break;
+            } catch (InvalidSelectionException e) {
+                localAttempts++;
+                e.handleException();
+                attemptsErrorTypeCheck(localAttempts);
+            }
+        }
+    }
 
 
 
