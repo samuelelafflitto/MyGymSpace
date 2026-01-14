@@ -3,8 +3,6 @@ package beans;
 import exceptions.InvalidSelectionException;
 import exceptions.InvalidTimeSlotException;
 
-import java.time.LocalTime;
-
 public class SelectedSlotAndExtraBean {
     private String selectedSlot;
     private boolean towel;

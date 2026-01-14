@@ -5,7 +5,6 @@ import models.dailyschedule.DailySchedule;
 import models.training.Training;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class BookingSession {
     private Training training;
@@ -16,9 +15,9 @@ public class BookingSession {
 
     public BookingSession(Training training/*, LocalDate selectedDate*/) {
         this.training = training;
-        this.dailySchedule = null;
-        this.selectedDate = null;
-        this.booking = null;
+//        this.dailySchedule = null;
+//        this.selectedDate = null;
+//        this.booking = null;
         /*this.selectedDate = selectedDate;*/
     }
 
@@ -62,9 +61,12 @@ public class BookingSession {
         this.booking = booking;
     }
 
-    public void clearBookingSession() {
+    public boolean clearBookingSession() {
         this.training = null;
+        this.dailySchedule = null;
         this.selectedDate = null;
         this.booking = null;
+
+        return true;
     }
 }

@@ -1,6 +1,5 @@
 package beans;
 
-import models.booking.BookingInterface;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -14,13 +13,13 @@ public class BookingRecapBean {
     String description;
     BigDecimal price;
 
-    public BookingRecapBean(BookingInterface booking) {
-        trainingName = booking.getTraining().getName();
-        ptTraining = booking.getTraining().getPersonalTrainer().getLastName();
-        date = booking.getDailySchedule().getDate();
-        startTime = booking.getSelectedSlot();
-        description = booking.getDescription();
-        price = booking.getFinalPrice();
+    public BookingRecapBean(/*BookingInterface booking*/) {
+//        trainingName = booking.getTraining().getName();
+//        ptTraining = booking.getTraining().getPersonalTrainer().getLastName();
+//        date = booking.getDailySchedule().getDate();
+//        startTime = booking.getSelectedSlot();
+//        description = booking.getDescription();
+//        price = booking.getFinalPrice();
     }
 
     // GET

@@ -11,7 +11,6 @@ import utils.ResourceLoader;
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Properties;
 
 public class DailyScheduleDAODB extends DailyScheduleDAO {
@@ -119,11 +118,10 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
         if (sql == null) throw new DataLoadException("Query INSERT_UPDATE_SCHEDULE non trovata");
 
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            String ptUsername = training.getPersonalTrainer().getUsername();
 
             statement.setString(1, training.getPersonalTrainer().getUsername());
             statement.setDate(2, Date.valueOf(schedule.getDate()));
-            statement.setString(3, schedule.getTimeSlots().toString());
+            statement.setTime(3, Time.valueOf(schedule.getTimeSlots().toString()));
             statement.setString(4, schedule.getTimeSlots().toString());
 
             statement.executeUpdate();

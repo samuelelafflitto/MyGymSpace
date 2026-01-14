@@ -3,7 +3,6 @@ package graphicalcontrollers.cli;
 import beans.BookingRecapBean;
 import controllers.BookingController;
 import exceptions.InvalidTimeSlotException;
-import models.booking.BookingInterface;
 import utils.session.BookingSession;
 import utils.session.SessionManager;
 
@@ -29,28 +28,34 @@ public class RecapPageCLI {
             System.out.println("--> ");
 
             String choice = sc.nextLine();
-            handleChoice(choice);
+
+            // Tutti i casi in cui non si effettua la prenotazione
+            if (!handleChoice(choice)) {
+                clearAndGoToHome();
+            }
         }
     }
 
-    private void handleChoice(String choice) {
+    private boolean handleChoice(String choice) {
         switch (choice) {
             // Conferma e prenota
             case "1":
                 try {
-                    bController.saveBooking();
+                    if(bController.saveBooking()) {
+                        return bSession.clearBookingSession();
+                    }
+                    return false;
+//                    saveBookingOnPersistence();
                 } catch (InvalidTimeSlotException e) {
                     e.handleException();
-                    clearAndGoToHome();
+                    return false;
                 }
-                break;
             // Annulla e torna alla Home
             case "2":
-                clearAndGoToHome();
-                break;
+                return false;
             default:
                 System.out.println(INVALIDINPUT);
-                break;
+                return true;
         }
     }
 
@@ -63,12 +68,14 @@ public class RecapPageCLI {
         System.out.println("Costo totale: " + bookingRecap.getPrice());
     }
 
+//    private void saveBookingOnPersistence() {
+//        bController.saveBooking(/*bSession, booking*/);
+//    }
 
 
 
 
     private void clearBookingSessionIfBookingFailed() {
-        BookingSession bSession = SessionManager.getInstance().getBookingSession();
         bSession.clearBookingSession();
     }
 
