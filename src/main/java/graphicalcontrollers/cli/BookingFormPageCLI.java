@@ -35,8 +35,8 @@ public class BookingFormPageCLI {
 
     private static final int MAX_ATTEMPTS = 3;
     public void start() {
-        SelectedTrainingBean  selectedTraining = bController.getSelectedTraining();
-        System.out.println("Allenamento selezionato: " + selectedTraining.getName());
+        SelectedTrainingBean selectedTraining = bController.getSelectedTraining();
+        System.out.println("\nAllenamento selezionato: " + selectedTraining.getName());
 
         while (true) {
             System.out.println(SEPARATOR);
@@ -44,7 +44,7 @@ public class BookingFormPageCLI {
             System.out.println("2) Indietro");
             System.out.println("3) Torna alla Homepage");
             System.out.println("4) Logout");
-            System.out.println("--> ");
+            System.out.print("--> ");
 
             String choice = sc.nextLine();
             handleChoice(choice);
@@ -60,7 +60,7 @@ public class BookingFormPageCLI {
                         // Mostra i time slot disponibili
                         showTimeSlots();
                     } else {
-                        clearBookingSessionIfBookingFailed();
+                        clearBookingSession();
                         athleteMenuCLI.goToHome();
                     }
                 } catch (TrainingsSearchFailedException e) {
@@ -76,7 +76,7 @@ public class BookingFormPageCLI {
                 break;
             // Indietro
             case "2":
-                athleteMenuCLI.goToHome();
+                clearAndGoBack();
                 break;
             // Torna alla Homepage (annulla la prenotazione)
             case "3":
@@ -256,7 +256,7 @@ public class BookingFormPageCLI {
 
 
 
-    private void clearBookingSessionIfBookingFailed() {
+    private void clearBookingSession() {
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
         bSession.clearBookingSession();
     }
@@ -277,8 +277,17 @@ public class BookingFormPageCLI {
         }
     }
 
+
+
+    private void clearAndGoBack() {
+        BookingSession bSession = SessionManager.getInstance().getBookingSession();
+        bSession.clearBookingSession();
+        new TrainingSelectionPageCLI().start();
+    }
+
     private void clearAndGoToHome() {
-        clearBookingSessionIfBookingFailed();
+        BookingSession bSession = SessionManager.getInstance().getBookingSession();
+        bSession.clearBookingSession();
         athleteMenuCLI.goToHome();
     }
 }

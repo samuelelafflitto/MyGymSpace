@@ -18,44 +18,41 @@ public class RecapPageCLI {
     BookingRecapBean bookingRecap;
 
     public void start() {
-        while(true) {
-            System.out.println("------------------------");
-            showRecap();
+        System.out.println("------------------------");
+        showRecap();
 
+        while(true) {
             System.out.println("-----------------------");
             System.out.println("1) Conferma e prenota");
             System.out.println("2) Annulla");
-            System.out.println("--> ");
+            System.out.print("--> ");
 
             String choice = sc.nextLine();
 
-            // Tutti i casi in cui non si effettua la prenotazione
-            if (!handleChoice(choice)) {
-                clearAndGoToHome();
-            }
+            handleChoice(choice);
         }
     }
 
-    private boolean handleChoice(String choice) {
+    private void handleChoice(String choice) {
         switch (choice) {
             // Conferma e prenota
             case "1":
                 try {
                     if(bController.saveBooking()) {
-                        return bSession.clearBookingSession();
+                        bSession.clearBookingSession();
+                        clearAndGoToHome();
                     }
-                    return false;
-//                    saveBookingOnPersistence();
+                    clearAndGoToHome();
                 } catch (InvalidTimeSlotException e) {
                     e.handleException();
-                    return false;
+                    clearAndGoToHome();
                 }
             // Annulla e torna alla Home
             case "2":
-                return false;
+                clearAndGoToHome();
             default:
                 System.out.println(INVALIDINPUT);
-                return true;
+                break;
         }
     }
 
@@ -75,12 +72,12 @@ public class RecapPageCLI {
 
 
 
-    private void clearBookingSessionIfBookingFailed() {
-        bSession.clearBookingSession();
-    }
+//    private void clearBookingSessionIfBookingFailed() {
+//        bSession.clearBookingSession();
+//    }
 
     private void clearAndGoToHome() {
-        clearBookingSessionIfBookingFailed();
+        bSession.clearBookingSession();
         athleteMenuCLI.goToHome();
     }
 

@@ -76,7 +76,6 @@ public class BookingController {
             if(t.getName().equals(selectedTrainingBean.getName())) {
                 BookingSession bSession = new BookingSession(t);
                 SessionManager.getInstance().createBookingSession(bSession);
-                System.out.println(bSession.getTraining().getName());
             }
         }
 
@@ -218,9 +217,6 @@ public class BookingController {
     public BookingRecapBean getBookingRecap(/*SelectedSlotAndExtraBean lastBookingDataBean*/) {
 
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
-
-        System.out.println("DEBUG - Sessione per utente " + SessionManager.getInstance().getLoggedUser().getUsername() +
-                ": " + System.identityHashCode(SessionManager.getInstance().getBookingSession()));
 
         // Creazione della Booking
         BookingInterface currentBooking = bSession.getBooking();

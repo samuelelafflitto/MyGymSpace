@@ -2,7 +2,7 @@ package exceptions;
 
 public enum AttemptsErrorType {
     MAX_ATTEMPTS_REACHED("Tentativi terminati!\nPrenotazione annullata - ritorno alla Homepage."),
-    REMAINING("Tentativi rimasti: %d");
+    REMAINING("Tentativi rimasti: %d\n");
 
     private final String msg;
 

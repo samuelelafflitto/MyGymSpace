@@ -14,7 +14,7 @@ public class TrainingSelectionPageCLI {
     private static final String SEPARATOR = "------------------------";
 //    BookingController bController = new BookingController();
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
-    private Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
 
     private static final int MAX_ATTEMPTS = 3;
 
@@ -24,7 +24,7 @@ public class TrainingSelectionPageCLI {
             System.out.println("1) Seleziona Allenamento");
             System.out.println("2) Annulla prenotazione");
             System.out.println("3) Torna alla Homepage");
-            System.out.println("--> ");
+            System.out.print("--> ");
 
             String choice = sc.nextLine();
             handleChoice(choice);
@@ -69,7 +69,7 @@ public class TrainingSelectionPageCLI {
         }
 
         // Viene mostrata la lista
-        System.out.println(SEPARATOR);
+//        System.out.println(SEPARATOR);
         for(int i = 0; i < trainings.size(); i++) {
             AvailableTrainingBean training = trainings.get(i);
             showTrainingDetails(training, i + 1);
@@ -79,7 +79,7 @@ public class TrainingSelectionPageCLI {
         int attempts = 0;
 
         while(attempts < MAX_ATTEMPTS) {
-            System.out.println("Selezionare un allenamento tra quelli visualizzati:");
+            System.out.print("Selezionare un allenamento tra quelli visualizzati: ");
             // Raccoglie indice dell'allenamento da selezionare
             int selectedTraining = Integer.parseInt(sc.nextLine()) - 1;
 

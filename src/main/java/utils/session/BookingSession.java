@@ -61,12 +61,15 @@ public class BookingSession {
         this.booking = booking;
     }
 
-    public boolean clearBookingSession() {
+
+    public void clearBookingAtBeforeTrainingSelection() {
+
+    }
+
+    public void clearBookingSession() {
         this.training = null;
         this.dailySchedule = null;
         this.selectedDate = null;
         this.booking = null;
-
-        return true;
     }
 }
