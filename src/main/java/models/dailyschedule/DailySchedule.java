@@ -2,15 +2,8 @@ package models.dailyschedule;
 
 import exceptions.InvalidTimeSlotException;
 import models.training.Training;
-//import utils.ScheduleConfig;
-//import utils.session.BookingSession;
-//import utils.session.SessionManager;
 
 import java.time.LocalDate;
-//import java.time.LocalTime;
-//import java.time.temporal.ChronoUnit;
-//import java.util.ArrayList;
-//import java.util.List;
 
 public class DailySchedule {
     private final Training training;

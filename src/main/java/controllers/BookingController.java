@@ -243,7 +243,7 @@ public class BookingController {
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
         BookingInterface finalBooking = bSession.getBooking();
 
-        updateDailySchedule(bSession);
+        updateDailySchedule();
 
 //        Training currentTraining = bSession.getTraining();
 //
@@ -410,7 +410,8 @@ public class BookingController {
         return training.getSchedules().get(date);
     }
 
-    private void updateDailySchedule(BookingSession bSession) {
+    private void updateDailySchedule(/*BookingSession bSession*/) {
+        BookingSession bSession = SessionManager.getInstance().getBookingSession();
         BookingInterface currentBooking = bSession.getBooking();
 
         Training currentTraining = bSession.getTraining();
