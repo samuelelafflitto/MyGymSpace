@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingController {
-    private static final String PT_TYPE = "PT";
-    private static final String ATHLETE_TYPE = "ATH";
+//    private static final String PT_TYPE = "PT";
+//    private static final String ATHLETE_TYPE = "ATH";
 
 //    // CHECK SESSIONE APERTA
 //    private boolean isBookingSessionOpen() {
@@ -262,7 +262,7 @@ public class BookingController {
         return true;
     }
 
-    public void checkAttempts(int currAttempt, int maxAttempts) throws RuntimeException{
+    public void checkAttempts(int currAttempt, int maxAttempts){
         if(currAttempt < maxAttempts) {
 //            String msg = AttemptsErrorType.REMAINING.getMSG(maxAttempts -  currAttempt);
             throw new AttemptsException(AttemptsErrorType.REMAINING, (maxAttempts - currAttempt));
@@ -299,8 +299,6 @@ public class BookingController {
         if(currentBookingSession == null) {
             throw new DataLoadException("Errore: Sessione di prenotazione non inizializzata. Tornare alla selezione dell'allenamento.");
         }
-
-        //TODO currentBookingSession = null (NON DOVREBBE ESSERE COSI')
         currentBookingSession.setDate(selectedDate);
     }
 

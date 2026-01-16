@@ -31,7 +31,6 @@ public class TrainingDAOMem extends TrainingDAO {
 
     @Override
     public Training getTrainingByPT(PersonalTrainer personalTrainer) {
-        // TODO personalTrainer è null --> non riesce a ricavare il Training
 
         for (Training training : this.trainings) {
             if (training.getPersonalTrainer() != null && training.getPersonalTrainer().getUsername().equals(personalTrainer.getUsername())) {

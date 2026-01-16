@@ -62,9 +62,9 @@ public class BookingSession {
     }
 
 
-    public void clearBookingAtBeforeTrainingSelection() {
-
-    }
+//    public void clearBookingAtBeforeTrainingSelection() {
+//
+//    }
 
     public void clearBookingSession() {
         this.training = null;

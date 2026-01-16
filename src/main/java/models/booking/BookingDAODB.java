@@ -20,6 +20,9 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class BookingDAODB extends BookingDAO {
+    private static final String PT_USERNAME = "pt_username";
+    private static final String DESCRIPTION = "description";
+    public static final String FINAL_PRICE = "final_price";
     private final Properties queries;
 
     public BookingDAODB() {
@@ -46,8 +49,7 @@ public class BookingDAODB extends BookingDAO {
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            //throw new DataLoadException("Errore nel salvataggio della prenotazione", e);
+            throw new DataLoadException("Errore nel salvataggio della prenotazione", e);
         }
     }
 
@@ -73,11 +75,11 @@ public class BookingDAODB extends BookingDAO {
             try(ResultSet rs = statement.executeQuery()) {
                 while(rs.next()) {
                     BasicBookingDataFromDB newR = new BasicBookingDataFromDB(athlete,
-                            rs.getString("pt_username"),
+                            rs.getString(PT_USERNAME),
                             rs.getDate("date").toLocalDate(),
                             rs.getTime("selected_slot").toLocalTime(),
-                            rs.getString("description"),
-                            rs.getBigDecimal("final_price"));
+                            rs.getString(DESCRIPTION),
+                            rs.getBigDecimal(FINAL_PRICE));
 
                     records.add(newR);
                 }
@@ -94,8 +96,8 @@ public class BookingDAODB extends BookingDAO {
 
         Map<String, Training> trainingCache = new HashMap<>();
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            for(BasicBookingDataFromDB record : baseRecords) {
-                String ptUsername = record.ptUsername();
+            for(BasicBookingDataFromDB element : baseRecords) {
+                String ptUsername = element.ptUsername();
                 Training training;
 
                 if(trainingCache.containsKey(ptUsername)) {
@@ -113,17 +115,17 @@ public class BookingDAODB extends BookingDAO {
                         }
                     }
                 }
-                BookingDataWithTraining newR = new BookingDataWithTraining(record.athlete(),
+                BookingDataWithTraining newR = new BookingDataWithTraining(element.athlete(),
                         training,
-                        record.ptUsername(),
-                        record.date(),
-                        record.selectedSlot(),
-                        record.description(),
-                        record.finalPrice());
+                        element.ptUsername(),
+                        element.date(),
+                        element.selectedSlot(),
+                        element.description(),
+                        element.finalPrice());
                 enrichedRecords.add(newR);
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel reupero degli allenamenti.");
+            throw new DataLoadException("Errore nel recupero degli allenamenti ", e);
         }
         return enrichedRecords;
     }
@@ -133,9 +135,8 @@ public class BookingDAODB extends BookingDAO {
         List<BookingDataWithPT> enrichedRecords = new ArrayList<>();
 
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            for(BookingDataWithTraining record : records) {
-                statement.setString(1, record.ptUsername());
-                statement.setString(2, "PT");
+            for(BookingDataWithTraining element : records) {
+                statement.setString(1, element.ptUsername());
 
                 try (ResultSet rs = statement.executeQuery()) {
                     if(rs.next()) {
@@ -144,21 +145,21 @@ public class BookingDAODB extends BookingDAO {
                                 rs.getString("last_name"),
                                 "PT");
 
-                        record.training().setPersonalTrainer(pt);
+                        element.training().setPersonalTrainer(pt);
 
-                        BookingDataWithPT newR = new BookingDataWithPT(record.athlete(),
-                                record.training(),
-                                record.date(),
-                                record.selectedSlot(),
-                                record.description(),
-                                record.finalPrice());
+                        BookingDataWithPT newR = new BookingDataWithPT(element.athlete(),
+                                element.training(),
+                                element.date(),
+                                element.selectedSlot(),
+                                element.description(),
+                                element.finalPrice());
 
                         enrichedRecords.add(newR);
                     }
                 }
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel reupero degli allenamenti.");
+            throw new DataLoadException("Errore nel recupero degli allenamenti ", e);
         }
         return enrichedRecords;
     }
@@ -169,8 +170,8 @@ public class BookingDAODB extends BookingDAO {
 
         Map<String, List<DailySchedule>> scheduleCache = new HashMap<>();
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            for(BookingDataWithPT record : records) {
-                String ptUsername = record.training().getPersonalTrainer().getUsername();
+            for(BookingDataWithPT element : records) {
+                String ptUsername = element.training().getPersonalTrainer().getUsername();
                 List<DailySchedule> schedules;
 
                 if(scheduleCache.containsKey(ptUsername)) {
@@ -183,25 +184,25 @@ public class BookingDAODB extends BookingDAO {
                             LocalDate date = rs.getDate("selected_date").toLocalDate();
                             StringBuilder slots = new StringBuilder(rs.getString("time_slots"));
 
-                            DailySchedule ds = new DailySchedule(record.training(), date, slots);
+                            DailySchedule ds = new DailySchedule(element.training(), date, slots);
                             schedules.add(ds);
                         }
                     }
                     scheduleCache.put(ptUsername, schedules);
                 }
-                record.training().setSchedules(schedules);
+                element.training().setSchedules(schedules);
 
-                FinalBookingData finalRecord = new FinalBookingData(record.athlete(),
-                        record.training(),
-                        record.training().getSchedules().get(record.date()),
-                        record.selectedSlot(),
-                        record.description(),
-                        record.finalPrice());
+                FinalBookingData finalRecord = new FinalBookingData(element.athlete(),
+                        element.training(),
+                        element.training().getSchedules().get(element.date()),
+                        element.selectedSlot(),
+                        element.description(),
+                        element.finalPrice());
 
                 finalRecords.add(finalRecord);
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel reupero delle DailySchedule.");
+            throw new DataLoadException("Errore nel recupero delle DailySchedule ", e);
         }
         return finalRecords;
     }
@@ -209,15 +210,15 @@ public class BookingDAODB extends BookingDAO {
     private List<BookingInterface> createFinalBookings(List<FinalBookingData> records) {
         List<BookingInterface> bookings = new ArrayList<>();
 
-        for(FinalBookingData record: records) {
+        for(FinalBookingData element: records) {
             ConcreteBooking booking = new ConcreteBooking();
 
-            booking.setAthlete(record.athlete());
-            booking.setTraining(record.training());
-            booking.setDailySchedule(record.dailySchedule());
-            booking.setSelectedSlot(record.selectedSlot());
-            booking.setDescription(record.description());
-            booking.setFinalPrice(record.finalPrice());
+            booking.setAthlete(element.athlete());
+            booking.setTraining(element.training());
+            booking.setDailySchedule(element.dailySchedule());
+            booking.setSelectedSlot(element.selectedSlot());
+            booking.setDescription(element.description());
+            booking.setFinalPrice(element.finalPrice());
 
             bookings.add(booking);
         }
@@ -248,28 +249,28 @@ public class BookingDAODB extends BookingDAO {
         return bookings;
     }
 
-    private ConcreteBooking mapBookingsFromResultSet(ResultSet resultSet, Athlete user) throws SQLException {
-        ConcreteBooking booking = new ConcreteBooking();
-
-        booking.setAthlete(user);
-
-        UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
-        PersonalTrainer pt = (PersonalTrainer) userDAO.getUserByUsername(resultSet.getString("pt_username"));
-
-        TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
-        Training t = trainingDAO.getTrainingByPT(pt);
-
-        DailyScheduleDAO dailyScheduleDAO = FactoryDAO.getInstance().createDailyScheduleDAO();
-        DailySchedule ds = dailyScheduleDAO.loadSingleScheduleByTraining(t, resultSet.getDate("date").toLocalDate());
-
-        booking.setTraining(t);
-        booking.setDailySchedule(ds);
-        booking.setSelectedSlot(resultSet.getTime("selected_date").toLocalTime());
-        booking.setDescription(resultSet.getString("description"));
-        booking.setFinalPrice(resultSet.getBigDecimal("final_price"));
-
-        return booking;
-    }
+//    private ConcreteBooking mapBookingsFromResultSet(ResultSet resultSet, Athlete user) throws SQLException {
+//        ConcreteBooking booking = new ConcreteBooking();
+//
+//        booking.setAthlete(user);
+//
+//        UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
+//        PersonalTrainer pt = (PersonalTrainer) userDAO.getUserByUsername(resultSet.getString(PT_USERNAME));
+//
+//        TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
+//        Training t = trainingDAO.getTrainingByPT(pt);
+//
+//        DailyScheduleDAO dailyScheduleDAO = FactoryDAO.getInstance().createDailyScheduleDAO();
+//        DailySchedule ds = dailyScheduleDAO.loadSingleScheduleByTraining(t, resultSet.getDate("date").toLocalDate());
+//
+//        booking.setTraining(t);
+//        booking.setDailySchedule(ds);
+//        booking.setSelectedSlot(resultSet.getTime("selected_date").toLocalTime());
+//        booking.setDescription(resultSet.getString(DESCRIPTION));
+//        booking.setFinalPrice(resultSet.getBigDecimal(FINAL_PRICE));
+//
+//        return booking;
+//    }
 
 
     private ConcreteBooking mapResultSetToBooking(ResultSet resultSet) throws SQLException {
@@ -278,7 +279,7 @@ public class BookingDAODB extends BookingDAO {
         // Ricavo Athlete e Personal Trainer dagli username nel DB
         UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
         Athlete ath = (Athlete)userDAO.getUserByUsername(resultSet.getString("athlete_username"));
-        PersonalTrainer pt = (PersonalTrainer)userDAO.getUserByUsername(resultSet.getString("pt_username"));
+        PersonalTrainer pt = (PersonalTrainer)userDAO.getUserByUsername(resultSet.getString(PT_USERNAME));
 
         // Ricavo Training dal Personal Trainer
         TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
@@ -293,8 +294,8 @@ public class BookingDAODB extends BookingDAO {
         booking.setTraining(t);
         booking.setDailySchedule(ds);
         booking.setSelectedSlot(resultSet.getTime("selected_slot").toLocalTime());
-        booking.setDescription(resultSet.getString("description"));
-        booking.setFinalPrice(resultSet.getBigDecimal("final_price"));
+        booking.setDescription(resultSet.getString(DESCRIPTION));
+        booking.setFinalPrice(resultSet.getBigDecimal(FINAL_PRICE));
 
         return booking;
     }
@@ -314,7 +315,7 @@ public class BookingDAODB extends BookingDAO {
     private Training mapTrainingFromResultSet(ResultSet resultSet) throws SQLException {
         Training t = new Training();
         t.setName(resultSet.getString("title"));
-        t.setDescription(resultSet.getString("description"));
+        t.setDescription(resultSet.getString(DESCRIPTION));
         t.setBasePrice(resultSet.getBigDecimal("base_price"));
         return t;
     }

@@ -27,11 +27,11 @@ public class DBConnection {
                 throw new DataLoadException("Credenziali DB mancanti nel file config.properties");
             }
         } catch (Exception e) {
-            throw new DataLoadException("Errore nel caricamento della configurazione da config.properties");
+            throw new DataLoadException("Errore nel caricamento della configurazione da config.properties", e);
         }
     }
 
-    protected DBConnection() throws SQLException{
+    protected DBConnection(){
         try {
             this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
