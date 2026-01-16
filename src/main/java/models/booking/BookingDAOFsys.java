@@ -4,7 +4,6 @@ import models.booking.record.NextSessionRecord;
 import models.training.Training;
 import models.user.Athlete;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;

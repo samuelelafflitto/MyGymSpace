@@ -61,11 +61,11 @@ public class MyProfilePageCLI {
     }
 
     private void printUserData() {
-        String type = user.getType().equals("ATH") ? "Atleta" : "Personal Trainer";
+        String typeName = user.getType().equals("ATH") ? "Atleta" : "Personal Trainer";
         System.out.println(" Nome:            " + user.getFirstName());
         System.out.println(" Cognome:         " + user.getLastName());
         System.out.println(" Username:        " + user.getUsername());
-        System.out.println(" Ruolo:           " + type);
+        System.out.println(" Ruolo:           " + typeName);
         System.out.println(SEPARATOR);
     }
 
@@ -90,56 +90,4 @@ public class MyProfilePageCLI {
         System.out.println(" 3. Logout");
         System.out.println(SEPARATOR);
     }
-
-//    public MyProfileCLI() {
-//        // Recuperiamo l'utente dalla sessione globale
-//        this.currentUser = SessionManager.getInstance().getCurrentUser();
-//    }
-//
-//    public void start() {
-//        boolean exit = false;
-//
-//        while (!exit) {
-//            printHeader();
-//            printUserData();
-//
-//            int choice = ScannerUtil.readInt("Scelga un'opzione: ", 1, 4);
-//            exit = handleChoice(choice);
-//        }
-//    }
-//
-//    private void printHeader() {
-//        System.out.println("\n==================================================");
-//        System.out.println("                MYGYMSPACE - PROFILO");
-//        System.out.println("==================================================");
-//    }
-//
-//    private void printUserData() {
-//        // Utilizziamo i getter dell'oggetto User caricato dal DB [cite: 2025-12-14]
-//        System.out.printf(" Nome:          %s\n", currentUser.getFirstName());
-//        System.out.printf(" Cognome:       %s\n", currentUser.getLastName());
-//        System.out.printf(" Username:      %s\n", currentUser.getUsername());
-//        System.out.printf(" Ruolo:         %s\n", currentUser.getType().equals("ATH") ? "Atleta" : "Personal Trainer");
-//        System.out.println("--------------------------------------------------");
-//
-//        // Qui potremmo aggiungere una chiamata rapida al DAO per le statistiche
-//        printQuickStats();
-//
-//        System.out.println("--------------------------------------------------");
-//        System.out.println(" 1. Modifica Password");
-//        System.out.println(" 2. Visualizza Storico");
-//        System.out.println(" 3. Torna al Menu Principale");
-//        System.out.println(" 4. Logout");
-//        System.out.println("==================================================");
-//    }
-//
-//    private boolean handleChoice(int choice) {
-//        switch (choice) {
-//            case 1 -> goToChangePassword();
-//            case 2 -> goToHistory();
-//            case 3 -> { return true; } // Torna al menu precedente
-//            case 4 -> performLogout();
-//        }
-//        return false;
-//    }
 }

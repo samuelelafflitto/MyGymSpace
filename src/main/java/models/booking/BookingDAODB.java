@@ -76,7 +76,7 @@ public class BookingDAODB extends BookingDAO {
                     BasicBookingDataFromDB newR = new BasicBookingDataFromDB(athlete,
                             rs.getString(PT_USERNAME),
                             rs.getDate("date").toLocalDate(),
-                            rs.getTime("selected_slot").toLocalTime(),
+                            rs.getTime(SELECTED_SLOT).toLocalTime(),
                             rs.getString(DESCRIPTION),
                             rs.getBigDecimal(FINAL_PRICE));
 
