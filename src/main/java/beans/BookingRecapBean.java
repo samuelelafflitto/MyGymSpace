@@ -13,7 +13,7 @@ public class BookingRecapBean {
     String description;
     BigDecimal price;
 
-    public BookingRecapBean() {
+    public BookingRecapBean() {// Il costruttore non ha bisogno di parametri
     }
 
     // GET

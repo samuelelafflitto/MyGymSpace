@@ -40,7 +40,7 @@ public class DBConnection {
         }
     }
 
-    public static DBConnection getInstance() throws SQLException {
+    public static DBConnection getInstance(){
         if (instance == null) {
             instance = new DBConnection();
         }
