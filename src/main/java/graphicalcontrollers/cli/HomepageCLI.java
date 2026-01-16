@@ -77,6 +77,9 @@ public class HomepageCLI {
             case "4":
                 ptMenu.goToMyProfile();
                 break;
+            case "5":
+                ptMenu.logout();
+                break;
             default:
                 System.out.println("\n" + INVALIDINPUT);
                 break;
@@ -96,6 +99,9 @@ public class HomepageCLI {
                 break;
             case "4":
                 athleteMenu.goToMyProfile();
+                break;
+            case "5":
+                athleteMenu.logout();
                 break;
             default:
                 System.out.println("\n" + INVALIDINPUT);

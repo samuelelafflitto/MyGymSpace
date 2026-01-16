@@ -1,7 +1,7 @@
 package models.training;
 
 import models.booking.BookingInterface;
-import models.booking.BookingKey;
+import models.booking.record.BookingKey;
 import models.dailyschedule.DailySchedule;
 import models.user.PersonalTrainer;
 

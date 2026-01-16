@@ -8,6 +8,7 @@ public class AthleteMenuCLI {
         System.out.println("2) Eventi futuri");
         System.out.println("3) My Bookings");
         System.out.println("4) Il mio Profilo");
+        System.out.println("5) Logout");
     }
 
     public void goToHome() {

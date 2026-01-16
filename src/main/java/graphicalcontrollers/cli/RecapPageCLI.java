@@ -24,7 +24,8 @@ public class RecapPageCLI {
         while(true) {
             System.out.println("-----------------------");
             System.out.println("1) Conferma e prenota");
-            System.out.println("2) Annulla");
+            System.out.println("2) Annulla e torna alla Home");
+            System.out.println("3) Logout");
             System.out.print("--> ");
 
             String choice = sc.nextLine();
@@ -47,9 +48,14 @@ public class RecapPageCLI {
                     e.handleException();
                     clearAndGoToHome();
                 }
+                break;
             // Annulla e torna alla Home
             case "2":
                 clearAndGoToHome();
+                break;
+            case "3":
+                athleteMenuCLI.logout();
+                break;
             default:
                 System.out.println(INVALIDINPUT);
                 break;

@@ -25,47 +25,11 @@ public class DailySchedule {
         this.training = training;
         this.date = date;
 
-//        this.morningStart = mStart;
-//        this.morningEnd = mEnd;
-//        this.afternoonStart = aStart;
-//        this.afternoonEnd = aEnd;
-
-        /*this.morningStart = ScheduleConfig.getTime("schedule.morning.start", "09:00");
-        this.morningEnd = ScheduleConfig.getTime("schedule.morning.end", "13:00");
-
-        this.afternoonStart = ScheduleConfig.getTime("schedule.afternoon.start", "15:00");
-        this.afternoonEnd = ScheduleConfig.getTime("schedule.afternoon.end", "20:00");
-
-        int mSlot = (int) ChronoUnit.HOURS.between(morningStart, morningEnd);
-        int aSlot = (int) ChronoUnit.HOURS.between(afternoonStart, afternoonEnd);*/
-
-//        this.morningSlots = (int) ChronoUnit.HOURS.between(morningStart, morningEnd);
-//        this.afternoonSlots = (int) ChronoUnit.HOURS.between(afternoonStart, afternoonEnd);
-
-        /*if(morningSlots < 0 || afternoonSlots < 0) {
-            throw new IllegalStateException("Orari configurati non validi.");
-        }*/
-
-        /*if(mSlot < 0) {
-            this.morningSlots = 0;
-        } else {
-            this.morningSlots = mSlot;
-        }
-
-        if(aSlot < 0) {
-            this.afternoonSlots = 0;
-        } else {
-            this.afternoonSlots = aSlot;
-        }*/
-
-//        this.totalSlots = morningSlots + afternoonSlots;
-
         if(persistenceBits == null || persistenceBits.isEmpty()) {
             this.setTimeSlots(new StringBuilder());
-            this.initializeSlotsToZero();
+            initializeSlotsToZero();
         } else {
             this.setTimeSlots(new StringBuilder(persistenceBits));
-            this.timeSlots = new StringBuilder(persistenceBits);
         }
 
         /*this.timeSlots = new StringBuilder();

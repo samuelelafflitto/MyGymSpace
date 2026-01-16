@@ -1,5 +1,6 @@
 package models.booking;
 
+import models.booking.record.BookingKey;
 import models.dailyschedule.DailySchedule;
 import models.user.Athlete;
 import models.training.Training;

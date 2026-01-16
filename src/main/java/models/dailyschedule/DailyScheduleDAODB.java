@@ -33,19 +33,25 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
             statement.setString(1, training.getPersonalTrainer().getUsername());
             try (ResultSet resultSet = statement.executeQuery()) {
                 while(resultSet.next()) {
-                    String dsTraining = resultSet.getString("ds_training");
-                    UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
-                    PersonalTrainer pt = (PersonalTrainer) userDAO.getUserByUsername(dsTraining);
-
-                    TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
-                    Training t = trainingDAO.getTrainingByPT(pt);
-
                     LocalDate selectedDate = resultSet.getDate("selected_date").toLocalDate();
-
                     String ts = resultSet.getString("time_slots");
-                    StringBuilder timeSlots = new StringBuilder(ts);
 
-                    DailySchedule ds = DailySchedule.fromPersistence(t, selectedDate, timeSlots);
+                    StringBuilder timeslots = new StringBuilder(ts);
+                    DailySchedule ds = DailySchedule.fromPersistence(training, selectedDate, timeslots);
+
+//                    String dsTraining = resultSet.getString("ds_training");
+//                    UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
+//                    PersonalTrainer pt = (PersonalTrainer) userDAO.getUserByUsername(dsTraining);
+//
+//                    TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
+//                    Training t = trainingDAO.getTrainingByPT(pt);
+//
+//                    LocalDate selectedDate = resultSet.getDate("selected_date").toLocalDate();
+//
+//                    String ts = resultSet.getString("time_slots");
+//                    StringBuilder timeSlots = new StringBuilder(ts);
+//
+//                    DailySchedule ds = DailySchedule.fromPersistence(t, selectedDate, timeSlots);
 
                     training.addSchedule(ds);
                 }
@@ -121,11 +127,12 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
 
             statement.setString(1, training.getPersonalTrainer().getUsername());
             statement.setDate(2, Date.valueOf(schedule.getDate()));
-            statement.setTime(3, Time.valueOf(schedule.getTimeSlots().toString()));
+            statement.setString(3, schedule.getTimeSlots().toString());
             statement.setString(4, schedule.getTimeSlots().toString());
 
             statement.executeUpdate();
         } catch (SQLException e) {
+            //System.out.println(e.getMessage());
             throw new DataLoadException("Errore nel salvataggio orari per la data " + schedule.getDate(), e);
         }
     }

@@ -17,4 +17,5 @@ module mygymspace.mygymspace {
     exports start;
     exports graphicalcontrollers.gui;
     opens graphicalcontrollers.gui to javafx.fxml;
+    exports models.booking.record;
 }

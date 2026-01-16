@@ -402,6 +402,8 @@ public class BookingController {
 
             DailyScheduleDAO dsDAO = FactoryDAO.getInstance().createDailyScheduleDAO();
             dsDAO.updateDailySchedule(training, newDS);
+
+            training.getSchedules().put(date, newDS);
         }
         return training.getSchedules().get(date);
     }

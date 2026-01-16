@@ -24,6 +24,7 @@ public class TrainingSelectionPageCLI {
             System.out.println("1) Seleziona Allenamento");
             System.out.println("2) Annulla prenotazione");
             System.out.println("3) Torna alla Homepage");
+            System.out.println("4) Logout");
             System.out.print("--> ");
 
             String choice = sc.nextLine();
@@ -47,6 +48,9 @@ public class TrainingSelectionPageCLI {
                 break;
             case "2", "3":
                 athleteMenuCLI.goToHome();
+                break;
+            case "4":
+                athleteMenuCLI.logout();
                 break;
             default:
                 System.out.println(INVALIDINPUT);

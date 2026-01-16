@@ -1,5 +1,6 @@
 package models.booking;
 
+import models.booking.record.BookingKey;
 import models.dailyschedule.DailySchedule;
 import models.training.Training;
 import models.user.Athlete;
@@ -11,6 +12,7 @@ public class ConcreteBooking implements BookingInterface {
     private Athlete athlete;
     private Training training;
     private DailySchedule dailySchedule;
+
     private LocalTime selectedSlot;
     /*private LocalTime startTime;*/
     private String description;

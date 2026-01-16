@@ -1,9 +1,12 @@
 package models.user;
 
 import exceptions.DataLoadException;
+import exceptions.UserSearchFailedException;
 import models.booking.BookingDAO;
 import models.booking.BookingInterface;
 import models.dao.factory.FactoryDAO;
+import models.training.Training;
+import models.training.TrainingDAO;
 import utils.DBConnection;
 import utils.ResourceLoader;
 
@@ -31,9 +34,7 @@ public class UserDAODB extends UserDAO {
 
     @Override
     public User getUser(String username, String password) {
-        String sql = queries.getProperty("SELECT_USER");
-        if(sql == null)
-            throw new DataLoadException("Query SELECT_USER non trovata");
+        String sql = getQueryOrThrow("SELECT_USER");
 
         User user = null;
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -41,12 +42,24 @@ public class UserDAODB extends UserDAO {
             statement.setString(2, password);
 
             try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    user = mapUserFromResultSet(resultSet);
-                }
+                user = mapUserFromResultSet(resultSet);
+//                if (resultSet.next()) {
+//                    String firstName = resultSet.getString("first_name");
+//                    String lastName = resultSet.getString("last_name");
+//                    String username = resultSet.getString("username");
+//                    String password = resultSet.getString("password");
+//                    String type = resultSet.getString("type");
+//
+//                    if (PT_TYPE.equals(type)) {
+//                        user = new PersonalTrainer(username, password, firstName, lastName, type);
+//                    } else if (ATHLETE_TYPE.equals(type)) {
+//                        user = new Athlete(username, password, firstName, lastName, type);
+//                    }
+//                }
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
+            System.out.println(e.getMessage());
+            //throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
         }
         if (user != null) {
             return populateUser(user);
@@ -55,22 +68,31 @@ public class UserDAODB extends UserDAO {
     }
 
     @Override
-    public User getUserByUsername(String username) {
-        String sql = queries.getProperty("SELECT_USER_BY_USERNAME");
-        if (sql == null)
-            throw new DataLoadException("Query SELECT_USER_BY_USERNAME non trovata");
+    public User getUserByUsername(String usr) {
+        String sql = getQueryOrThrow("SELECT_USER_BY_USERNAME");
 
         User user = null;
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, username);
+            statement.setString(1, usr);
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    user = mapUserFromResultSet(resultSet);
+                    String firstName = resultSet.getString("first_name");
+                    String lastName = resultSet.getString("last_name");
+                    String username = resultSet.getString("username");
+                    String password = resultSet.getString("password");
+                    String type = resultSet.getString("type");
+
+                    if (PT_TYPE.equals(type)) {
+                        user = new PersonalTrainer(username, password, firstName, lastName, type);
+                    } else if (ATHLETE_TYPE.equals(type)) {
+                        user = new Athlete(username, password, firstName, lastName, type);
+                    }
                 }
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
+            System.out.println(e.getMessage());
+            //throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
         }
         if (user != null) {
             return populateUser(user);
@@ -80,9 +102,7 @@ public class UserDAODB extends UserDAO {
 
     @Override
     public void addUser(String username, User user) {
-        String sql = queries.getProperty("INSERT_USER");
-        if (sql == null)
-            throw new DataLoadException("Query INSERT_USER non trovata");
+        String sql = getQueryOrThrow("INSERT_USER");
 
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, username);
@@ -103,31 +123,57 @@ public class UserDAODB extends UserDAO {
     }
 
     private User mapUserFromResultSet(ResultSet resultSet) throws SQLException {
-        String username = resultSet.getString("username");
-        String password = resultSet.getString("password");
-        String firstName = resultSet.getString("first_name");
-        String lastName = resultSet.getString("last_name");
-        String type = resultSet.getString("type");
+        if(resultSet.next()) {
+            String username = resultSet.getString("username");
+            String password = resultSet.getString("password");
+            String firstName = resultSet.getString("first_name");
+            String lastName = resultSet.getString("last_name");
+            String type = resultSet.getString("type");
 
-        if (PT_TYPE.equals(type)) {
-            return new PersonalTrainer(username, password, firstName, lastName, type);
-        } else if (ATHLETE_TYPE.equals(type)) {
-            return new Athlete(username, password, firstName, lastName, type);
-        } else return null;
+            if (type.equals(PT_TYPE)) {
+                return new PersonalTrainer(username, password, firstName, lastName, type);
+            } else if (type.equals(ATHLETE_TYPE)) {
+                return new Athlete(username, password, firstName, lastName, type);
+            } else throw new UserSearchFailedException();
+        } else throw new UserSearchFailedException();
     }
 
+
+
     private User populateUser(User user) {
+        // Se user è ATHLETE
         if (user.getType().equals(ATHLETE_TYPE)) {
             BookingDAO bookingDAO = FactoryDAO.getInstance().createBookingDAO();
             List<BookingInterface> bookings = new ArrayList<>();
 
             try {
                 bookings = bookingDAO.getBookingByUser((Athlete) user);
-            } catch (Exception e) {
-                throw new DataLoadException(e.getMessage());
+            } catch (DataLoadException e) {
+                System.out.println(e.getMessage());
             }
             ( (Athlete) user).setBookings(bookings);
+        } else if (user.getType().equals(PT_TYPE)) {
+            TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
+            Training training = null;
+
+            try {
+                training = trainingDAO.getTrainingByPT((PersonalTrainer)user);
+                training.setPersonalTrainer((PersonalTrainer)user);
+            } catch (DataLoadException e) {
+                System.out.println(e.getMessage());
+            }
+            ( (PersonalTrainer) user).setTraining(training);
         }
         return user;
+    }
+
+
+
+    // HELPER
+    private String getQueryOrThrow(String query) {
+        String sql = queries.getProperty(query);
+        if(sql == null)
+            throw new DataLoadException("Query " + query + " non trovata");
+        return sql;
     }
 }

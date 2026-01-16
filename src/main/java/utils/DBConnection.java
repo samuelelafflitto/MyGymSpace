@@ -27,32 +27,34 @@ public class DBConnection {
                 throw new DataLoadException("Credenziali DB mancanti nel file config.properties");
             }
         } catch (Exception e) {
-            throw new DataLoadException("Errore nel caricamento della configurazione da config.properties", e);
+            throw new DataLoadException("Errore nel caricamento della configurazione da config.properties");
         }
     }
 
-    protected DBConnection() {
+    protected DBConnection() throws SQLException{
         try {
             this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
-            throw new DataLoadException("Impossibile connettersi al Database", e);
+            System.out.println(e.getMessage());
+            //throw new DataLoadException("Impossibile connettersi al Database", e);
         }
     }
 
-    public static DBConnection getInstance() {
+    public static DBConnection getInstance() throws SQLException {
         if (instance == null) {
             instance = new DBConnection();
         }
         return instance;
     }
 
-    public Connection getConnection() {
-        try {
-            if (connection == null || connection.isClosed()) {
+    public Connection getConnection() throws SQLException {
+
+        if(connection == null || connection.isClosed()) {
+            try {
                 this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            } catch (SQLException e) {
+                throw new SQLException("Errore di riconnessione al Database",e);
             }
-        } catch (SQLException e) {
-            throw new DataLoadException("Errore di riconnessione al Database", e);
         }
         return connection;
     }
