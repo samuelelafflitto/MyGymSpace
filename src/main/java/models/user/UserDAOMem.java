@@ -14,7 +14,6 @@ public class UserDAOMem extends UserDAO {
 
     protected UserDAOMem() {
         this.users = new HashMap<>();
-//        initializeDemoData();
     }
 
     public static UserDAOMem getInstance() {
@@ -48,17 +47,6 @@ public class UserDAOMem extends UserDAO {
             System.err.println("[MEM] Username già esistente: " + username);
         }
     }
-
-    /*@Override
-    public void addUser(String firstName, String lastName, String username, String password) {
-        if (!users.containsKey(username)) {
-            User newUser = new Athlete(firstName, lastName, username, password, ATHLETE_TYPE);
-            users.put(username, newUser);
-            System.out.println("[MEM] Nuovo Atleta registrato: " + username);
-        } else {
-            System.err.println("[MEM] Username già esistente: " + username);
-        }
-    }*/
 
     public void initializeDemoData() {
         // Creazione Entità User

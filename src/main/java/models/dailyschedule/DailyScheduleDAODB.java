@@ -1,11 +1,7 @@
 package models.dailyschedule;
 
 import exceptions.DataLoadException;
-import models.dao.factory.FactoryDAO;
 import models.training.Training;
-import models.training.TrainingDAO;
-import models.user.PersonalTrainer;
-import models.user.UserDAO;
 import utils.DBConnection;
 import utils.ResourceLoader;
 
@@ -39,20 +35,6 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
                     StringBuilder timeslots = new StringBuilder(ts);
                     DailySchedule ds = DailySchedule.fromPersistence(training, selectedDate, timeslots);
 
-//                    String dsTraining = resultSet.getString("ds_training");
-//                    UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
-//                    PersonalTrainer pt = (PersonalTrainer) userDAO.getUserByUsername(dsTraining);
-//
-//                    TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
-//                    Training t = trainingDAO.getTrainingByPT(pt);
-//
-//                    LocalDate selectedDate = resultSet.getDate("selected_date").toLocalDate();
-//
-//                    String ts = resultSet.getString("time_slots");
-//                    StringBuilder timeSlots = new StringBuilder(ts);
-//
-//                    DailySchedule ds = DailySchedule.fromPersistence(t, selectedDate, timeSlots);
-
                     training.addSchedule(ds);
                 }
             }
@@ -74,11 +56,6 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if(resultSet.next()) {
 
-                    /*LocalTime mStart = resultSet.getObject("morning_start", LocalTime.class);
-                    LocalTime mEnd = resultSet.getObject("morning_end", LocalTime.class);
-                    LocalTime aStart = resultSet.getObject("afternoon_start", LocalTime.class);
-                    LocalTime aEnd = resultSet.getObject("afternoon_end", LocalTime.class);*/
-
                     String ts = resultSet.getString("time_slots");
                     StringBuilder timeSlots = new StringBuilder(ts);
 
@@ -90,33 +67,6 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
         }
         return DailySchedule.createNew(training, date);
     }
-
-//    @Override
-//    public DailySchedule loadSchedule(Training training, LocalDate date) {
-//        String sql = queries.getProperty("SELECT_SCHEDULE");
-//        if (sql == null)
-//            throw new DataLoadException("Query SELECT_SCHEDULE non trovata");
-//
-//        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-//            String ptUsername = training.getPersonalTrainer().getUsername();
-//
-//            statement.setString(1, ptUsername);
-//            statement.setDate(2, Date.valueOf(date));
-//
-//            try (ResultSet resultSet = statement.executeQuery()) {
-//                if (resultSet.next()) {
-//                    String slotBits = resultSet.getString("time_slots");
-//
-//                    DailySchedule schedule = new DailySchedule(date);
-//                    schedule.setSlotBits(slotBits);
-//                    return schedule;
-//                }
-//            }
-//        } catch (SQLException e) {
-//            throw new DataLoadException("Errore nel caricamento orari per la data " + date, e);
-//        }
-//        return null;
-//    }
 
     @Override
     public void updateDailySchedule(Training training, DailySchedule schedule) {
@@ -132,7 +82,6 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            //System.out.println(e.getMessage());
             throw new DataLoadException("Errore nel salvataggio orari per la data " + schedule.getDate(), e);
         }
     }

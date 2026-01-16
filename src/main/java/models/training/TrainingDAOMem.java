@@ -14,7 +14,6 @@ public class TrainingDAOMem extends TrainingDAO {
 
     protected TrainingDAOMem() {
         trainings = new ArrayList<>();
-        /*initializeDemoData();*/
     }
 
     public static synchronized TrainingDAOMem getInstance() {

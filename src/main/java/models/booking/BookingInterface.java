@@ -13,7 +13,6 @@ public interface BookingInterface {
     Training getTraining();
     DailySchedule getDailySchedule();
     LocalTime getSelectedSlot();
-    //LocalTime getStartTime();
     String getDescription();
     BigDecimal getFinalPrice();
 

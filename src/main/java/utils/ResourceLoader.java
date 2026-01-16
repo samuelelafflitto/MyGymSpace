@@ -16,7 +16,6 @@ public class ResourceLoader {
         Properties prop = new Properties();
 
         try (InputStream in = ResourceLoader.class.getResourceAsStream(resourcePath)) {
-//            System.out.println(in);
             if (in == null) {
                 throw new DataLoadException("Impossibile trovate il file: " + resourcePath);
             }

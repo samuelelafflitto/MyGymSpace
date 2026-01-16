@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingController {
-//    private static final String PT_TYPE = "PT";
-//    private static final String ATHLETE_TYPE = "ATH";
 
 //    // CHECK SESSIONE APERTA
 //    private boolean isBookingSessionOpen() {
@@ -78,37 +76,6 @@ public class BookingController {
                 SessionManager.getInstance().createBookingSession(bSession);
             }
         }
-
-
-//        String trainingName = selectedTrainingBean.getName();
-//        String ptUsername = selectedTrainingBean.getPersonalTrainer();
-//
-//        UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
-//        PersonalTrainer personalTrainer = (PersonalTrainer) userDAO.getUserByUsername(ptUsername);
-//
-//        TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
-//        Training selectedTraining = trainingDAO.getTrainingByPT(personalTrainer);
-//
-//        BookingSession bookingSession = new BookingSession(selectedTraining);
-//        SessionManager.getInstance().createBookingSession(bookingSession);
-
-
-        /*List<Training> allTrainings = new ArrayList<>();
-
-        try {
-            allTrainings = FactoryDAO.getInstance().createTrainingDAO().getAvailableTrainings();
-        } catch (DataLoadException e) {
-            System.out.println(e.getMessage());
-        }
-
-        // Cerca allenamento con dati come quelli ricevuti
-        for(Training t: allTrainings) {
-            // Se lo trova crea una nuova BookingSession senza inserire alcuna data
-            if(t.getName().equals(trainingName) && t.getPersonalTrainer().equals(personalTrainer)) {
-                BookingSession bSession = new BookingSession(t);
-                SessionManager.getInstance().createBookingSession(bSession);
-            }
-        }*/
     }
 
     public void setBookingSessionDate(SelectedDateBean selectedDateBean) {
@@ -126,17 +93,6 @@ public class BookingController {
         createBooking(selectedSlotAndExtraBean);
     }
 
-//    public SelectedTrainingBean getSelectedTrainingBean(AvailableTrainingBean bean) {
-//        String trainingName = bean.getName();
-//        String ptUsername =  bean.getPersonalTrainer();
-//
-//        UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
-//        PersonalTrainer personalTrainer = (PersonalTrainer) userDAO.getUserByUsername(ptUsername);
-//
-//        return new SelectedTrainingBean(trainingName, personalTrainer);
-//    }
-
-
     // OTTENIMENTO ALLENAMENTO SELEZIONATO E INSERIMENTO IN UN BEAN - INUTILE
     public SelectedTrainingBean getSelectedTraining() {
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
@@ -145,29 +101,7 @@ public class BookingController {
         return new SelectedTrainingBean(selectedTraining, personalTrainer);
     }
 
-    // OTTENIMENTO DATA SELEZIONATA E INSERIEMENTO IN UN BEAN - INUTILE
-    /*public SelectedDateBean getSelectedDate() {
-        BookingSession bSession = SessionManager.getInstance().getBookingSession();
-        LocalDate selectedDate = bSession.getDate();
-        return new SelectedDateBean(selectedDate);
-    }*/
-
-
-
-//    // CHIAMATO ALLA SELEZIONE DI UNA DATA DA SALVARE NELLA BOOKINGSESSION
-//    private void setSelectedDate(SelectedDateBean dateBean) {
-//        LocalDate selectedDate = dateBean.getSelectedDate();
-//
-//        BookingSession currentBookingSession =  SessionManager.getInstance().getBookingSession();
-//        Training currentTraining = currentBookingSession.getTraining();
-//
-//        SessionManager.getInstance().freeBookingSession();
-//
-//        BookingSession newBookingSession = new BookingSession(currentTraining, selectedDate);
-//        SessionManager.getInstance().createBookingSession(newBookingSession);
-//    }
-
-    public List<String> getAvailableSlots(/*SelectedDateBean dateBean*/) throws AttemptsException {
+    public List<String> getAvailableSlots() throws AttemptsException {
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
 
         DailySchedule dailySchedule = bSession.getDailySchedule();
@@ -214,7 +148,7 @@ public class BookingController {
 
     // CHIAMATO ALLA RICHIESTA DI MOSTRARE UN RECAP (una volta inseriti tutti i dati)
     // Ottiene la Booking finale e la restituisce come BookingRecapBean per inviare i dati del Recap al Controller grafico
-    public BookingRecapBean getBookingRecap(/*SelectedSlotAndExtraBean lastBookingDataBean*/) {
+    public BookingRecapBean getBookingRecap() {
 
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
 
@@ -235,17 +169,11 @@ public class BookingController {
 
     // CHIAMATO ALLA CONFERMA DEL RECAP
     // Si occupa di memorizzare la Booking confermata
-    public boolean saveBooking(/*BookingSession bSession, BookingInterface finalBooking*/) {
+    public boolean saveBooking() {
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
         BookingInterface finalBooking = bSession.getBooking();
 
         updateDailySchedule();
-
-//        Training currentTraining = bSession.getTraining();
-//
-//        //Dalla Booking ricavo la LocalDate e la String (relativa al TimeSlot selezionato)
-//        LocalDate selectedDate = finalBooking.getDailySchedule().getDate();
-//        String selectedSlot = finalBooking.getSelectedSlot().toString();
 
         BookingDAO bDAO = FactoryDAO.getInstance().createBookingDAO();
 
@@ -332,21 +260,10 @@ public class BookingController {
 
         ConcreteBooking concreteBooking = (ConcreteBooking) booking;
         concreteBooking.setAthlete(athlete);
-//        if (concreteBooking.getAthlete() != null)
-//            System.out.println("DEBUG - Atleta inserito nella Booking" + concreteBooking.getAthlete().getUsername());
         concreteBooking.setTraining(training);
-//        if (concreteBooking.getTraining() != null)
-//            System.out.println("DEBUG - Training inserito nella Booking"  + concreteBooking.getTraining().getName());
         concreteBooking.setDailySchedule(dailySchedule);
-//        if (concreteBooking.getDailySchedule() != null)
-//            System.out.println("DEBUG - DailySchedule inserito nella Booking" + concreteBooking.getDailySchedule().getTimeSlots());
         concreteBooking.setSelectedSlot(LocalTime.parse(selectedSlot));
-//        if (concreteBooking.getSelectedSlot() != null)
-//            System.out.println("DEBUG - Slot inserito nella Booking" +  concreteBooking.getSelectedSlot());
         concreteBooking.setFinalPrice(basePrice);
-//        if (concreteBooking.getFinalPrice() != null)
-//            System.out.println("DEBUG - Price inserito nella Booking" + concreteBooking.getFinalPrice());
-//        concreteBooking.setStartTime(LocalTime.parse(selectedSlot));
 
         if(slotAndExtra.isTowel()) {
             booking = new TowelDecorator(booking);
@@ -365,13 +282,6 @@ public class BookingController {
         }
 
         bSession.setBooking(booking);
-        // La Booking sembra memorizzata nella BookingSession!!!
-
-
-//        // currentBooking viene memorizzata nella BookingSession
-//        BookingSession currentBookingSession =  SessionManager.getInstance().getBookingSession();
-//        currentBookingSession.setBooking(booking);
-//        return booking;
     }
 
     // CHIAMATO PER OTTENERE LA DAILYSCHEDULE ASSOCIATA AL GIORNO
@@ -406,7 +316,7 @@ public class BookingController {
         return training.getSchedules().get(date);
     }
 
-    private void updateDailySchedule(/*BookingSession bSession*/) {
+    private void updateDailySchedule() {
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
         BookingInterface currentBooking = bSession.getBooking();
 

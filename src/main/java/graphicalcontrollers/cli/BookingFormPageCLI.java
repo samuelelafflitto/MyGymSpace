@@ -18,7 +18,6 @@ public class BookingFormPageCLI {
     private static final Scanner sc = new Scanner(System.in);
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
     private static final String SEPARATOR = "------------------------";
-//    BookingSession bSession = SessionManager.getInstance().getBookingSession();
     BookingController bController = new BookingController();
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
 
@@ -26,19 +25,14 @@ public class BookingFormPageCLI {
     SelectedDateBean selectedD;
     List<String> slots = new ArrayList<>();
     int selectedSlot;
-//    boolean towel;
-//    boolean sauna;
-//    boolean energizer;
-//    boolean video;
     SelectedSlotAndExtraBean slotAndExtraBean;
-//    BookingRecapBean recapBean;
 
     private static final int MAX_ATTEMPTS = 3;
     public void start() {
         SelectedTrainingBean selectedTraining = bController.getSelectedTraining();
         System.out.println("\nAllenamento selezionato: " + selectedTraining.getName());
 
-        while (true) {
+        while(true) {
             System.out.println(SEPARATOR);
             System.out.println("1) Inserisci la Data");
             System.out.println("2) Indietro");
@@ -225,12 +219,6 @@ public class BookingFormPageCLI {
         new RecapPageCLI().start();
     }
 
-//    private void showRecap() {
-//        recapBean = bController.getBookingRecap(/*slotAndExtraBean*/);
-//
-//    }
-
-
     // Utilizzo di un setter per richiamare le varie opzioni extra con un unico metodo privato
     private void askExtra(String extraKey, Consumer<String> setter) {
         int localAttempts = 0;
@@ -241,7 +229,6 @@ public class BookingFormPageCLI {
                 String extraSelection = sc.nextLine();
 
                 setter.accept(extraSelection);
-//                slotAndExtraBean.setVideo(extraSelection4);
                 break;
             } catch (InvalidSelectionException e) {
                 localAttempts++;

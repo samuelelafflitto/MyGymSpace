@@ -36,35 +36,19 @@ public class UserDAODB extends UserDAO {
     public User getUser(String username, String password) {
         String sql = getQueryOrThrow("SELECT_USER");
 
-        User user = null;
+        User user;
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, username);
             statement.setString(2, password);
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 user = mapUserFromResultSet(resultSet);
-//                if (resultSet.next()) {
-//                    String firstName = resultSet.getString("first_name");
-//                    String lastName = resultSet.getString("last_name");
-//                    String username = resultSet.getString("username");
-//                    String password = resultSet.getString("password");
-//                    String type = resultSet.getString("type");
-//
-//                    if (PT_TYPE.equals(type)) {
-//                        user = new PersonalTrainer(username, password, firstName, lastName, type);
-//                    } else if (ATHLETE_TYPE.equals(type)) {
-//                        user = new Athlete(username, password, firstName, lastName, type);
-//                    }
-//                }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            //throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
+            //System.out.println(e.getMessage());
+            throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
         }
-        if (user != null) {
-            return populateUser(user);
-        }
-        return null;
+        return populateUser(user);
     }
 
     @Override
@@ -91,8 +75,8 @@ public class UserDAODB extends UserDAO {
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            //throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
+            //System.out.println(e.getMessage());
+            throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
         }
         if (user != null) {
             return populateUser(user);

@@ -43,9 +43,9 @@ public class Training {
         return schedules;
     }
 
-    public Map<BookingKey, BookingInterface> getBookings() {
-        return bookings;
-    }
+//    public Map<BookingKey, BookingInterface> getBookings() {
+//        return bookings;
+//    }
 
     // SET
     public void setPersonalTrainer(PersonalTrainer personalTrainer) {
@@ -64,10 +64,6 @@ public class Training {
         this.basePrice = basePrice;
     }
 
-    /*public void setSchedules(HashMap<LocalDate, DailySchedule> schedules) {
-        this.schedules = schedules;
-    }*/
-
     public void setSchedules(List<DailySchedule> scheduleList) {
         this.schedules.clear();
         for (DailySchedule ds : scheduleList) {
@@ -75,12 +71,12 @@ public class Training {
         }
     }
 
-    public void setBookings(List<BookingInterface> bookingList) {
-        this.bookings.clear();
-        for (BookingInterface b : bookingList) {
-            this.bookings.put(b.getKey(), b);
-        }
-    }
+//    public void setBookings(List<BookingInterface> bookingList) {
+//        this.bookings.clear();
+//        for (BookingInterface b : bookingList) {
+//            this.bookings.put(b.getKey(), b);
+//        }
+//    }
 
     public void addSchedule(DailySchedule dailySchedule) {
         this.schedules.put(dailySchedule.getDate(), dailySchedule);

@@ -13,13 +13,7 @@ public class BookingRecapBean {
     String description;
     BigDecimal price;
 
-    public BookingRecapBean(/*BookingInterface booking*/) {
-//        trainingName = booking.getTraining().getName();
-//        ptTraining = booking.getTraining().getPersonalTrainer().getLastName();
-//        date = booking.getDailySchedule().getDate();
-//        startTime = booking.getSelectedSlot();
-//        description = booking.getDescription();
-//        price = booking.getFinalPrice();
+    public BookingRecapBean() {
     }
 
     // GET

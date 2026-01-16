@@ -85,7 +85,7 @@ public class BookingDAODB extends BookingDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel recupero delle prenotazioni.");
+            throw new DataLoadException("Errore nel recupero delle prenotazioni ", e);
         }
         return records;
     }
@@ -248,30 +248,6 @@ public class BookingDAODB extends BookingDAO {
         }
         return bookings;
     }
-
-//    private ConcreteBooking mapBookingsFromResultSet(ResultSet resultSet, Athlete user) throws SQLException {
-//        ConcreteBooking booking = new ConcreteBooking();
-//
-//        booking.setAthlete(user);
-//
-//        UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
-//        PersonalTrainer pt = (PersonalTrainer) userDAO.getUserByUsername(resultSet.getString(PT_USERNAME));
-//
-//        TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
-//        Training t = trainingDAO.getTrainingByPT(pt);
-//
-//        DailyScheduleDAO dailyScheduleDAO = FactoryDAO.getInstance().createDailyScheduleDAO();
-//        DailySchedule ds = dailyScheduleDAO.loadSingleScheduleByTraining(t, resultSet.getDate("date").toLocalDate());
-//
-//        booking.setTraining(t);
-//        booking.setDailySchedule(ds);
-//        booking.setSelectedSlot(resultSet.getTime("selected_date").toLocalTime());
-//        booking.setDescription(resultSet.getString(DESCRIPTION));
-//        booking.setFinalPrice(resultSet.getBigDecimal(FINAL_PRICE));
-//
-//        return booking;
-//    }
-
 
     private ConcreteBooking mapResultSetToBooking(ResultSet resultSet) throws SQLException {
         ConcreteBooking booking = new ConcreteBooking();

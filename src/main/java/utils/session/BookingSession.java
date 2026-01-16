@@ -10,15 +10,10 @@ public class BookingSession {
     private Training training;
     private DailySchedule dailySchedule;
     private LocalDate selectedDate;
-    //private LocalTime selectedTimeSlot;
     private BookingInterface booking;
 
-    public BookingSession(Training training/*, LocalDate selectedDate*/) {
+    public BookingSession(Training training) {
         this.training = training;
-//        this.dailySchedule = null;
-//        this.selectedDate = null;
-//        this.booking = null;
-        /*this.selectedDate = selectedDate;*/
     }
 
     public Training getTraining() {
@@ -32,10 +27,6 @@ public class BookingSession {
     public LocalDate getDate() {
         return selectedDate;
     }
-
-    /*public LocalTime getTimeSlot() {
-        return selectedTimeSlot;
-    }*/
 
     public BookingInterface getBooking() {
         return booking;
@@ -53,18 +44,9 @@ public class BookingSession {
         this.selectedDate = selectedDate;
     }
 
-    /*public void setTimeSlot(LocalTime selectedTimeSlot) {
-        this.selectedTimeSlot = selectedTimeSlot;
-    }*/
-
     public void setBooking(BookingInterface booking) {
         this.booking = booking;
     }
-
-
-//    public void clearBookingAtBeforeTrainingSelection() {
-//
-//    }
 
     public void clearBookingSession() {
         this.training = null;

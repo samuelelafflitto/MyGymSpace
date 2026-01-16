@@ -71,17 +71,6 @@ public class RecapPageCLI {
         System.out.println("Costo totale: " + bookingRecap.getPrice());
     }
 
-//    private void saveBookingOnPersistence() {
-//        bController.saveBooking(/*bSession, booking*/);
-//    }
-
-
-
-
-//    private void clearBookingSessionIfBookingFailed() {
-//        bSession.clearBookingSession();
-//    }
-
     private void clearAndGoToHome() {
         bSession.clearBookingSession();
         athleteMenuCLI.goToHome();

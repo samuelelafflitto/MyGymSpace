@@ -34,11 +34,6 @@ public abstract class BookingDecorator implements BookingInterface {
         return booking.getSelectedSlot();
     }
 
-//    @Override
-//    public LocalTime getStartTime() {
-//        return booking.getStartTime();
-//    }
-
     @Override
     public String getDescription() {
         return booking.getDescription();

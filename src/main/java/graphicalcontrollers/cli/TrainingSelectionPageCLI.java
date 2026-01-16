@@ -12,7 +12,6 @@ import java.util.Scanner;
 public class TrainingSelectionPageCLI {
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
     private static final String SEPARATOR = "------------------------";
-//    BookingController bController = new BookingController();
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
     private static final Scanner sc = new Scanner(System.in);
 
@@ -58,11 +57,6 @@ public class TrainingSelectionPageCLI {
         }
     }
 
-
-//    private void goToBookingForm() {
-//        new BookingFormPageCLI().start();
-//    }
-
     private void selectTraining() {
         BookingController bController = new BookingController();
         List<AvailableTrainingBean> trainings = bController.getAvailableTrainings();
@@ -73,7 +67,6 @@ public class TrainingSelectionPageCLI {
         }
 
         // Viene mostrata la lista
-//        System.out.println(SEPARATOR);
         for(int i = 0; i < trainings.size(); i++) {
             AvailableTrainingBean training = trainings.get(i);
             showTrainingDetails(training, i + 1);
@@ -86,9 +79,6 @@ public class TrainingSelectionPageCLI {
             System.out.print("Selezionare un allenamento tra quelli visualizzati: ");
             // Raccoglie indice dell'allenamento da selezionare
             int selectedTraining = Integer.parseInt(sc.nextLine()) - 1;
-
-//            int input = sc.nextInt();
-//            int selectedTrainingIndex = input - 1;
 
             // Controlla se l'indice inserito rientra nel range della lista
             if(selectedTraining >= 0 && selectedTraining < trainings.size()) {
