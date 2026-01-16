@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class RecapPageCLI {
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
+    private static final String SEPARATOR = "------------------------------------------------";
     BookingSession bSession = SessionManager.getInstance().getBookingSession();
     BookingController bController = new BookingController();
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
@@ -18,11 +19,11 @@ public class RecapPageCLI {
     BookingRecapBean bookingRecap;
 
     public void start() {
-        System.out.println("------------------------");
+        System.out.println(SEPARATOR);
         showRecap();
 
         while(true) {
-            System.out.println("-----------------------");
+            System.out.println(SEPARATOR);
             System.out.println("1) Conferma e prenota");
             System.out.println("2) Annulla e torna alla Home");
             System.out.println("3) Logout");

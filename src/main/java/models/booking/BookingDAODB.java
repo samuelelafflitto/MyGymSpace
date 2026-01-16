@@ -1,10 +1,7 @@
 package models.booking;
 
 import exceptions.DataLoadException;
-import models.booking.record.BasicBookingDataFromDB;
-import models.booking.record.BookingDataWithPT;
-import models.booking.record.BookingDataWithTraining;
-import models.booking.record.FinalBookingData;
+import models.booking.record.*;
 import models.dailyschedule.DailySchedule;
 import models.dailyschedule.DailyScheduleDAO;
 import models.dao.factory.FactoryDAO;
@@ -17,12 +14,14 @@ import utils.ResourceLoader;
 import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 public class BookingDAODB extends BookingDAO {
     private static final String PT_USERNAME = "pt_username";
     private static final String DESCRIPTION = "description";
     public static final String FINAL_PRICE = "final_price";
+    public static final String SELECTED_SLOT = "selected_slot";
     private final Properties queries;
 
     public BookingDAODB() {
@@ -249,6 +248,78 @@ public class BookingDAODB extends BookingDAO {
         return bookings;
     }
 
+    @Override
+    public int getTotalSessions(String username, boolean isAthlete) throws SQLException {
+        String sql;
+        if(isAthlete) {
+            sql = getQueryOrThrow("COUNT_TOTAL_SESSIONS_ATH");
+        } else {
+            sql = getQueryOrThrow("COUNT_TOTAL_SESSIONS_PT");
+        }
+
+        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, username);
+
+            try (ResultSet rs = statement.executeQuery()) {
+                return rs.next() ? rs.getInt("total") : 0;
+            }
+        }
+    }
+
+    @Override
+    public int getFutureSessions(String username, boolean isAthlete, LocalDate dateNow, LocalTime timeNow) throws SQLException {
+        String sql;
+        if(isAthlete) {
+            sql = getQueryOrThrow("COUNT_FUTURE_SESSIONS_ATH");
+        } else {
+            sql = getQueryOrThrow("COUNT_FUTURE_SESSIONS_PT");
+        }
+
+        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, username);
+            statement.setDate(2, Date.valueOf(dateNow));
+            statement.setDate(3, Date.valueOf(dateNow));
+            statement.setTime(4, Time.valueOf(timeNow));
+
+            try (ResultSet rs = statement.executeQuery()) {
+                return rs.next() ? rs.getInt("total") : 0;
+            }
+        }
+    }
+
+
+    public NextSessionRecord getNextSession(String username, boolean isAthlete, LocalDate dateNow, LocalTime timeNow) throws SQLException {
+        String sql;
+        if(isAthlete) {
+            sql = getQueryOrThrow("WHEN_NEXT_SESSION_ATH");
+        } else {
+            sql = getQueryOrThrow("WHEN_NEXT_SESSION_PT");
+        }
+
+        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, username);
+            statement.setDate(2, Date.valueOf(dateNow));
+            statement.setDate(3, Date.valueOf(dateNow));
+            statement.setTime(4, Time.valueOf(timeNow));
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if(rs.next()) {
+                    LocalDate day = rs.getDate("date").toLocalDate();
+                    LocalTime hour = rs.getTime(SELECTED_SLOT).toLocalTime();
+                    return new NextSessionRecord(day, hour);
+                }
+            }
+        }
+        return null;
+    }
+
+
+
+
+
+
+
+
     private ConcreteBooking mapResultSetToBooking(ResultSet resultSet) throws SQLException {
         ConcreteBooking booking = new ConcreteBooking();
 
@@ -269,7 +340,7 @@ public class BookingDAODB extends BookingDAO {
         booking.setAthlete(ath);
         booking.setTraining(t);
         booking.setDailySchedule(ds);
-        booking.setSelectedSlot(resultSet.getTime("selected_slot").toLocalTime());
+        booking.setSelectedSlot(resultSet.getTime(SELECTED_SLOT).toLocalTime());
         booking.setDescription(resultSet.getString(DESCRIPTION));
         booking.setFinalPrice(resultSet.getBigDecimal(FINAL_PRICE));
 

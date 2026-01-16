@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class TrainingSelectionPageCLI {
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
-    private static final String SEPARATOR = "------------------------";
+    private static final String SEPARATOR = "------------------------------------------------";
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
     private static final Scanner sc = new Scanner(System.in);
 

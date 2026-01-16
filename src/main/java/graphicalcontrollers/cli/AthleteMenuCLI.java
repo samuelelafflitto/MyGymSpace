@@ -1,8 +1,12 @@
 package graphicalcontrollers.cli;
 
+import utils.session.BookingSession;
 import utils.session.SessionManager;
 
 public class AthleteMenuCLI {
+    SessionManager sessionManager = SessionManager.getInstance();
+    BookingSession bSession = SessionManager.getInstance().getBookingSession();
+
     public void showMenu() {
         System.out.println("1) Prenota una sessione di allenamento");
         System.out.println("2) Eventi futuri");
@@ -12,18 +16,16 @@ public class AthleteMenuCLI {
     }
 
     public void goToHome() {
-        if(SessionManager.getInstance().getBookingSession() != null)
-            SessionManager.getInstance().freeBookingSession();
+        if(bSession != null)
+            sessionManager.freeBookingSession();
         // ALTRE EVENTUALI SESSIONI
         new HomepageCLI().start();
     }
 
     public void goToBookASession() {
-        SessionManager sM = SessionManager.getInstance();
-
-        if(sM.getLoggedUser() != null) {
-            if(sM.getBookingSession() != null)
-                SessionManager.getInstance().freeBookingSession();
+        if(sessionManager.getLoggedUser() != null) {
+            if(bSession != null)
+                sessionManager.freeBookingSession();
             new TrainingSelectionPageCLI().start();
         } else {// Non dovrebbe mai accadere a runtime
             new LoginCLI().start();
@@ -38,15 +40,19 @@ public class AthleteMenuCLI {
 
     }
 
-    public void goToMyProfile() {// Da implementare
-
+    public void goToMyProfile() {
+        if(sessionManager.getLoggedUser() != null) {
+            if(bSession != null)
+                sessionManager.freeBookingSession();
+            new MyProfilePageCLI().start();
+        }
     }
 
     public void logout() {
-        if(SessionManager.getInstance().getBookingSession() != null)
-            SessionManager.getInstance().freeBookingSession();
+        if(bSession != null)
+            sessionManager.freeBookingSession();
         // ALTRE EVENTUALI SESSIONI
-        SessionManager.getInstance().freeSession();
+        sessionManager.freeSession();
         new  HomepageCLI().start();
     }
 }

@@ -1,8 +1,12 @@
 package models.booking;
 
+import models.booking.record.NextSessionRecord;
 import models.training.Training;
 import models.user.Athlete;
 
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,5 +42,23 @@ public class BookingDAOMem extends BookingDAO {
         return bookings.stream()
                 .filter(b -> b.getTraining().getPersonalTrainer().getUsername().equals(training.getPersonalTrainer().getUsername()))
                 .toList();
+    }
+
+    @Override
+    public int getTotalSessions(String username, boolean isAthlete) {
+        // Non implementato
+        return 0;
+    }
+
+    @Override
+    public int getFutureSessions(String username, boolean isAthlete, LocalDate dateNow, LocalTime timeNow) {
+        // Non implementato
+        return 0;
+    }
+
+    @Override
+    public NextSessionRecord getNextSession(String username, boolean isAthlete, LocalDate dateNow, LocalTime timeNow) {
+        // Non implementato
+        return null;
     }
 }

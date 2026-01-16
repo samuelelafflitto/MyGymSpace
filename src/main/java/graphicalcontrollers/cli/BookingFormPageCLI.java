@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 public class BookingFormPageCLI {
     private static final Scanner sc = new Scanner(System.in);
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
-    private static final String SEPARATOR = "------------------------";
+    private static final String SEPARATOR = "------------------------------------------------";
     BookingController bController = new BookingController();
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
 

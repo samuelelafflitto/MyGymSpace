@@ -22,16 +22,16 @@ public class DailyScheduleDAOMem extends DailyScheduleDAO {
         return instance;
     }
 
-    @Override
-    public void loadSchedulesByTraining(Training training) {
-        String ptUsername = training.getPersonalTrainer().getUsername();
-
-        for(Map.Entry<String, DailySchedule> entry : schedules.entrySet()) {
-            if(entry.getKey().startsWith(ptUsername + "_")) {
-                training.addSchedule(entry.getValue());
-            }
-        }
-    }
+//    @Override
+//    public void loadSchedulesByTraining(Training training) {
+//        String ptUsername = training.getPersonalTrainer().getUsername();
+//
+//        for(Map.Entry<String, DailySchedule> entry : schedules.entrySet()) {
+//            if(entry.getKey().startsWith(ptUsername + "_")) {
+//                training.addSchedule(entry.getValue());
+//            }
+//        }
+//    }
 
     @Override
     public DailySchedule loadSingleScheduleByTraining(Training training, LocalDate date) {

@@ -20,28 +20,28 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
         }
     }
 
-    @Override
-    public void loadSchedulesByTraining(Training training) {
-        String sql = queries.getProperty("SELECT_TRAINING_SCHEDULES");
-        if(sql == null) return;
-
-        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, training.getPersonalTrainer().getUsername());
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while(resultSet.next()) {
-                    LocalDate selectedDate = resultSet.getDate("selected_date").toLocalDate();
-                    String ts = resultSet.getString("time_slots");
-
-                    StringBuilder timeslots = new StringBuilder(ts);
-                    DailySchedule ds = DailySchedule.fromPersistence(training, selectedDate, timeslots);
-
-                    training.addSchedule(ds);
-                }
-            }
-        } catch (SQLException e) {
-            throw new DataLoadException("Errore nel recupero degli orari disponibili per " + training.getName() + ": ", e);
-        }
-    }
+//    @Override
+//    public void loadSchedulesByTraining(Training training) {
+//        String sql = queries.getProperty("SELECT_TRAINING_SCHEDULES");
+//        if(sql == null) return;
+//
+//        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+//            statement.setString(1, training.getPersonalTrainer().getUsername());
+//            try (ResultSet resultSet = statement.executeQuery()) {
+//                while(resultSet.next()) {
+//                    LocalDate selectedDate = resultSet.getDate("selected_date").toLocalDate();
+//                    String ts = resultSet.getString("time_slots");
+//
+//                    StringBuilder timeslots = new StringBuilder(ts);
+//                    DailySchedule ds = DailySchedule.fromPersistence(training, selectedDate, timeslots);
+//
+//                    training.addSchedule(ds);
+//                }
+//            }
+//        } catch (SQLException e) {
+//            throw new DataLoadException("Errore nel recupero degli orari disponibili per " + training.getName() + ": ", e);
+//        }
+//    }
 
     @Override
     public DailySchedule loadSingleScheduleByTraining(Training training, LocalDate date) {

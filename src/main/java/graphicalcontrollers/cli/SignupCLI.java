@@ -8,16 +8,17 @@ import java.util.Scanner;
 
 public class SignupCLI {
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
+    private static final String SEPARATOR = "------------------------------------------------";
 
     GuestMenuCLI guestMenuCLI = new GuestMenuCLI();
 
-    private Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in);
 
     public void start() {
         while (true) {
-            System.out.println("\n------------------------");
+            System.out.println("\n" + SEPARATOR);
             System.out.println("SIGN UP PAGE");
-            System.out.println("------------------------");
+            System.out.println(SEPARATOR);
             System.out.println("1) Sign Up");
             System.out.println("2) Log In");
             System.out.println("3) Torna alla Homepage");
@@ -42,7 +43,7 @@ public class SignupCLI {
     }
 
     public void signup() {
-        System.out.println("\n----------------------------");
+        System.out.println("\n" + SEPARATOR);
 
         System.out.print("Inserisci il tuo Nome: ");
         String firstName = sc.nextLine();

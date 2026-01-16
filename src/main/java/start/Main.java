@@ -16,6 +16,7 @@ import java.util.Scanner;
 
 public class Main extends Application {
     private static final Scanner sc = new Scanner(System.in);
+    private static final String SEPARATOR = "------------------------------------------------";
     private static String persistenceMode = "demo";
     private static String selectedTheme = "light";
     private static boolean isCLI = false;
@@ -30,7 +31,7 @@ public class Main extends Application {
         }
 
         System.out.println("\nBENVENUTO IN MYGYMSPACE");
-        System.out.println("------------------------");
+        System.out.println(SEPARATOR);
         System.out.println("Scegli la modalità di esecuzione:");
         System.out.println("1. GUI (Interfaccia Grafica)");
         System.out.println("2. CLI (Riga di Comando)");
@@ -113,7 +114,7 @@ public class Main extends Application {
     private static void loadPersistenceConfiguration() {
         Properties prop = ResourceLoader.loadProperties("/config/config.properties");
         persistenceMode = prop.getProperty("app.mode", "demo");
-        System.out.println("[CONFIG] Modalita di persistenza selezionata: " +  persistenceMode);
+        System.out.println("[CONFIG] Modalità di persistenza selezionata: " +  persistenceMode);
     }
 
     private static void checkQueryFilesExist() {

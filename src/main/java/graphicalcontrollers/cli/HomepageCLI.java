@@ -6,12 +6,13 @@ import java.util.Scanner;
 
 public class HomepageCLI {
     private static final Scanner sc = new Scanner(System.in);
+    private static final String SEPARATOR = "------------------------------------------------";
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
     private static final String PT_TYPE = "PT";
     private static final String ATHLETE_TYPE = "ATH";
 
     public void start() {
-        System.out.println("------------------------");
+        System.out.println(SEPARATOR);
         System.out.println("BENVENUTO IN MYGYMSPACE!");
         loadMenu();
     }
