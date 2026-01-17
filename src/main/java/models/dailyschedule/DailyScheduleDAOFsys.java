@@ -3,11 +3,17 @@ package models.dailyschedule;
 import models.training.Training;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class DailyScheduleDAOFsys extends DailyScheduleDAO {
-    public void loadSchedulesByTraining(Training training) {
+
+    @Override
+    public List<DailySchedule> getSchedulesByTraining(Training training) {
         // Non implementato
+        return List.of();
     }
+
+    @Override
     public DailySchedule loadSingleScheduleByTraining(Training training, LocalDate date) {
         // Non implementato
         return null;

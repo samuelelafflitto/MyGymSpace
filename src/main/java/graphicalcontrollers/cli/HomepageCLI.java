@@ -12,16 +12,33 @@ public class HomepageCLI {
     private static final String PT_TYPE = "PT";
     private static final String ATHLETE_TYPE = "ATH";
 
-    GuestMenuCLI guestMenu = new GuestMenuCLI();
-    PersonalTrainerMenuCLI personalTrainerMenu = new PersonalTrainerMenuCLI();
-    AthleteMenuCLI athleteMenu = new AthleteMenuCLI();
+//    GuestMenuCLI guestMenu = new GuestMenuCLI();
+//    PersonalTrainerMenuCLI personalTrainerMenu = new PersonalTrainerMenuCLI();
+//    AthleteMenuCLI athleteMenu = new AthleteMenuCLI();
 
-    SessionManager sessionManager = SessionManager.getInstance();
-    BookingSession bSession = sessionManager.getBookingSession();
+//    SessionManager sessionManager = SessionManager.getInstance();
+//    BookingSession bSession = sessionManager.getBookingSession();
+
 
     public void start() {
+        String loggedUserType = (SessionManager.getInstance().getLoggedUser() != null)
+                ? SessionManager.getInstance().getLoggedUser().getType()
+                : null;
+
+        String msg = null;
+        if (loggedUserType == null) {
+            msg = "            Benvenuto in MyGymSpace!";
+        } else if (loggedUserType.equals(ATHLETE_TYPE)) {
+            msg = "               Bentornato Atleta!";
+        } else if (loggedUserType.equals(PT_TYPE)) {
+            msg = "          Bentornato Personal Trainer!";
+        }
+
+//        System.out.println("BENVENUTO IN MYGYMSPACE!");
         System.out.println(SEPARATOR);
-        System.out.println("BENVENUTO IN MYGYMSPACE!");
+        System.out.println("                    HOMEPAGE");
+        System.out.println(msg);
+        System.out.println(SEPARATOR);
         loadMenu();
     }
 
@@ -122,19 +139,19 @@ public class HomepageCLI {
 //
 //    }
 
-    public void goToMyProfile() {
-        if(sessionManager.getLoggedUser() != null) {
-            if(bSession != null)
-                sessionManager.freeBookingSession();
-            new MyProfilePageCLI().start();
-        }
-    }
-
-    public void logout() {
-        if(bSession != null)
-            sessionManager.freeBookingSession();
-        // ALTRE EVENTUALI SESSIONI
-        sessionManager.freeSession();
-        new  HomepageCLI().start();
-    }
+//    public void goToMyProfile() {
+//        if(sessionManager.getLoggedUser() != null) {
+//            if(bSession != null)
+//                sessionManager.freeBookingSession();
+//            new MyProfilePageCLI().start();
+//        }
+//    }
+//
+//    public void logout() {
+//        if(bSession != null)
+//            sessionManager.freeBookingSession();
+//        // ALTRE EVENTUALI SESSIONI
+//        sessionManager.freeSession();
+//        new  HomepageCLI().start();
+//    }
 }

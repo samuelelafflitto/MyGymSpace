@@ -41,19 +41,19 @@ public class Main extends Application {
 
         switch (modeChoice) {
             case "1":
-                System.out.println("\n[INFO] Avvio modalità GUI...");
+                System.out.println("\n[INFO] Avvio modalità GUI...\n");
                 askTheme(sc);
                 launch(args);
                 break;
 
             case "2":
-                System.out.println("\n[INFO] Avvio la modalità CLI...");
+                System.out.println("\n[INFO] Avvio la modalità CLI...\n");
                 isCLI = true;
                 startCLI();
                 break;
 
             default:
-                System.out.println("\n[INFO] Opzione selezionata non valida, avvio modalità CLI...");
+                System.out.println("\n[INFO] Opzione selezionata non valida, avvio modalità CLI...\n");
                 isCLI = true;
                 startCLI();
                 break;

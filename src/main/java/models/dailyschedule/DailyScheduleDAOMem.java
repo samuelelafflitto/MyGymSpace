@@ -4,6 +4,7 @@ import models.training.Training;
 
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DailyScheduleDAOMem extends DailyScheduleDAO {
@@ -22,16 +23,11 @@ public class DailyScheduleDAOMem extends DailyScheduleDAO {
         return instance;
     }
 
-//    @Override
-//    public void loadSchedulesByTraining(Training training) {
-//        String ptUsername = training.getPersonalTrainer().getUsername();
-//
-//        for(Map.Entry<String, DailySchedule> entry : schedules.entrySet()) {
-//            if(entry.getKey().startsWith(ptUsername + "_")) {
-//                training.addSchedule(entry.getValue());
-//            }
-//        }
-//    }
+    @Override
+    public List<DailySchedule> getSchedulesByTraining(Training training) {
+        // TODO
+        return List.of();
+    }
 
     @Override
     public DailySchedule loadSingleScheduleByTraining(Training training, LocalDate date) {

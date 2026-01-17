@@ -5,6 +5,7 @@ import exceptions.DataLoadException;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class UserDAOFsys extends UserDAO{
     private static final String FILE_PATH = "/fsys/users.txt";
@@ -78,6 +79,12 @@ public class UserDAOFsys extends UserDAO{
     public void initializeDemoData() {
         // Usato solo in modalità demo
     }
+
+    public User fetchUserFromPersistence(String username, String type, Map<String, User> userCache) {
+        // TODO
+        return null;
+    }
+
 
     private List<User> getAllUsers() {
         List<User> users = new ArrayList<>();

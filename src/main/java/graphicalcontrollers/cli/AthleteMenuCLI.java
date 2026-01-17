@@ -4,8 +4,6 @@ import utils.session.BookingSession;
 import utils.session.SessionManager;
 
 public class AthleteMenuCLI {
-    SessionManager sessionManager = SessionManager.getInstance();
-    BookingSession bSession = SessionManager.getInstance().getBookingSession();
 
     public void showMenu() {
         System.out.println("1) Prenota una sessione di allenamento");
@@ -16,16 +14,14 @@ public class AthleteMenuCLI {
     }
 
     public void goToHome() {
-        if(bSession != null)
-            sessionManager.freeBookingSession();
+        freeBSessionIfNotNull();
         // ALTRE EVENTUALI SESSIONI
         new HomepageCLI().start();
     }
 
     public void goToBookASession() {
-        if(sessionManager.getLoggedUser() != null) {
-            if(bSession != null)
-                sessionManager.freeBookingSession();
+        if(SessionManager.getInstance().getLoggedUser() != null) {
+            freeBSessionIfNotNull();
             new TrainingSelectionPageCLI().start();
         } else {// Non dovrebbe mai accadere a runtime
             new LoginCLI().start();
@@ -41,18 +37,24 @@ public class AthleteMenuCLI {
     }
 
     public void goToMyProfile() {
-        if(sessionManager.getLoggedUser() != null) {
-            if(bSession != null)
-                sessionManager.freeBookingSession();
+        if(SessionManager.getInstance().getLoggedUser() != null) {
+            freeBSessionIfNotNull();
             new MyProfilePageCLI().start();
         }
     }
 
     public void logout() {
-        if(bSession != null)
-            sessionManager.freeBookingSession();
-        // ALTRE EVENTUALI SESSIONI
-        sessionManager.freeSession();
+        freeAll();
         new  HomepageCLI().start();
+    }
+
+    private void freeBSessionIfNotNull() {
+        if(SessionManager.getInstance().getBookingSession() != null)
+            SessionManager.getInstance().freeBookingSession();
+    }
+
+    private void freeAll() {
+        freeBSessionIfNotNull();
+        SessionManager.getInstance().freeSession();
     }
 }

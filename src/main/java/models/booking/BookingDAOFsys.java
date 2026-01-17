@@ -1,8 +1,10 @@
 package models.booking;
 
+import models.booking.record.BasicBookingDataFromDB;
 import models.booking.record.NextSessionRecord;
 import models.training.Training;
 import models.user.Athlete;
+import models.user.User;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,7 +17,7 @@ public class BookingDAOFsys extends BookingDAO {
     }
 
     @Override
-    public List<BookingInterface> getBookingByUser(Athlete user) {
+    public List<BasicBookingDataFromDB> fetchBasicBookingData(User user) {
         return List.of();
     }
 
@@ -24,21 +26,21 @@ public class BookingDAOFsys extends BookingDAO {
         return List.of();
     }
 
-    @Override
-    public int getTotalSessions(String username, boolean isAthlete) {
-        // Non implementato
-        return 0;
-    }
-
-    @Override
-    public int getFutureSessions(String username, boolean isAthlete, LocalDate dateNow, LocalTime timeNow) {
-        // Non implementato
-        return 0;
-    }
-
-    @Override
-    public NextSessionRecord getNextSession(String username, boolean isAthlete, LocalDate dateNow, LocalTime timeNow) {
-        // Non implementato
-        return null;
-    }
+//    @Override
+//    public int getTotalSessions(String username, boolean isAthlete) {
+//        // Non implementato
+//        return 0;
+//    }
+//
+//    @Override
+//    public int getFutureSessions(String username, boolean isAthlete, LocalDate dateNow, LocalTime timeNow) {
+//        // Non implementato
+//        return 0;
+//    }
+//
+//    @Override
+//    public NextSessionRecord getNextSession(String username, boolean isAthlete, LocalDate dateNow, LocalTime timeNow) {
+//        // Non implementato
+//        return null;
+//    }
 }

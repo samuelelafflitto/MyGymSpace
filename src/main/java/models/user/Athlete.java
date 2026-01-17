@@ -22,7 +22,7 @@ public class Athlete extends User {
         myBookings = new HashMap<>();
     }
 
-    public Map<BookingKey, BookingInterface> getBookings() {
+    public HashMap<BookingKey, BookingInterface> getBookings() {
         return myBookings;
     }
 

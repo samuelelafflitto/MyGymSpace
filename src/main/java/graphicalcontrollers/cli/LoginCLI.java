@@ -18,7 +18,7 @@ public class LoginCLI {
     public void start() {
         while (true) {
             System.out.println("\n" + SEPARATOR);
-            System.out.println("LOG IN PAGE");
+            System.out.println("                   LOGIN PAGE");
             System.out.println(SEPARATOR);
             System.out.println("1) Log In");
             System.out.println("2) Sign Up");
@@ -45,7 +45,7 @@ public class LoginCLI {
 
     private void login() {
         System.out.println("\n" + SEPARATOR);
-        System.out.println("INSERISCI LE TUE CREDENZIALI");
+        System.out.println("          INSERISCI LE TUE CREDENZIALI");
         System.out.println(SEPARATOR);
 
         System.out.print("Inserisci il tuo username: ");

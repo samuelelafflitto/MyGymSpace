@@ -1,9 +1,12 @@
 package models.user;
 
+import controllers.AuthController;
 import exceptions.DataLoadException;
 import exceptions.UserSearchFailedException;
 import models.booking.BookingDAO;
 import models.booking.BookingInterface;
+import models.booking.record.BasicBookingDataFromDB;
+import models.booking.record.BookingDataWithUsers;
 import models.dao.factory.FactoryDAO;
 import models.training.Training;
 import models.training.TrainingDAO;
@@ -14,11 +17,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class UserDAODB extends UserDAO {
+    AuthController aController = new AuthController();
     private final Properties queries;
 
     private static final String PT_TYPE = "PT";
@@ -48,7 +50,8 @@ public class UserDAODB extends UserDAO {
             //System.out.println(e.getMessage());
             throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
         }
-        return populateUser(user);
+        return user;
+//        return populateUser(user);
     }
 
     @Override
@@ -78,10 +81,11 @@ public class UserDAODB extends UserDAO {
             //System.out.println(e.getMessage());
             throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
         }
-        if (user != null) {
-            return populateUser(user);
-        }
-        return null;
+        return user;
+//        if (user != null) {
+//            return populateUser(user);
+//        }
+//        return null;
     }
 
     @Override
@@ -106,6 +110,39 @@ public class UserDAODB extends UserDAO {
         // Usato solo in modalità demo
     }
 
+    @Override
+    public User fetchUserFromPersistence(String username, String type, Map<String, User> userCache) {
+        if(userCache.containsKey(username)) {
+            return userCache.get(username);
+        }
+
+        String sql = getQueryOrThrow("SELECT_USER_BY_USERNAME_LIGHT");
+
+        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, username);
+
+            try(ResultSet rs = statement.executeQuery()) {
+                if(rs.next()) {
+                    User user;
+                    String firstName = rs.getString("first_name");
+                    String lastName = rs.getString("last_name");
+
+                    if(type.equals(ATHLETE_TYPE)) {
+                        user = new Athlete(username, firstName, lastName, ATHLETE_TYPE);
+                    } else {
+                        user = new PersonalTrainer(username, firstName, lastName, PT_TYPE);
+                    }
+
+                    userCache.put(username, user);
+                    return user;
+                }
+            }
+        } catch (SQLException e) {
+            throw new DataLoadException("Errore nel recupero dell'utente " + username, e);
+        }
+        return null;
+    }
+
     private User mapUserFromResultSet(ResultSet resultSet) throws SQLException {
         if(resultSet.next()) {
             String username = resultSet.getString("username");
@@ -123,34 +160,34 @@ public class UserDAODB extends UserDAO {
     }
 
 
-
-    private User populateUser(User user) {
-        // Se user è ATHLETE
-        if (user.getType().equals(ATHLETE_TYPE)) {
-            BookingDAO bookingDAO = FactoryDAO.getInstance().createBookingDAO();
-            List<BookingInterface> bookings = new ArrayList<>();
-
-            try {
-                bookings = bookingDAO.getBookingByUser((Athlete) user);
-            } catch (DataLoadException e) {
-                System.out.println(e.getMessage());
-            }
-            ( (Athlete) user).setBookings(bookings);
-        } else if (user.getType().equals(PT_TYPE)) {
-            TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
-            Training training = null;
-
-            try {
-                training = trainingDAO.getTrainingByPT((PersonalTrainer)user);
-                training.setPersonalTrainer((PersonalTrainer)user);
-            } catch (DataLoadException e) {
-                System.out.println(e.getMessage());
-            }
-            ( (PersonalTrainer) user).setTraining(training);
-        }
-        return user;
-    }
-
+//    // Associa tutto il necessario all'Utente loggato
+//    private User populateUser(User user) {
+//        // Se user è ATHLETE
+//        if (user.getType().equals(ATHLETE_TYPE)) {
+//            BookingDAO bookingDAO = FactoryDAO.getInstance().createBookingDAO();
+//            List<BookingInterface> bookings = new ArrayList<>();
+//
+//            try {
+//                // Questa operazione dovrebbe partire da un controller
+//                bookings = aController.getBookingByUser(user);
+//            } catch (DataLoadException e) {
+//                System.out.println(e.getMessage());
+//            }
+//            ( (Athlete) user).setBookings(bookings);
+//        } else if (user.getType().equals(PT_TYPE)) {
+//            TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
+//            Training training = null;
+//
+//            try {
+//                training = trainingDAO.getTrainingByPT((PersonalTrainer)user);
+//                training.setPersonalTrainer((PersonalTrainer)user);
+//            } catch (DataLoadException e) {
+//                System.out.println(e.getMessage());
+//            }
+//            ( (PersonalTrainer) user).setTraining(training);
+//        }
+//        return user;
+//    }
 
 
     // HELPER

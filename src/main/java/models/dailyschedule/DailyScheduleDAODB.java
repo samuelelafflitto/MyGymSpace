@@ -7,6 +7,8 @@ import utils.ResourceLoader;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class DailyScheduleDAODB extends DailyScheduleDAO {
@@ -20,34 +22,30 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
         }
     }
 
-//    @Override
-//    public void loadSchedulesByTraining(Training training) {
-//        String sql = queries.getProperty("SELECT_TRAINING_SCHEDULES");
-//        if(sql == null) return;
-//
-//        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-//            statement.setString(1, training.getPersonalTrainer().getUsername());
-//            try (ResultSet resultSet = statement.executeQuery()) {
-//                while(resultSet.next()) {
-//                    LocalDate selectedDate = resultSet.getDate("selected_date").toLocalDate();
-//                    String ts = resultSet.getString("time_slots");
-//
-//                    StringBuilder timeslots = new StringBuilder(ts);
-//                    DailySchedule ds = DailySchedule.fromPersistence(training, selectedDate, timeslots);
-//
-//                    training.addSchedule(ds);
-//                }
-//            }
-//        } catch (SQLException e) {
-//            throw new DataLoadException("Errore nel recupero degli orari disponibili per " + training.getName() + ": ", e);
-//        }
-//    }
+    @Override
+    public List<DailySchedule> getSchedulesByTraining(Training training) {
+        String sql = getQueryOrThrow("SELECT_DS_FOR_TRAINING");
+        List<DailySchedule> schedules = new ArrayList<>();
+        String ptUsername = training.getPersonalTrainer().getUsername();
+
+        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, ptUsername);
+
+            try(ResultSet rs = statement.executeQuery()) {
+                while(rs.next()) {
+                    schedules.add(mapDailyScheduleFromResultSet(rs, training));
+                }
+            }
+        } catch (SQLException e) {
+            throw new DataLoadException("Errore nel recupero delle dailyschedule ", e);
+        }
+        return schedules;
+    }
 
     @Override
     public DailySchedule loadSingleScheduleByTraining(Training training, LocalDate date) {
-        String sql = queries.getProperty("SELECT_SINGLE_TRAINING_SCHEDULE");
-        if(sql == null)
-            throw new DataLoadException("Query SELECT_SINGLE_TRAINING_SCHEDULE non trovata");
+        String sql = getQueryOrThrow("SELECT_SINGLE_TRAINING_SCHEDULE");
+
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, training.getPersonalTrainer().getUsername());
@@ -70,8 +68,7 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
 
     @Override
     public void updateDailySchedule(Training training, DailySchedule schedule) {
-        String sql = queries.getProperty("INSERT_UPDATE_SCHEDULE");
-        if (sql == null) throw new DataLoadException("Query INSERT_UPDATE_SCHEDULE non trovata");
+        String sql = getQueryOrThrow("INSERT_UPDATE_SCHEDULE");
 
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -84,6 +81,21 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
         } catch (SQLException e) {
             throw new DataLoadException("Errore nel salvataggio orari per la data " + schedule.getDate(), e);
         }
+    }
+
+
+    // HELPER
+    private String getQueryOrThrow(String query) {
+        String sql = queries.getProperty(query);
+        if(sql == null)
+            throw new DataLoadException("Query " + query + " non trovata");
+        return sql;
+    }
+
+    private DailySchedule mapDailyScheduleFromResultSet(ResultSet rs, Training training) throws SQLException {
+        LocalDate date = rs.getDate("selected_date").toLocalDate();
+        StringBuilder slots = new StringBuilder(rs.getString("time_slots"));
+        return new DailySchedule(training, date, slots);
     }
 
 }

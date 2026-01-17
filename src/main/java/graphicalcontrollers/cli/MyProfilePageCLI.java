@@ -12,9 +12,9 @@ public class MyProfilePageCLI {
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
     private static final String SEPARATOR = "------------------------------------------------";
     private static final String ATHLETE_TYPE = "ATH";
-    ProfileController pController = new ProfileController();
-    AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
-    PersonalTrainerMenuCLI personalTrainerMenuCLI = new PersonalTrainerMenuCLI();
+//    ProfileController pController = new ProfileController();
+//    AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
+//    PersonalTrainerMenuCLI personalTrainerMenuCLI = new PersonalTrainerMenuCLI();
     User user = SessionManager.getInstance().getLoggedUser();
     String type = user.getType();
 
@@ -42,16 +42,20 @@ public class MyProfilePageCLI {
                 break;
             case "2":
                 if(type.equals(ATHLETE_TYPE)) {
-                    personalTrainerMenuCLI.goToHome();
+                    PersonalTrainerMenuCLI ptMenu = new PersonalTrainerMenuCLI();
+                    ptMenu.goToHome();
                 } else {
-                    athleteMenuCLI.goToHome();
+                    AthleteMenuCLI  athMenu = new AthleteMenuCLI();
+                    athMenu.goToHome();
                 }
                 break;
             case "3":
                 if(type.equals(ATHLETE_TYPE)) {
-                    personalTrainerMenuCLI.logout();
+                    PersonalTrainerMenuCLI ptMenu = new PersonalTrainerMenuCLI();
+                    ptMenu.logout();
                 } else {
-                    athleteMenuCLI.logout();
+                    AthleteMenuCLI  athMenu = new AthleteMenuCLI();
+                    athMenu.logout();
                 }
                 break;
             default:
@@ -70,6 +74,7 @@ public class MyProfilePageCLI {
     }
 
     private void printUserStats() {
+        ProfileController pController = new  ProfileController();
         ProfileStatsBean bean = pController.getProfileStats();
         String nextSession;
         if(bean.getNextDate() == null && bean.getNextTime() == null) {

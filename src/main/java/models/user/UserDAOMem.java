@@ -48,6 +48,7 @@ public class UserDAOMem extends UserDAO {
         }
     }
 
+    @Override
     public void initializeDemoData() {
         // Creazione Entità User
         PersonalTrainer pt1 = new PersonalTrainer ("trainer1", "pass1", "Mario", "Rossi", PT_TYPE);
@@ -61,6 +62,12 @@ public class UserDAOMem extends UserDAO {
 
         TrainingDAOMem trainingDAO = (TrainingDAOMem) FactoryDAO.getInstance().createTrainingDAO();
         trainingDAO.initializeDemoData(pt1, pt2);
+    }
+
+    @Override
+    public User fetchUserFromPersistence(String username, String type, Map<String, User> userCache) {
+        //TODO
+        return null;
     }
 
 }
