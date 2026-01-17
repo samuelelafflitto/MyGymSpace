@@ -5,7 +5,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Properties;
 
 public class ScheduleConfig {
-    private static Properties props;
+    private static final Properties props;
 
     private ScheduleConfig() {
         throw new IllegalStateException("Utility class");

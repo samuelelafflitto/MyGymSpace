@@ -8,7 +8,7 @@ import exceptions.UserSearchFailedException;
 import models.booking.BookingDAO;
 import models.booking.BookingInterface;
 import models.booking.ConcreteBooking;
-import models.booking.record.BasicBookingDataFromDB;
+import models.booking.record.BasicBookingDataFromPersistence;
 import models.booking.record.BookingDataWithTraining;
 import models.booking.record.BookingDataWithUsers;
 import models.booking.record.FinalBookingData;
@@ -89,7 +89,6 @@ public class AuthController {
     private User populateUser(User user) {
         // Se user è ATHLETE
         if (user.getType().equals(ATHLETE_TYPE)) {
-            BookingDAO bookingDAO = FactoryDAO.getInstance().createBookingDAO();
             List<BookingInterface> bookings = new ArrayList<>();
 
             try {
@@ -99,7 +98,6 @@ public class AuthController {
             }
             ( (Athlete) user).setBookings(bookings);
         } else if (user.getType().equals(PT_TYPE)) {
-            BookingDAO bookingDAO = FactoryDAO.getInstance().createBookingDAO();
             List<BookingInterface> privateSessions = new ArrayList<>();
 
             TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
@@ -125,7 +123,7 @@ public class AuthController {
     private List<BookingInterface> getBookingByUser(User user) {
         // BookingDAO
         BookingDAO bookingDAO = FactoryDAO.getInstance().createBookingDAO();
-        List<BasicBookingDataFromDB> dbRecordsA = bookingDAO.fetchBasicBookingData(user);
+        List<BasicBookingDataFromPersistence> dbRecordsA = bookingDAO.fetchBasicBookingData(user);
 
         // UserDAO
         List<BookingDataWithUsers> dbRecordsB = enrichWithUsers(dbRecordsA, user);
@@ -137,11 +135,11 @@ public class AuthController {
         return createFinalBookings(dbFinalRecords);
     }
 
-    private List<BookingDataWithUsers> enrichWithUsers(List<BasicBookingDataFromDB> baseRecords, User user) {
+    private List<BookingDataWithUsers> enrichWithUsers(List<BasicBookingDataFromPersistence> baseRecords, User user) {
         List<BookingDataWithUsers> enrichedRecords = new ArrayList<>();
         Map<String, User> userCache = new HashMap<>();
 
-        for(BasicBookingDataFromDB element : baseRecords) {
+        for(BasicBookingDataFromPersistence element : baseRecords) {
             Athlete athlete;
             PersonalTrainer pt;
 
@@ -185,7 +183,7 @@ public class AuthController {
                     trainingCache.put(ptUsername, training);
                 }
             }
-            BookingDataWithTraining newR = new BookingDataWithTraining(element.athlete(), training, element.record());
+            BookingDataWithTraining newR = new BookingDataWithTraining(element.athlete(), training, element.previousRecord());
             enrichedRecords.add(newR);
         }
         return enrichedRecords;
@@ -228,9 +226,9 @@ public class AuthController {
             booking.setAthlete(element.athlete());
             booking.setTraining(element.training());
             booking.setDailySchedule(element.dailySchedule());
-            booking.setSelectedSlot(element.record().selectedSlot());
-            booking.setDescription(element.record().description());
-            booking.setFinalPrice(element.record().finalPrice());
+            booking.setSelectedSlot(element.previousRecord().selectedSlot());
+            booking.setDescription(element.previousRecord().description());
+            booking.setFinalPrice(element.previousRecord().finalPrice());
 
             bookings.add(booking);
         }

@@ -23,7 +23,7 @@ public class BookingDAODB extends BookingDAO {
     public static final String SELECTED_SLOT = "selected_slot";
     private final Properties queries;
     private static final String ATHLETE_TYPE = "ATH";
-    private static final String PT_TYPE = "PT";
+//    private static final String PT_TYPE = "PT";
 
     public BookingDAODB() {
         try {
@@ -54,17 +54,17 @@ public class BookingDAODB extends BookingDAO {
     }
 
     @Override
-    public List<BasicBookingDataFromDB> fetchBasicBookingData(User user) {
+    public List<BasicBookingDataFromPersistence> fetchBasicBookingData(User user) {
         String queryKey = (user.getType().equals(ATHLETE_TYPE)) ? "SELECT_BOOKINGS_BY_ATHLETE" : "SELECT_BOOKINGS_BY_PT";
         String sql = getQueryOrThrow(queryKey);
-        List<BasicBookingDataFromDB> records = new ArrayList<>();
+        List<BasicBookingDataFromPersistence> records = new ArrayList<>();
 
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, user.getUsername());
 
             try(ResultSet rs = statement.executeQuery()) {
                 while(rs.next()) {
-                    BasicBookingDataFromDB newR = new BasicBookingDataFromDB(rs.getString(ATHLETE_USERNAME),
+                    BasicBookingDataFromPersistence newR = new BasicBookingDataFromPersistence(rs.getString(ATHLETE_USERNAME),
                             rs.getString(PT_USERNAME),
                             rs.getDate("date").toLocalDate(),
                             rs.getTime(SELECTED_SLOT).toLocalTime(),

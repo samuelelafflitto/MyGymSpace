@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Athlete extends User {
-    private HashMap<BookingKey, BookingInterface> myBookings;
+    private final HashMap<BookingKey, BookingInterface> myBookings;
 
     // Costruttore con password
     public Athlete(String username, String password, String fName, String lName, String type) {
@@ -22,7 +22,7 @@ public class Athlete extends User {
         myBookings = new HashMap<>();
     }
 
-    public HashMap<BookingKey, BookingInterface> getBookings() {
+    public Map<BookingKey, BookingInterface> getBookings() {
         return myBookings;
     }
 

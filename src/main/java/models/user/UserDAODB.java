@@ -1,15 +1,7 @@
 package models.user;
 
-import controllers.AuthController;
 import exceptions.DataLoadException;
 import exceptions.UserSearchFailedException;
-import models.booking.BookingDAO;
-import models.booking.BookingInterface;
-import models.booking.record.BasicBookingDataFromDB;
-import models.booking.record.BookingDataWithUsers;
-import models.dao.factory.FactoryDAO;
-import models.training.Training;
-import models.training.TrainingDAO;
 import utils.DBConnection;
 import utils.ResourceLoader;
 
@@ -20,8 +12,9 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class UserDAODB extends UserDAO {
-    AuthController aController = new AuthController();
     private final Properties queries;
+    private static final String FIRST_NAME = "first_name";
+    private static final String LAST_NAME = "last_name";
 
     private static final String PT_TYPE = "PT";
     private static final String ATHLETE_TYPE = "ATH";
@@ -51,7 +44,6 @@ public class UserDAODB extends UserDAO {
             throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
         }
         return user;
-//        return populateUser(user);
     }
 
     @Override
@@ -64,8 +56,8 @@ public class UserDAODB extends UserDAO {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    String firstName = resultSet.getString("first_name");
-                    String lastName = resultSet.getString("last_name");
+                    String firstName = resultSet.getString(FIRST_NAME);
+                    String lastName = resultSet.getString(LAST_NAME);
                     String username = resultSet.getString("username");
                     String password = resultSet.getString("password");
                     String type = resultSet.getString("type");
@@ -82,10 +74,6 @@ public class UserDAODB extends UserDAO {
             throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
         }
         return user;
-//        if (user != null) {
-//            return populateUser(user);
-//        }
-//        return null;
     }
 
     @Override
@@ -124,8 +112,8 @@ public class UserDAODB extends UserDAO {
             try(ResultSet rs = statement.executeQuery()) {
                 if(rs.next()) {
                     User user;
-                    String firstName = rs.getString("first_name");
-                    String lastName = rs.getString("last_name");
+                    String firstName = rs.getString(FIRST_NAME);
+                    String lastName = rs.getString(LAST_NAME);
 
                     if(type.equals(ATHLETE_TYPE)) {
                         user = new Athlete(username, firstName, lastName, ATHLETE_TYPE);
@@ -147,8 +135,8 @@ public class UserDAODB extends UserDAO {
         if(resultSet.next()) {
             String username = resultSet.getString("username");
             String password = resultSet.getString("password");
-            String firstName = resultSet.getString("first_name");
-            String lastName = resultSet.getString("last_name");
+            String firstName = resultSet.getString(FIRST_NAME);
+            String lastName = resultSet.getString(LAST_NAME);
             String type = resultSet.getString("type");
 
             if (type.equals(PT_TYPE)) {
@@ -159,35 +147,6 @@ public class UserDAODB extends UserDAO {
         } else throw new UserSearchFailedException();
     }
 
-
-//    // Associa tutto il necessario all'Utente loggato
-//    private User populateUser(User user) {
-//        // Se user è ATHLETE
-//        if (user.getType().equals(ATHLETE_TYPE)) {
-//            BookingDAO bookingDAO = FactoryDAO.getInstance().createBookingDAO();
-//            List<BookingInterface> bookings = new ArrayList<>();
-//
-//            try {
-//                // Questa operazione dovrebbe partire da un controller
-//                bookings = aController.getBookingByUser(user);
-//            } catch (DataLoadException e) {
-//                System.out.println(e.getMessage());
-//            }
-//            ( (Athlete) user).setBookings(bookings);
-//        } else if (user.getType().equals(PT_TYPE)) {
-//            TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
-//            Training training = null;
-//
-//            try {
-//                training = trainingDAO.getTrainingByPT((PersonalTrainer)user);
-//                training.setPersonalTrainer((PersonalTrainer)user);
-//            } catch (DataLoadException e) {
-//                System.out.println(e.getMessage());
-//            }
-//            ( (PersonalTrainer) user).setTraining(training);
-//        }
-//        return user;
-//    }
 
 
     // HELPER

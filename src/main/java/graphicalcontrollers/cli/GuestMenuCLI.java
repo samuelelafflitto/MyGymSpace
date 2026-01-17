@@ -1,8 +1,10 @@
 package graphicalcontrollers.cli;
 
+import controllers.BookingController;
 import utils.session.SessionManager;
 
 public class GuestMenuCLI {
+    BookingController bController = new BookingController();
 
     public void showMenu() {
         System.out.println("1) Upcoming Events");
@@ -10,8 +12,8 @@ public class GuestMenuCLI {
     }
 
     public void goToHome() {
-//        if(SessionManager.getInstance().getBookingSession() != null)
-//            SessionManager.getInstance().freeBookingSession();
+        if(bController.isBookingSessionOpen())
+            SessionManager.getInstance().freeBookingSession();
         // ALTRE EVENTUALI SESSIONI
         new HomepageCLI().start();
     }

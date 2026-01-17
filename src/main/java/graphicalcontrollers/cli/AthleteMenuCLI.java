@@ -1,9 +1,11 @@
 package graphicalcontrollers.cli;
 
-import utils.session.BookingSession;
+import controllers.BookingController;
 import utils.session.SessionManager;
 
+
 public class AthleteMenuCLI {
+    BookingController bController =  new BookingController();
 
     public void showMenu() {
         System.out.println("1) Prenota una sessione di allenamento");
@@ -20,7 +22,7 @@ public class AthleteMenuCLI {
     }
 
     public void goToBookASession() {
-        if(SessionManager.getInstance().getLoggedUser() != null) {
+        if(bController.isBookingSessionOpen()) {
             freeBSessionIfNotNull();
             new TrainingSelectionPageCLI().start();
         } else {// Non dovrebbe mai accadere a runtime
@@ -37,7 +39,7 @@ public class AthleteMenuCLI {
     }
 
     public void goToMyProfile() {
-        if(SessionManager.getInstance().getLoggedUser() != null) {
+        if(bController.isBookingSessionOpen()) {
             freeBSessionIfNotNull();
             new MyProfilePageCLI().start();
         }
@@ -49,7 +51,7 @@ public class AthleteMenuCLI {
     }
 
     private void freeBSessionIfNotNull() {
-        if(SessionManager.getInstance().getBookingSession() != null)
+        if(bController.isBookingSessionOpen())
             SessionManager.getInstance().freeBookingSession();
     }
 

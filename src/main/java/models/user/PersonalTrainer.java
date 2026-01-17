@@ -6,10 +6,11 @@ import models.training.Training;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PersonalTrainer extends User {
     private Training managedTraining;
-    private HashMap<BookingKey, BookingInterface> myPrivateSessions;
+    private final HashMap<BookingKey, BookingInterface> myPrivateSessions;
 
     // Costruttore con password
     public PersonalTrainer(String username, String password, String fName, String lName, String type){
@@ -29,7 +30,7 @@ public class PersonalTrainer extends User {
         return managedTraining;
     }
 
-    public HashMap<BookingKey, BookingInterface> getPrivateSessions() {
+    public Map<BookingKey, BookingInterface> getPrivateSessions() {
         return myPrivateSessions;
     }
 

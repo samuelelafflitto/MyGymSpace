@@ -1,6 +1,5 @@
 package graphicalcontrollers.cli;
 
-import utils.session.BookingSession;
 import utils.session.SessionManager;
 
 import java.util.Scanner;
@@ -11,14 +10,6 @@ public class HomepageCLI {
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
     private static final String PT_TYPE = "PT";
     private static final String ATHLETE_TYPE = "ATH";
-
-//    GuestMenuCLI guestMenu = new GuestMenuCLI();
-//    PersonalTrainerMenuCLI personalTrainerMenu = new PersonalTrainerMenuCLI();
-//    AthleteMenuCLI athleteMenu = new AthleteMenuCLI();
-
-//    SessionManager sessionManager = SessionManager.getInstance();
-//    BookingSession bSession = sessionManager.getBookingSession();
-
 
     public void start() {
         String loggedUserType = (SessionManager.getInstance().getLoggedUser() != null)
@@ -134,24 +125,4 @@ public class HomepageCLI {
                 break;
         }
     }
-
-//    public void goToEvents() {
-//
-//    }
-
-//    public void goToMyProfile() {
-//        if(sessionManager.getLoggedUser() != null) {
-//            if(bSession != null)
-//                sessionManager.freeBookingSession();
-//            new MyProfilePageCLI().start();
-//        }
-//    }
-//
-//    public void logout() {
-//        if(bSession != null)
-//            sessionManager.freeBookingSession();
-//        // ALTRE EVENTUALI SESSIONI
-//        sessionManager.freeSession();
-//        new  HomepageCLI().start();
-//    }
 }

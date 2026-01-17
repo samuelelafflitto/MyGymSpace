@@ -1,11 +1,11 @@
 package graphicalcontrollers.cli;
 
-import utils.session.BookingSession;
+import controllers.BookingController;
 import utils.session.SessionManager;
 
 public class PersonalTrainerMenuCLI {
+    BookingController bController = new BookingController();
     SessionManager sessionManager = SessionManager.getInstance();
-    BookingSession bSession = SessionManager.getInstance().getBookingSession();
 
     public void showMenu() {
         System.out.println("1) Aggiungi un nuovo evento");
@@ -16,7 +16,7 @@ public class PersonalTrainerMenuCLI {
     }
 
     public void goToHome() {
-        if(bSession != null)
+        if(bController.isBookingSessionOpen())
             sessionManager.freeBookingSession();
         // ALTRE EVENTUALI SESSIONI
         new HomepageCLI().start();
@@ -35,13 +35,13 @@ public class PersonalTrainerMenuCLI {
     }
 
     public void goToMyProfile() {
-        if(bSession != null)
+        if(bController.isBookingSessionOpen())
             sessionManager.freeBookingSession();
         new MyProfilePageCLI().start();
     }
 
     public void logout() {
-        if(bSession != null)
+        if(bController.isBookingSessionOpen())
             sessionManager.freeBookingSession();
         // ALTRE EVENTUALI SESSIONI
         sessionManager.freeSession();

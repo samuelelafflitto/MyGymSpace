@@ -22,10 +22,10 @@ import java.util.List;
 
 public class BookingController {
 
-//    // CHECK SESSIONE APERTA
-//    private boolean isBookingSessionOpen() {
-//        return SessionManager.getInstance().getBookingSession() != null;
-//    }
+    // CHECK SESSIONE APERTA
+    public boolean isBookingSessionOpen() {
+        return SessionManager.getInstance().getBookingSession() != null;
+    }
 
 //    // CHIUSURA SESSIONE
 //    private void closeSession() {
@@ -210,14 +210,6 @@ public class BookingController {
     }
 
 
-
-
-
-
-
-
-
-
     // OPERAZIONI PRIVATE
     // CHIAMATO ALLA SELEZIONE DI UNA DATA DA SALVARE NELLA BOOKINGSESSION
     private void setSelectedDate(SelectedDateBean dateBean) {
@@ -229,7 +221,6 @@ public class BookingController {
         }
         currentBookingSession.setDate(selectedDate);
     }
-
 
     // Ricevuto il TimeSlot selezionato e le eventuali ExtraOptions, crea la Booking finale e la aggiunge alla BookingSession
     // Restituisce la Booking finale

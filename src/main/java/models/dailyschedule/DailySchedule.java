@@ -52,8 +52,6 @@ public class DailySchedule {
         this.timeSlots = timeSlots;
     }
 
-
-
     public void setSlotOccupied(int index) {
         if(isValidIndex(index) && isSlotEmpty(index)) {
             timeSlots.setCharAt(index, '1');

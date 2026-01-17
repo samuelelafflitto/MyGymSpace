@@ -15,11 +15,11 @@ public class Training {
     private String description;
     private BigDecimal basePrice;
     private final HashMap<LocalDate, DailySchedule> schedules;
-    private final HashMap<BookingKey, BookingInterface> bookings;
+//    private final HashMap<BookingKey, BookingInterface> bookings;
 
     public Training() {
         this.schedules = new HashMap<>();
-        this.bookings = new HashMap<>();
+//        this.bookings = new HashMap<>();
     }
 
     // GET
@@ -42,10 +42,6 @@ public class Training {
     public Map<LocalDate, DailySchedule> getSchedules() {
         return schedules;
     }
-
-//    public Map<BookingKey, BookingInterface> getBookings() {
-//        return bookings;
-//    }
 
     // SET
     public void setPersonalTrainer(PersonalTrainer personalTrainer) {
@@ -70,14 +66,6 @@ public class Training {
             this.schedules.put(ds.getDate(), ds);
         }
     }
-
-//    public void setBookings(List<BookingInterface> bookingList) {
-//        this.bookings.clear();
-//        for (BookingInterface b : bookingList) {
-//            this.bookings.put(b.getKey(), b);
-//        }
-//    }
-
     public void addSchedule(DailySchedule dailySchedule) {
         this.schedules.put(dailySchedule.getDate(), dailySchedule);
     }

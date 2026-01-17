@@ -15,6 +15,8 @@ public class TrainingSelectionPageCLI {
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
     private static final Scanner sc = new Scanner(System.in);
 
+    BookingController bController = new BookingController();
+
     private static final int MAX_ATTEMPTS = 3;
 
     public void start() {
@@ -58,7 +60,6 @@ public class TrainingSelectionPageCLI {
     }
 
     private void selectTraining() {
-        BookingController bController = new BookingController();
         List<AvailableTrainingBean> trainings = bController.getAvailableTrainings();
 
         // Controlla se la lista ottenuta è vuota
@@ -106,7 +107,6 @@ public class TrainingSelectionPageCLI {
     }
 
     private void onSelection(AvailableTrainingBean bean) {
-        BookingController bController = new BookingController();
         bController.setBookingSessionTraining(bean);
         new BookingFormPageCLI().start();
     }

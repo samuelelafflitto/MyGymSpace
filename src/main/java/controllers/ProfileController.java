@@ -1,22 +1,18 @@
 package controllers;
 
 import beans.ProfileStatsBean;
-import exceptions.DataLoadException;
 import models.booking.BookingInterface;
 import models.booking.record.BookingKey;
-import models.booking.record.NextSessionRecord;
 import models.user.Athlete;
 import models.user.PersonalTrainer;
 import models.user.User;
 import utils.session.SessionManager;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ProfileController {
     private static final String ATHLETE_TYPE = "ATH";
@@ -35,10 +31,10 @@ public class ProfileController {
 
         if (type.equals(ATHLETE_TYPE)) {
             Athlete ath = (Athlete) user;
-            bookings = ath.getBookings();
+            bookings = (HashMap<BookingKey, BookingInterface>) ath.getBookings();
         } else if (type.equals(PT_TYPE)) {
             PersonalTrainer pt = (PersonalTrainer) user;
-            bookings = pt.getPrivateSessions();
+            bookings = (HashMap<BookingKey, BookingInterface>) pt.getPrivateSessions();
 
         }
 
@@ -114,10 +110,8 @@ public class ProfileController {
         BookingInterface nextSession = null;
 
         for (BookingInterface b : bookings) {
-            if(isFutureSession(b, date, time)) {
-                if(nextSession == null || isBeforeOf(b, nextSession)) {
-                    nextSession = b;
-                }
+            if(isFutureSession(b, date, time) && (nextSession == null || isBeforeOf(b, nextSession))) {
+                nextSession = b;
             }
         }
         return nextSession;

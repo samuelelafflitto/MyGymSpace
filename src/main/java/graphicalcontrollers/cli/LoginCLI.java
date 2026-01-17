@@ -13,8 +13,6 @@ public class LoginCLI {
 
     GuestMenuCLI guestMenuCLI =  new GuestMenuCLI();
 
-
-
     public void start() {
         while (true) {
             System.out.println("\n" + SEPARATOR);

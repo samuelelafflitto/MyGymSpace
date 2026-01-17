@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.util.Properties;
 
 public class PriceConfig {
-    private static Properties prices;
+    private static final Properties prices;
     private static final BigDecimal DEFAULT_EXTRA_PRICE = new BigDecimal("5.0");
 
     private PriceConfig() throws IllegalStateException {
@@ -44,12 +44,7 @@ public class PriceConfig {
 
     public static String getExtraName(String extraName) {
         String key = "name." + extraName.toLowerCase();
-        String name = getName(key);
-
-        if (name == null)
-            throw new DataLoadException("Dato non trovato nel file.");
-
-        return name;
+        return getName(key);
     }
 
     public static BigDecimal getExtraPrice(String extraName) {

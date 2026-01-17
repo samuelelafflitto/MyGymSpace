@@ -12,9 +12,6 @@ public class MyProfilePageCLI {
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
     private static final String SEPARATOR = "------------------------------------------------";
     private static final String ATHLETE_TYPE = "ATH";
-//    ProfileController pController = new ProfileController();
-//    AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
-//    PersonalTrainerMenuCLI personalTrainerMenuCLI = new PersonalTrainerMenuCLI();
     User user = SessionManager.getInstance().getLoggedUser();
     String type = user.getType();
 
