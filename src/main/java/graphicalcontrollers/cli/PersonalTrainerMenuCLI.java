@@ -35,11 +35,9 @@ public class PersonalTrainerMenuCLI {
     }
 
     public void goToMyProfile() {
-        if(sessionManager.getLoggedUser() != null) {
-            if(bSession != null)
-                sessionManager.freeBookingSession();
-            new MyProfilePageCLI().start();
-        }
+        if(bSession != null)
+            sessionManager.freeBookingSession();
+        new MyProfilePageCLI().start();
     }
 
     public void logout() {

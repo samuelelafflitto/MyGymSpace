@@ -45,6 +45,8 @@ public class LoginCLI {
 
     private void login() {
         System.out.println("\n" + SEPARATOR);
+        System.out.println("INSERISCI LE TUE CREDENZIALI");
+        System.out.println(SEPARATOR);
 
         System.out.print("Inserisci il tuo username: ");
         String username = sc.nextLine();

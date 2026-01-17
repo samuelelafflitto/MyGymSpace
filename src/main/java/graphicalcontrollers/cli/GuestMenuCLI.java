@@ -1,16 +1,20 @@
 package graphicalcontrollers.cli;
 
+import utils.session.BookingSession;
 import utils.session.SessionManager;
 
 public class GuestMenuCLI {
+    SessionManager sessionManager = SessionManager.getInstance();
+    BookingSession bSession = sessionManager.getBookingSession();
+
     public void showMenu() {
         System.out.println("1) Upcoming Events");
         System.out.println("2) Login");
     }
 
     public void goToHome() {
-        if(SessionManager.getInstance().getBookingSession() != null)
-            SessionManager.getInstance().freeBookingSession();
+        if(bSession != null)
+            sessionManager.freeBookingSession();
         // ALTRE EVENTUALI SESSIONI
         new HomepageCLI().start();
     }
