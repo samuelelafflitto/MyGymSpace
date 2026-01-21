@@ -22,10 +22,10 @@ public class AthleteMenuCLI {
     }
 
     public void goToBookASession() {
-        if(bController.isBookingSessionOpen()) {
+        if(SessionManager.getInstance().getLoggedUser() != null){
             freeBSessionIfNotNull();
             new TrainingSelectionPageCLI().start();
-        } else {// Non dovrebbe mai accadere a runtime
+        } else {
             new LoginCLI().start();
         }
     }
@@ -39,7 +39,9 @@ public class AthleteMenuCLI {
     }
 
     public void goToMyProfile() {
-        if(bController.isBookingSessionOpen()) {
+
+
+        if(SessionManager.getInstance().getLoggedUser() != null) {
             freeBSessionIfNotNull();
             new MyProfilePageCLI().start();
         }

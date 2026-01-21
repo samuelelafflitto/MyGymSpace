@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+
+<HBox alignment="CENTER_LEFT" prefHeight="60.0" prefWidth="800.0" styleClass="top-bar"
+      xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="graphicalcontrollers.gui.TopBarController">
+
+    <padding>
+        <Insets left="20.0" right="20.0" />
+    </padding>
+
+    <Label onMouseClicked="#onHomeClick" styleClass="top-bar-text" text="MyGymSpace" />
+
+    <Region HBox.hgrow="ALWAYS" />
+
+    <ImageView fitHeight="45.0" fitWidth="45.0" onMouseClicked="#onProfileClick" pickOnBounds="true"
+               preserveRatio="true">
+        <cursor>
+            <Cursor fx:constant="HAND"/>
+        </cursor>
+        <Image url="@../images/user_icon.png"/>
+    </ImageView>
+</HBox>

@@ -13,7 +13,9 @@ public class UserDAOMem extends UserDAO {
     private static final String ATHLETE_TYPE = "ATH";
 
     protected UserDAOMem() {
-        this.users = new HashMap<>();
+//        this.users = new HashMap<>();
+        users = new HashMap<>();
+        initializeDemoData();
     }
 
     public static UserDAOMem getInstance() {
@@ -48,8 +50,8 @@ public class UserDAOMem extends UserDAO {
         }
     }
 
-    @Override
-    public void initializeDemoData() {
+
+    private void initializeDemoData() {
         // Creazione Entità User
         PersonalTrainer pt1 = new PersonalTrainer ("trainer1", "pass1", "Mario", "Rossi", PT_TYPE);
         PersonalTrainer pt2 = new PersonalTrainer ("trainer2", "pass2", "Luigi", "Mangione", PT_TYPE);
@@ -66,8 +68,11 @@ public class UserDAOMem extends UserDAO {
 
     @Override
     public User fetchUserFromPersistence(String username, String type, Map<String, User> userCache) {
-        //TODO
-        return null;
+        User user = users.get(username);
+        if(user != null) {
+            userCache.put(username, user);
+        }
+        return user;
     }
 
 }

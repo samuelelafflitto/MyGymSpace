@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Text?>
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="graphicalcontrollers.gui.UserProfileController">
+    <top>
+        <fx:include source="TopBar.fxml"/>
+    </top>
+
+    <center>
+        <VBox alignment="CENTER" styleClass="background-pane">
+
+            <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" spacing="20.0" styleClass="form-container">
+                <padding>
+                    <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+                </padding>
+
+                <Label style="-fx-font-weight: bold; -fx-font-size: 26px;" text="My Profile">
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </Label>
+
+                <GridPane hgap="30.0" vgap="15.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="50.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints />
+                        <RowConstraints />
+                    </rowConstraints>
+
+                    <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="First Name" />
+                        <TextField fx:id="firstNameField" editable="false" styleClass="profile-field" />
+                    </VBox>
+
+                    <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Last Name" />
+                        <TextField fx:id="lastNameField" editable="false" styleClass="profile-field" />
+                    </VBox>
+
+                    <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Username" />
+                        <TextField fx:id="usernameField" editable="false" styleClass="profile-field" />
+                    </VBox>
+
+                    <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Password" />
+                        <Button onAction="#onEditPasswordClick" maxWidth="Infinity" styleClass="primary-button" text="Edit Password" style="-fx-font-size: 14px; -fx-pref-height: 30px;" />
+                    </VBox>
+                </GridPane>
+
+                <VBox prefHeight="10.0" />
+
+                <GridPane hgap="20.0" vgap="10.0" alignment="CENTER_LEFT">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="NEVER" minWidth="150.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                    </columnConstraints>
+
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Total Sessions:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <Label fx:id="totalSessionsLabel" text="15" style="-fx-font-size: 14px;" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Future Sessions:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <Label fx:id="futureSessionsLabel" text="3" style="-fx-font-size: 14px;" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Next Session:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <Label fx:id="nextSessionLabel" text="25/12/2025" style="-fx-font-size: 14px;" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                </GridPane>
+
+                <VBox prefHeight="20.0" />
+
+                <Button onAction="#onEditPersonalDataClick" maxWidth="300.0" prefHeight="60.0" styleClass="primary-button" text="Edit Personal Data" textAlignment="CENTER" wrapText="true"> <VBox.margin>
+                    <Insets top="20.0" />
+                </VBox.margin>
+                </Button>
+
+                <HBox alignment="CENTER" spacing="5.0">
+                    <Text onMouseClicked="#onLogoutClick" styleClass="text-link" text="Logout" />
+                    <VBox.margin>
+                        <Insets top="5.0" />
+                    </VBox.margin>
+                </HBox>
+
+<!--                <Text onMouseClicked="#onLogoutClick" styleClass="text-link" text="Logout">-->
+<!--                    <VBox.margin>-->
+<!--                        <Insets top="10.0" />-->
+<!--                    </VBox.margin>-->
+<!--                </Text>-->
+
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

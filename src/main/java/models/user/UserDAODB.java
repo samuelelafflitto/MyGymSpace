@@ -94,11 +94,6 @@ public class UserDAODB extends UserDAO {
     }
 
     @Override
-    public void initializeDemoData() {
-        // Usato solo in modalità demo
-    }
-
-    @Override
     public User fetchUserFromPersistence(String username, String type, Map<String, User> userCache) {
         if(userCache.containsKey(username)) {
             return userCache.get(username);

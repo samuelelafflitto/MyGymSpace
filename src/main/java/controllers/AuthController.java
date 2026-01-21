@@ -39,20 +39,20 @@ public class AuthController {
         UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
         String username = loginBean.getUsername();
         String password = loginBean.getPassword();
-        User user = null;
 
         try {
-            user = populateUser(userDAO.getUser(username, password));
+            User userFromPersistence = userDAO.getUser(username, password);
 
+            if(userFromPersistence != null) {
+                User user = populateUser(userFromPersistence);
+                SessionManager.getInstance().setLoggedUser(user);
+                return true;
+            } else {
+                throw new UserSearchFailedException();
+            }
         } catch (DataLoadException e) {
             System.out.println(e.getMessage());
-        }
-
-        if (user == null) {
-            throw new UserSearchFailedException();
-        } else {
-            SessionManager.getInstance().setLoggedUser(user);
-            return true;
+            return false;
         }
     }
 
@@ -62,27 +62,23 @@ public class AuthController {
         String lastName = signupBean.getLastName();
         String username = signupBean.getUsername();
         String password = signupBean.getPassword();
-        User existingUser = null;
+        Athlete user;
 
         try {
-            existingUser = userDAO.getUserByUsername(username);
+            User existingUser = userDAO.getUserByUsername(username);
+            if(existingUser == null) {
+                throw new ExistingUserException();
+            } else {
+                user = new Athlete(username, password, firstName, lastName, ATHLETE_TYPE);
+                userDAO.addUser(username, user);
+                SessionManager.getInstance().setLoggedUser(user);
+                return true;
+            }
+
         } catch (DataLoadException e) {
             System.out.println(e.getMessage());
         }
-
-        if(existingUser != null) {
-            throw new ExistingUserException();
-        }
-        Athlete user = new Athlete(username, password, firstName, lastName, ATHLETE_TYPE);
-
-        try {
-            userDAO.addUser(username, user);
-        } catch (DataLoadException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
-        SessionManager.getInstance().setLoggedUser(user);
-        return true;
+        return false;
     }
 
     // Associa tutto il necessario all'Utente loggato

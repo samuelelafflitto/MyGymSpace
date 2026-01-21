@@ -75,11 +75,6 @@ public class UserDAOFsys extends UserDAO{
         }
     }
 
-    @Override
-    public void initializeDemoData() {
-        // Usato solo in modalità demo
-    }
-
     public User fetchUserFromPersistence(String username, String type, Map<String, User> userCache) {
         // TODO
         return null;

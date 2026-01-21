@@ -1,0 +1,261 @@
+/* Impostazioni generali */
+.root {
+    -fx-font-family: Arial;
+}
+
+.background-pane {
+    -fx-background-color: #d0e8ff;
+}
+
+/* TopBar */
+.top-bar {
+    -fx-background-color: #7da0d6;
+    -fx-border-color: black;
+    -fx-border-width: 0 0 1 0;
+}
+
+.top-bar-text {
+    -fx-font-weight: bold;
+    -fx-font-size: 28px;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+}
+.top-bar-text:hover {
+    -fx-text-fill: #2c3e50;
+}
+
+/* Contenitori form */
+.form-container {
+    -fx-background-color: #d0e8ff;
+    -fx-border-color: #7da0d6;
+    -fx-border-width: 3px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 0);
+}
+
+/* Input (TextField) */
+.input-field {
+    -fx-background-color: #e6f2ff;
+    -fx-border-color: #7da0d6;
+    -fx-border-width: 2px;
+    -fx-text-fill: black;
+    -fx-prompt-fill: gray;
+}
+
+/* Bottoni principali (pieni) */
+.primary-button {
+    -fx-background-color: #7da0d6;
+    -fx-border-color: black;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-font-size: 16pt;
+    -fx-cursor: hand;
+}
+.primary-button:hover {
+    -fx-background-color: #5b80b6;
+}
+
+/* Link testuali */
+.text-link {
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+.text-link:hover {
+    -fx-text-fill: #5b80b6;
+}
+
+/* Homepage */
+/* Frase di benvenuto */
+.welcome-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 28px;
+    -fx-text-fill: black;
+}
+
+/* Contenitore card */
+.homepage-container {
+    -fx-spacing: 30px;
+    -fx-alignment: CENTER;
+    -fx-padding: 5px 30px 30px 30px;
+}
+
+/* Singola card */
+.card-container {
+    -fx-background-color: #e6f2ff;
+    -fx-border-color: #7da0d6;
+    -fx-border-width: 2px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);
+    -fx-pref-width: 250px;
+    -fx-pref-height: 450px;
+}
+
+/* Foto */
+.card-image-placeholder {
+    /*-fx-background-color: #aaaaaa;*/
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+/* Bottone nelle card */
+.card-button {
+    -fx-background-color: #7da0d6;
+    -fx-border-color: black;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+    -fx-cursor: hand;
+    -fx-max-width: infinity;
+}
+.card-button:hover {
+    -fx-background-color: #5b80b6;
+}
+
+/* No input */
+.input-error {
+    -fx-border-color: #ff4444 !important;
+    -fx-border-width: 2px;
+}
+
+/* My profile */
+/* Campo di testo stile "Profilo" (Sottolineato, sfondo trasparente) */
+.profile-field {
+    -fx-background-color: transparent;
+    -fx-border-color: #7da0d6;      /* Stesso colore del tema */
+    -fx-border-width: 0 0 3 0;      /* Solo bordo inferiore, spesso 3px */
+    -fx-text-fill: black;
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 5 0;           /* Un po' di spazio tra testo e linea */
+}
+
+/* Quando il campo profilo è disabilitato/non editabile, manteniamo il colore nero del testo */
+.profile-field:disabled {
+    -fx-opacity: 1.0;
+    -fx-text-fill: black;
+}
+
+/* Tabelle */
+/* Contenitore principale della tabella */
+.custom-table {
+    -fx-background-color: white;
+    -fx-border-color: #7da0d6;
+    -fx-border-width: 1px;
+}
+
+/* L'intestazione (Header) delle colonne */
+.custom-table .column-header-background {
+    -fx-background-color: #7da0d6; /* Sfondo blu header */
+    -fx-border-color: black;
+    -fx-border-width: 0 0 1px 0; /* Bordo sotto l'header */
+}
+
+.custom-table .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-border-width: 0 1px 0 0; /* Linee verticali tra gli header */
+    -fx-size: 35px; /* Altezza header */
+}
+
+.custom-table .column-header .label {
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER;
+}
+
+/* Le righe della tabella */
+.custom-table .table-row-cell {
+    -fx-background-color: white; /* Righe bianche */
+    -fx-border-color: #e6e6e6;   /* Bordo leggero tra le righe */
+    -fx-border-width: 0 0 1px 0;
+}
+
+/* Righe pari/dispari (se vuoi l'effetto righe alternate, sennò lascia white sopra) */
+.custom-table .table-row-cell:odd {
+    -fx-background-color: #f0f8ff; /* Azzurrino chiarissimo */
+}
+
+/* Cella singola */
+.custom-table .table-cell {
+    -fx-text-fill: black;
+    -fx-alignment: CENTER; /* Testo centrato */
+    -fx-border-color: transparent;
+}
+
+/* Quando selezioni una riga */
+.custom-table .table-row-cell:selected {
+    -fx-background-color: #bcdbf7; /* Colore selezione */
+}
+
+/* Rimuovi la colonna vuota extra a destra */
+.custom-table .filler {
+    -fx-background-color: transparent;
+}
+
+/* Scrollbar stile "MyGymSpace" (Semplificata) */
+.custom-table .scroll-bar:vertical .thumb {
+    -fx-background-color: #7da0d6;
+}
+
+/* ComboBox */
+.custom-combobox {
+    -fx-background-color: #e6f2ff; /* Sfondo chiaro come gli input */
+    -fx-border-color: #7da0d6;     /* Bordo blu tema */
+    -fx-border-width: 2px;
+    -fx-background-radius: 0;      /* Squadrato */
+    -fx-border-radius: 0;
+}
+
+/* Colore del testo dentro la combo */
+.custom-combobox .list-cell,
+.custom-combobox .list-cell:filled:selected,
+.custom-combobox .list-cell:filled:hover {
+    -fx-text-fill: black;
+}
+
+/* La freccetta a destra */
+.custom-combobox .arrow-button {
+    -fx-background-color: #7da0d6;
+}
+.custom-combobox .arrow {
+    -fx-background-color: black;
+}
+
+/* Quando apri il menu a tendina */
+.custom-combobox .list-view {
+    -fx-background-color: white;
+    -fx-border-color: #7da0d6;
+}
+
+
+
+
+
+
+/* FOTO PROGETTO */
+/* Guest-Athlete */
+.events {
+    -fx-background-image: url('../images/upcoming_events.jpg')
+}
+
+/* Athlete */
+.book-session {
+    -fx-background-image: url('../images/book_a_session.jpg')
+}
+
+.my-bookings {
+    -fx-background-image: url('../images/my_bookings.jpg')
+}
+
+/* Personal Trainer */
+.new-event {
+    -fx-background-image: url('../images/new_event.jpg')
+}
+
+.manage-events {
+    -fx-background-image: url('../images/manage_events.jpg')
+}
+
+.athlete-bookings {
+    -fx-background-image: url('../images/my_bookings.jpg')
+}

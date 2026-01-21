@@ -53,6 +53,7 @@ public class BookingController {
             tBean.setDescription(t.getDescription());
             tBean.setBasePrice(t.getBasePrice());
             tBean.setPersonalTrainer(t.getPersonalTrainer().getUsername());
+            tBean.setPtLastName(t.getPersonalTrainer().getLastName());
 
             trainingBeans.add(tBean);
         }
@@ -322,10 +323,5 @@ public class BookingController {
 
         DailyScheduleDAO dsDAO = FactoryDAO.getInstance().createDailyScheduleDAO();
         dsDAO.updateDailySchedule(currentTraining, dailySchedule);
-    }
-
-    public void initializeDemoData() {
-        UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
-        userDAO.initializeDemoData();
     }
 }
