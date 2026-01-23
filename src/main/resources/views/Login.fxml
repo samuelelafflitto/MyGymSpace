@@ -44,7 +44,7 @@
 
                 <VBox prefHeight="10.0" />
 
-                <Button maxWidth="250.0" onAction="#onLoginClick" defaultButton="true" prefHeight="45.0" styleClass="primary-button" text="Login">
+                <Button maxWidth="300.0" onAction="#onLoginClick" defaultButton="true" prefHeight="60.0" styleClass="primary-button" text="Login">
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>

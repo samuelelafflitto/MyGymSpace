@@ -75,11 +75,70 @@ public class UserDAOFsys extends UserDAO{
         }
     }
 
-    public User fetchUserFromPersistence(String username, String type, Map<String, User> userCache) {
-        // TODO
-        return null;
+    @Override
+    public void updatePassword(String username, String newPassword) {
+        List<User> users = getAllUsers();
+        boolean found = false;
+
+        for (User user : users) {
+            if(user.getUsername().equals(username)) {
+                user.setPassword(newPassword);
+                found = true;
+                break;
+            }
+        }
+
+        if(found) {
+            saveAllUsers(users);
+        } else {
+            throw new DataLoadException("Errore di scrittura su file users.txt");
+        }
     }
 
+    @Override
+    public void updateName(String username, String newFirstName, String newLastName) {
+        List<User> users = getAllUsers();
+        boolean found = false;
+
+        for (User user : users) {
+            if(user.getUsername().equals(username)) {
+                user.setFirstName(newFirstName);
+                user.setLastName(newLastName);
+                found = true;
+                break;
+            }
+        }
+
+        if(found) {
+            saveAllUsers(users);
+        } else {
+            throw new DataLoadException("Errore di scrittura su file users.txt");
+        }
+    }
+
+    @Override
+    public User fetchUserFromPersistence(String username, String type, Map<String, User> userCache) {
+        User user = getUserByUsername(username);
+        if(user != null) {
+            userCache.put(username, user);
+        }
+        return user;
+    }
+
+    private void saveAllUsers(List<User> users) {
+        File file = new File(FILE_PATH);
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(file, false))) {
+            writer.write(HEADER);
+            writer.newLine();
+
+            for(User user : users) {
+                writer.write(formatUserAsLine(user.getUsername(), user));
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            throw new DataLoadException("Errore di scrittura su file users.txt: " + e.getMessage());
+        }
+    }
 
     private List<User> getAllUsers() {
         List<User> users = new ArrayList<>();

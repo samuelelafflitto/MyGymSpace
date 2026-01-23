@@ -1,6 +1,9 @@
 package models.training;
 
 import exceptions.DataLoadException;
+import models.dailyschedule.DailySchedule;
+import models.dailyschedule.DailyScheduleDAO;
+import models.dao.factory.FactoryDAO;
 import models.user.PersonalTrainer;
 import utils.DBConnection;
 import utils.ResourceLoader;
@@ -45,6 +48,12 @@ public class TrainingDAODB extends TrainingDAO {
                 Training t = mapTrainingFromResultSet(rs, pt);
                 list.add(t);
             }
+
+            for(Training t : list) {
+                DailyScheduleDAO dsDAO = FactoryDAO.getInstance().createDailyScheduleDAO();
+
+                t.setSchedules(dsDAO.getSchedulesByTraining(t));
+            }
         } catch (SQLException e) {
             throw new DataLoadException("Errore nel recupero degli allenamenti ", e);
         }
@@ -64,7 +73,7 @@ public class TrainingDAODB extends TrainingDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel recupero degli allenamenti ", e);
+            throw new DataLoadException("Errore nel recupero dell'allenamento per l'allenatore specifico ", e);
         }
         return null;
     }

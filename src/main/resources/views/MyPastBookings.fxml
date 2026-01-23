@@ -10,7 +10,7 @@
 
 <BorderPane prefHeight="600.0" prefWidth="800.0"
             xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="graphicalcontrollers.gui.MyBookingsController">
+            fx:controller="graphicalcontrollers.gui.MyPastBookingsController">
 
     <top>
         <fx:include source="TopBar.fxml" />
@@ -24,7 +24,7 @@
                     <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                 </padding>
 
-                <Label style="-fx-font-weight: bold; -fx-font-size: 26px;" text="Active Bookings">
+                <Label style="-fx-font-weight: bold; -fx-font-size: 26px;" text="My Past Bookings">
                     <VBox.margin>
                         <Insets bottom="10.0" />
                     </VBox.margin>
@@ -45,11 +45,11 @@
                     </columnResizePolicy>
                 </TableView>
 
-                <Button onAction="#onViewPastBookingsClick"
+                <Button onAction="#onViewFutureBookingsClick"
                         maxWidth="250.0"
                         prefHeight="45.0"
                         styleClass="primary-button"
-                        text="View past Bookings">
+                        text="View active Bookings">
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>

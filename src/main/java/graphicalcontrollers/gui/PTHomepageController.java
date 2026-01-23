@@ -15,6 +15,6 @@ public class PTHomepageController {
 
     @FXML
     void onAthleteBookingsClick() {
-        System.out.println("Vai a Athlete Bookings");
+        ViewManager.changePage("/views/MyBookings.fxml");
     }
 }

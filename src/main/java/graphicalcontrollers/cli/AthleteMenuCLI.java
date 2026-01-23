@@ -30,17 +30,15 @@ public class AthleteMenuCLI {
         }
     }
 
-    public void goToEvents() {// Da implementare
+    public void goToEvents() {//TODO Da implementare
 
     }
 
-    public void goToMyBookings() {// Da implementare
-
+    public void goToMyBookings() {
+        new MyBookingsPageCLI().start();
     }
 
     public void goToMyProfile() {
-
-
         if(SessionManager.getInstance().getLoggedUser() != null) {
             freeBSessionIfNotNull();
             new MyProfilePageCLI().start();

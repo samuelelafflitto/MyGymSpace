@@ -94,6 +94,41 @@ public class UserDAODB extends UserDAO {
     }
 
     @Override
+    public void updatePassword(String username, String newPassword) {
+        String sql = getQueryOrThrow("UPDATE_PASSWORD");
+
+        try(Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setString(1, newPassword);
+            statement.setString(2, username);
+
+            int modifiedRows = statement.executeUpdate();
+            if (modifiedRows == 0) {
+                throw new UserSearchFailedException();
+            }
+        } catch (SQLException e) {
+            throw new DataLoadException("Errore durante l'aggiornamento della password", e);
+        }
+    }
+
+    @Override
+    public void updateName(String username, String newFirstName, String newLastName) {
+        String sql = getQueryOrThrow("UPDATE_NAME");
+
+        try(Connection conn = DBConnection.getInstance().getConnection(); PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setString(1, newFirstName);
+            statement.setString(2, newLastName);
+            statement.setString(3, username);
+
+            int modifiedRows = statement.executeUpdate();
+            if (modifiedRows == 0) {
+                throw new UserSearchFailedException();
+            }
+        } catch (SQLException e) {
+            throw new DataLoadException("Errore durante l'aggiornamento di Nome e Cognome", e);
+        }
+    }
+
+    @Override
     public User fetchUserFromPersistence(String username, String type, Map<String, User> userCache) {
         if(userCache.containsKey(username)) {
             return userCache.get(username);

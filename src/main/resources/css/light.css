@@ -227,8 +227,55 @@
     -fx-border-color: #7da0d6;
 }
 
+/* DatePicker */
+.date-picker .text-field {
+    -fx-background-color: #e6f2ff;
+    -fx-border-color: #7da0d6;
+    -fx-border-width: 2px;
+}
 
+/* Bottone icona calendario */
+.date-picker .arrow-button {
+    -fx-background-color: #7da0d6;
+}
+.date-picker .arrow-button .arrow {
+    -fx-background-color: black;
+}
 
+/* CheckBox */
+.custom-checkbox {
+    -fx-font-size: 14px;
+    -fx-text-fill: black;
+}
+
+.custom-checkbox .box {
+    -fx-background-color: #e6f2ff;
+    -fx-border-color: #7da0d6;
+    -fx-border-width: 2px;
+}
+
+/* Quando la checkbox è selezionata */
+.custom-checkbox:selected .mark {
+    -fx-background-color: black;
+}
+
+/* Recap (solo lettura) */
+.recap-field {
+    -fx-background-color: transparent; /* Sfondo trasparente */
+    -fx-border-color: #7da0d6;         /* Colore del bordo (blu tema) */
+    -fx-border-width: 0 0 3px 0;       /* Bordo solo SOTTO, spesso 3px */
+    -fx-alignment: CENTER;             /* Testo centrato orizzontalmente */
+
+    -fx-font-size: 18px;               /* Testo abbastanza grande */
+    -fx-text-fill: black;              /* Colore testo nero */
+    -fx-cursor: default;               /* Cursore normale, non da testo */
+}
+
+/* Rimuove l'effetto focus blu di default quando clicchi sul campo */
+.recap-field:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: #5b80b6; /* Diventa leggermente più scuro se selezionato, o lascia uguale */
+}
 
 
 

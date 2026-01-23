@@ -36,17 +36,17 @@
 
                     <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
                         <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="First Name" />
-                        <TextField fx:id="firstNameField" editable="false" styleClass="profile-field" />
+                        <TextField fx:id="firstNameField" editable="false" mouseTransparent="true" focusTraversable="false" styleClass="profile-field" />
                     </VBox>
 
                     <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                         <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Last Name" />
-                        <TextField fx:id="lastNameField" editable="false" styleClass="profile-field" />
+                        <TextField fx:id="lastNameField" editable="false" mouseTransparent="true" focusTraversable="false" styleClass="profile-field" />
                     </VBox>
 
                     <VBox spacing="5.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
                         <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Username" />
-                        <TextField fx:id="usernameField" editable="false" styleClass="profile-field" />
+                        <TextField fx:id="usernameField" editable="false" mouseTransparent="true" focusTraversable="false" styleClass="profile-field" />
                     </VBox>
 
                     <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -64,18 +64,18 @@
                     </columnConstraints>
 
                     <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Total Sessions:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
-                    <Label fx:id="totalSessionsLabel" text="15" style="-fx-font-size: 14px;" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <Label fx:id="totalSessionsLabel" text="text" style="-fx-font-size: 14px;" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
 
                     <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Future Sessions:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-                    <Label fx:id="futureSessionsLabel" text="3" style="-fx-font-size: 14px;" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <Label fx:id="futureSessionsLabel" text="text" style="-fx-font-size: 14px;" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
 
                     <Label style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Next Session:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
-                    <Label fx:id="nextSessionLabel" text="25/12/2025" style="-fx-font-size: 14px;" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Label fx:id="nextSessionLabel" text="text" style="-fx-font-size: 14px;" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
                 </GridPane>
 
                 <VBox prefHeight="20.0" />
 
-                <Button onAction="#onEditPersonalDataClick" maxWidth="300.0" prefHeight="60.0" styleClass="primary-button" text="Edit Personal Data" textAlignment="CENTER" wrapText="true"> <VBox.margin>
+                <Button onAction="#onEditPersonalDataClick" prefWidth="300.0" prefHeight="60.0" styleClass="primary-button" text="Edit Personal Data" textAlignment="CENTER" wrapText="true"> <VBox.margin>
                     <Insets top="20.0" />
                 </VBox.margin>
                 </Button>
@@ -86,13 +86,6 @@
                         <Insets top="5.0" />
                     </VBox.margin>
                 </HBox>
-
-<!--                <Text onMouseClicked="#onLogoutClick" styleClass="text-link" text="Logout">-->
-<!--                    <VBox.margin>-->
-<!--                        <Insets top="10.0" />-->
-<!--                    </VBox.margin>-->
-<!--                </Text>-->
-
             </VBox>
         </VBox>
     </center>

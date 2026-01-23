@@ -159,6 +159,7 @@ public class BookingController {
         BookingRecapBean bean = new BookingRecapBean();
         bean.setTrainingName(currentBooking.getTraining().getName());
         bean.setPtTraining(currentBooking.getTraining().getPersonalTrainer().getLastName());
+        bean.setAthCompleteName(currentBooking.getAthlete().getFirstName() + " " + currentBooking.getAthlete().getLastName());
         bean.setDate(currentBooking.getDailySchedule().getDate());
         bean.setStartTime(currentBooking.getSelectedSlot());
         bean.setDescription(currentBooking.getDescription());
@@ -297,6 +298,7 @@ public class BookingController {
 
         // Cerca/Crea la DailySchedule associata alla coppia (Training, LocalDate)
         if(!training.getSchedules().containsKey(date)) {
+            System.out.println("Data non trovata");
             // Ricavo DailySchedule (o creo)
             DailySchedule newDS = new DailySchedule(training, date, null);
 

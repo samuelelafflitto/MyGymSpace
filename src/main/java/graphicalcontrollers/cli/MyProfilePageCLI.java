@@ -36,6 +36,7 @@ public class MyProfilePageCLI {
     private void handleChoice(String choice) {
         switch (choice) {
             case "1":
+                new PersonalDataManagementPageCLI().start();
                 break;
             case "2":
                 if(type.equals(ATHLETE_TYPE)) {

@@ -1,11 +1,15 @@
 package controllers;
 
+import beans.ProfileDataBean;
 import beans.ProfileStatsBean;
+import exceptions.InvalidPasswordConfirmationException;
 import models.booking.BookingInterface;
 import models.booking.record.BookingKey;
+import models.dao.factory.FactoryDAO;
 import models.user.Athlete;
 import models.user.PersonalTrainer;
 import models.user.User;
+import models.user.UserDAO;
 import utils.session.SessionManager;
 
 import java.time.LocalDate;
@@ -13,16 +17,18 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ProfileController {
     private static final String ATHLETE_TYPE = "ATH";
     private static final String PT_TYPE = "PT";
 
+    User user = SessionManager.getInstance().getLoggedUser();
+
     public ProfileController() {// Il costruttore non ha bisogno di parametri
     }
 
     public ProfileStatsBean getProfileStats() {
-        User user = SessionManager.getInstance().getLoggedUser();
         String type = user.getType();
 
         HashMap<BookingKey, BookingInterface> bookings = null;
@@ -61,6 +67,38 @@ public class ProfileController {
         }
 
         return bean;
+    }
+
+    public void changePassword(ProfileDataBean bean) {
+        String newPsw = bean.getNewPassword();
+        String currentPsw = bean.getCurrentPassword();
+
+        if(currentPsw.equals(user.getPassword())) {
+            UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
+            userDAO.updatePassword(user.getUsername(), newPsw);
+
+            user.setPassword(newPsw);
+            System.out.println("Password modificata con successo!");
+        } else {
+            throw new InvalidPasswordConfirmationException();
+        }
+    }
+
+    public void changeName(ProfileDataBean bean) {
+        String newFirstName = bean.getNewFirstName();
+        String newLastName = bean.getNewLastName();
+        String currentPsw = bean.getCurrentPassword();
+
+        if(currentPsw.equals(user.getPassword())) {
+            UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
+            userDAO.updateName(user.getUsername(), newFirstName, newLastName);
+
+            user.setFirstName(newFirstName);
+            user.setLastName(newLastName);
+            System.out.println("Anagrafica modificata con successo!");
+        } else {
+            throw new InvalidPasswordConfirmationException();
+        }
     }
 
 

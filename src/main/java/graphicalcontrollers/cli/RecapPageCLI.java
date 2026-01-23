@@ -69,7 +69,7 @@ public class RecapPageCLI {
         System.out.println("Allenamento: " + bookingRecap.getTrainingName() + " - PT: " + bookingRecap.getPtTraining());
         System.out.println("Data e ora: " + bookingRecap.getDate() + ", " + bookingRecap.getStartTime());
         System.out.println("Extra selezionati: " + bookingRecap.getDescription());
-        System.out.println("Costo totale: " + bookingRecap.getPrice());
+        System.out.println("Costo totale: " + bookingRecap.getPrice() + "€");
     }
 
     private void clearAndGoToHome() {

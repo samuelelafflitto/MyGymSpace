@@ -46,8 +46,6 @@ public class TrainingSelectionController {
         descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         basePriceColumn.setCellValueFactory(new PropertyValueFactory<>("basePrice"));
 
-//        confirmButton.setDefaultButton(true);
-
         trainingSelector.setConverter(new StringConverter<>() {
             @Override
             public String toString(AvailableTrainingBean bean) {
@@ -103,6 +101,8 @@ public class TrainingSelectionController {
 
         AvailableTrainingBean selectedTrainer = trainingSelector.getValue();
         bController.setBookingSessionTraining(selectedTrainer);
+
+        ViewManager.changePage("/views/BookingForm.fxml");
     }
 
     @FXML

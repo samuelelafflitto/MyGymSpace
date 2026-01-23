@@ -33,13 +33,9 @@ public class LoginController {
             String username = usernameField.getText().trim();
             String password = passwordField.getText();
 
-//            System.out.println("xxx"+username+"xxx"+password+"xxx");
-
             LoginBean loginBean = new LoginBean();
             loginBean.setUsername(username);
             loginBean.setPassword(password);
-
-            System.out.println("USR: " + loginBean.getUsername() + " PSW: " + loginBean.getPassword());
 
             AuthController authController = new AuthController();
 

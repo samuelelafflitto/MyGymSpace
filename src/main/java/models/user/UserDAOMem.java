@@ -44,9 +44,28 @@ public class UserDAOMem extends UserDAO {
     public void addUser(String username, User user) {
         if(!users.containsKey(username)) {
             users.put(username, user);
-            System.out.println("[MEM] User " + username + " aggiunto correttamnente");
+            System.out.println("[MEM] User " + username + " aggiunto correttamente");
         } else {
             System.err.println("[MEM] Username già esistente: " + username);
+        }
+    }
+
+    @Override
+    public void updatePassword(String username, String newPassword) {
+        User user = users.get(username);
+        if(user != null) {
+            user.setPassword(newPassword);
+            System.out.println("[MEM] Password aggiornata per: " + username);
+        }
+    }
+
+    @Override
+    public void updateName(String username, String newFirstName, String newLastName) {
+        User user = users.get(username);
+        if(user != null) {
+            user.setFirstName(newFirstName);
+            user.setLastName(newLastName);
+            System.out.println("[MEM] Anagrafica aggiornata per: " + username);
         }
     }
 

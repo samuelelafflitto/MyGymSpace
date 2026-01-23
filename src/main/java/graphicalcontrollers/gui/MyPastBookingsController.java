@@ -6,18 +6,17 @@ import javafx.fxml.FXML;
 
 import java.util.List;
 
-public class MyBookingsController extends MyBookingsBaseController {
-
+public class MyPastBookingsController extends MyBookingsBaseController {
     @Override
     protected void loadData() {
         PersonalBookingsController PBController = new PersonalBookingsController();
-        List<BookingRecapBean> list = PBController.getActiveBookingsFromMap();
+        List<BookingRecapBean> list = PBController.getPastBookingsFromMap();
 
         setTableData(list);
     }
 
     @FXML
-    public void onViewPastBookingsClick() {
-        ViewManager.changePage("/views/MyPastBookings.fxml");
+    public void onViewFutureBookingsClick() {
+        ViewManager.changePage("/views/MyBookings.fxml");
     }
 }

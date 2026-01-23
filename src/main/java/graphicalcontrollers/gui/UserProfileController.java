@@ -18,8 +18,6 @@ public class UserProfileController {
     private TextField lastNameField;
     @FXML
     private TextField usernameField;
-    @FXML
-    private TextField passwordField;
 
     @FXML
     private Label totalSessionsLabel;
@@ -52,12 +50,12 @@ public class UserProfileController {
 
     @FXML
     private void onEditPasswordClick() {
-        System.out.println("Navigazione verso: Modifica Password");
+        ViewManager.changePage("/views/ChangePassword.fxml");
     }
 
     @FXML
     private void onEditPersonalDataClick() {
-        System.out.println("Navigazione verso: Modifica Dati Personali");
+        ViewManager.changePage("/views/ChangeName.fxml");
     }
 
     @FXML

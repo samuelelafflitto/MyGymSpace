@@ -33,7 +33,8 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
 
             try(ResultSet rs = statement.executeQuery()) {
                 while(rs.next()) {
-                    schedules.add(mapDailyScheduleFromResultSet(rs, training));
+                    DailySchedule foundedSchedule = mapDailyScheduleFromResultSet(rs, training);
+                    schedules.add(foundedSchedule/*mapDailyScheduleFromResultSet(rs, training)*/);
                 }
             }
         } catch (SQLException e) {
