@@ -7,6 +7,7 @@ import utils.ResourceLoader;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -34,7 +35,7 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
             try(ResultSet rs = statement.executeQuery()) {
                 while(rs.next()) {
                     DailySchedule foundedSchedule = mapDailyScheduleFromResultSet(rs, training);
-                    schedules.add(foundedSchedule/*mapDailyScheduleFromResultSet(rs, training)*/);
+                    schedules.add(foundedSchedule);
                 }
             }
         } catch (SQLException e) {
@@ -83,6 +84,23 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
             throw new DataLoadException("Errore nel salvataggio orari per la data " + schedule.getDate(), e);
         }
     }
+
+    @Override
+    public void resetSlotInSchedule(Training training, LocalDate date, LocalTime time) {
+        DailySchedule schedule = loadSingleScheduleByTraining(training, date);
+
+        int index = time.getHour();
+
+        StringBuilder slots = schedule.getTimeSlots();
+        if(index >= 0 && index < 24) {
+            slots.setCharAt(index, '0');
+
+            updateDailySchedule(training, schedule);
+        } else {
+            throw new DataLoadException("Indice slot fuori intervallo" + time);
+        }
+    }
+
 
 
     // HELPER

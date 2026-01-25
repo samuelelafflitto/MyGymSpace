@@ -69,7 +69,7 @@ public class ProfileController {
         return bean;
     }
 
-    public void changePassword(ProfileDataBean bean) {
+    public boolean changePassword(ProfileDataBean bean) {
         String newPsw = bean.getNewPassword();
         String currentPsw = bean.getCurrentPassword();
 
@@ -78,13 +78,13 @@ public class ProfileController {
             userDAO.updatePassword(user.getUsername(), newPsw);
 
             user.setPassword(newPsw);
-            System.out.println("Password modificata con successo!");
+            return true;
         } else {
             throw new InvalidPasswordConfirmationException();
         }
     }
 
-    public void changeName(ProfileDataBean bean) {
+    public boolean changeName(ProfileDataBean bean) {
         String newFirstName = bean.getNewFirstName();
         String newLastName = bean.getNewLastName();
         String currentPsw = bean.getCurrentPassword();
@@ -95,7 +95,7 @@ public class ProfileController {
 
             user.setFirstName(newFirstName);
             user.setLastName(newLastName);
-            System.out.println("Anagrafica modificata con successo!");
+            return true;
         } else {
             throw new InvalidPasswordConfirmationException();
         }

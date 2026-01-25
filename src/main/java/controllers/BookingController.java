@@ -2,7 +2,9 @@ package controllers;
 
 import beans.*;
 import exceptions.*;
+import javafx.scene.chart.PieChart;
 import models.booking.*;
+import models.booking.record.BookingKey;
 import models.dailyschedule.DailySchedule;
 import models.dailyschedule.DailyScheduleDAO;
 import models.dao.factory.FactoryDAO;
@@ -21,6 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingController {
+
+    private static final String ATHLETE_TYPE = "ATH";
+    private static final String PT_TYPE = "PT";
 
     // CHECK SESSIONE APERTA
     public boolean isBookingSessionOpen() {
@@ -158,7 +163,8 @@ public class BookingController {
 
         BookingRecapBean bean = new BookingRecapBean();
         bean.setTrainingName(currentBooking.getTraining().getName());
-        bean.setPtTraining(currentBooking.getTraining().getPersonalTrainer().getLastName());
+        bean.setPtTraining(currentBooking.getTraining().getPersonalTrainer().getUsername());
+        bean.setPtLastName(currentBooking.getTraining().getPersonalTrainer().getLastName());
         bean.setAthCompleteName(currentBooking.getAthlete().getFirstName() + " " + currentBooking.getAthlete().getLastName());
         bean.setDate(currentBooking.getDailySchedule().getDate());
         bean.setStartTime(currentBooking.getSelectedSlot());
@@ -173,6 +179,9 @@ public class BookingController {
     // Si occupa di memorizzare la Booking confermata
     public boolean saveBooking() {
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
+
+        //TODO Controllo sullo specifico time slot
+
         BookingInterface finalBooking = bSession.getBooking();
 
         updateDailySchedule();
@@ -190,6 +199,49 @@ public class BookingController {
         ((Athlete) loggedUser).addBooking(finalBooking);
 
         return true;
+    }
+
+    public boolean deleteBooking(BookingRecapBean recapBean) {
+        try {
+            String athleteUsername = SessionManager.getInstance().getLoggedUser().getUsername();
+            String ptUsername = recapBean.getPtTraining();
+            LocalDate date = recapBean.getDate();
+            LocalTime startTime = recapBean.getStartTime();
+
+            BookingDAO bDAO = FactoryDAO.getInstance().createBookingDAO();
+            bDAO.deleteBooking(athleteUsername, ptUsername, date, startTime);
+
+            User loggedUser = SessionManager.getInstance().getLoggedUser();
+            BookingKey keyBookingToRemove = new BookingKey(ptUsername, date, startTime);
+
+            if (loggedUser.getType().equals(ATHLETE_TYPE)) {
+                Athlete ath = (Athlete) loggedUser;
+
+                BookingInterface b = ath.getBookings().get(keyBookingToRemove);
+                if(b != null) {
+                    int slotIndex = startTime.getHour();
+                    b.getDailySchedule().getTimeSlots().setCharAt(slotIndex, '0');
+                }
+                ath.getBookings().remove(keyBookingToRemove);
+            } else if (loggedUser.getType().equals(PT_TYPE)) {
+                PersonalTrainer pt = (PersonalTrainer) loggedUser;
+
+                BookingInterface b = pt.getPrivateSessions().get(keyBookingToRemove);
+                if(b != null) {
+                    int slotIndex = startTime.getHour();
+                    b.getDailySchedule().getTimeSlots().setCharAt(slotIndex, '0');
+                }
+                pt.getPrivateSessions().remove(keyBookingToRemove);
+            }
+
+            return true;
+        } catch (FailedBookingCancellationException e) {
+            e.handleException();
+            return false;
+        } catch (DataLoadException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     public void checkAttempts(int currAttempt, int maxAttempts){

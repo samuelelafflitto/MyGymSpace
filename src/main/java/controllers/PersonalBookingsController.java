@@ -61,7 +61,8 @@ public class PersonalBookingsController {
             bean.setTrainingName(b.getTraining().getName());
 
             if(b.getTraining().getPersonalTrainer() != null) {
-                bean.setPtTraining(b.getTraining().getPersonalTrainer().getLastName());
+                bean.setPtTraining(b.getTraining().getPersonalTrainer().getUsername());
+                bean.setPtLastName(b.getTraining().getPersonalTrainer().getLastName());
             }
 
             bean.setAthCompleteName(b.getAthlete().getFirstName() + " " + b.getAthlete().getLastName());

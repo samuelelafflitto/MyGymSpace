@@ -53,6 +53,34 @@ public class MyBookingsPageCLI {
         System.out.println("\n");
         showBookings(activeList);
         System.out.println("\n");
+
+        System.out.println(SEPARATOR);
+        System.out.println("1) Elimina una prenotazione");
+        System.out.println("2) Visualizza Prenotazioni Passate");
+        System.out.println("3) Torna alla Homepage");
+        System.out.println("4) Logout");
+        System.out.print("--> ");
+
+        String internalChoice = sc.nextLine();
+
+        switch (internalChoice) {
+            case "1":
+                // TODO implementare metodo per eliminare una booking
+                // Deve chiedere quale Bookings si vuole eliminare e la password per confermare
+                break;
+            case "2":
+                showPastBookings();
+                break;
+            case "3":
+                athleteMenuCLI.goToHome();
+                break;
+            case "4":
+                athleteMenuCLI.logout();
+                break;
+            default:
+                System.out.println(INVALIDINPUT);
+                break;
+        }
     }
 
     private void showPastBookings() {
@@ -64,8 +92,9 @@ public class MyBookingsPageCLI {
 
     private void showBookings(List<BookingRecapBean> bList) {
         System.out.println(SEPARATOR);
+        int counter = 0;
         for(BookingRecapBean bean : bList) {
-            System.out.println("Allenamento: " + bean.getTrainingName() + " - PT: " + bean.getPtTraining());
+            System.out.println((counter + 1) + ") Allenamento: " + bean.getTrainingName() + " - PT: " + bean.getPtTraining());
             System.out.println("Atleta: " + bean.getAthCompleteName());
             System.out.println("Data e ora: " + bean.getDate() + ", " + bean.getStartTime());
             System.out.println("Extra selezionati: " + bean.getDescription());

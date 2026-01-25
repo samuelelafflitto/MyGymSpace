@@ -5,6 +5,7 @@ import java.util.Map;
 public abstract class UserDAO {
     public abstract User getUser(String usr, String psw);
     public abstract User getUserByUsername(String usr);
+//    public abstract String getUsernameByLastName(String lastName);
     public abstract void addUser(String username, User user);
 
     public abstract void updatePassword(String username, String newPassword);

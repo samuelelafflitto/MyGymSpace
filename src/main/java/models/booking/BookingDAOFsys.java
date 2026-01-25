@@ -4,6 +4,8 @@ import models.booking.record.BasicBookingDataFromPersistence;
 import models.training.Training;
 import models.user.User;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class BookingDAOFsys extends BookingDAO {
@@ -13,12 +15,19 @@ public class BookingDAOFsys extends BookingDAO {
     }
 
     @Override
-    public List<BasicBookingDataFromPersistence> fetchBasicBookingData(User user) {
-        return List.of();
+    public void deleteBooking(String athleteUsername, String ptUsername, LocalDate date, LocalTime time) {
+        // Non implementato
     }
 
     @Override
-    public List<BookingInterface> getBookingByTraining(Training training) {
+    public List<BasicBookingDataFromPersistence> fetchBasicBookingData(User user) {
+        // Non implementato
         return List.of();
     }
+
+//    @Override
+//    public List<BookingInterface> getBookingByTraining(Training training) {
+//        // Non implementato
+//        return List.of();
+//    }
 }

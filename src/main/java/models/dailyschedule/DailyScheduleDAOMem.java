@@ -3,6 +3,8 @@ package models.dailyschedule;
 import models.training.Training;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +27,14 @@ public class DailyScheduleDAOMem extends DailyScheduleDAO {
 
     @Override
     public List<DailySchedule> getSchedulesByTraining(Training training) {
-        // TODO
-        return List.of();
+        List<DailySchedule> result = new ArrayList<>();
+
+        for(DailySchedule ds : schedules.values()) {
+            if(ds.getTraining().equals(training)) {
+                result.add(ds);
+            }
+        }
+        return result;
     }
 
     @Override
@@ -47,6 +55,17 @@ public class DailyScheduleDAOMem extends DailyScheduleDAO {
         schedules.put(key, dailySchedule);
 
         training.addSchedule(dailySchedule);
+    }
+
+    @Override
+    public void resetSlotInSchedule(Training training, LocalDate date, LocalTime time) {
+        DailySchedule schedule = loadSingleScheduleByTraining(training, date);
+        int index = time.getHour();
+
+        StringBuilder slots = schedule.getTimeSlots();
+        if(index >= 0 && index < 24) {
+            slots.setCharAt(index, '0');
+        }
     }
 
 

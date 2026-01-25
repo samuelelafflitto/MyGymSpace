@@ -38,6 +38,7 @@
                         <TableColumn fx:id="dateColumn" text="Date (YYYY-MM-DD)" />
                         <TableColumn fx:id="hourColumn" text="Hour" />
                         <TableColumn fx:id="priceColumn" text="Cost (€)" />
+                        <TableColumn fx:id="actionColumn" text="Delete" prefWidth="100.0" sortable="false" />
                     </columns>
 
                     <columnResizePolicy>

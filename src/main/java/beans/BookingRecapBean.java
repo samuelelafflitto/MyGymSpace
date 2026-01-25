@@ -8,6 +8,7 @@ import java.time.LocalTime;
 public class BookingRecapBean {
     String trainingName;
     String ptTraining;
+    String ptLastName;
     String athCompleteName;
     LocalDate date;
     LocalTime startTime;
@@ -24,6 +25,10 @@ public class BookingRecapBean {
 
     public String getPtTraining() {
         return ptTraining;
+    }
+
+    public String getPtLastName() {
+        return ptLastName;
     }
 
     public String getAthCompleteName() {
@@ -53,6 +58,10 @@ public class BookingRecapBean {
 
     public void setPtTraining(String ptTraining) {
         this.ptTraining = ptTraining;
+    }
+
+    public void setPtLastName(String ptLastName) {
+        this.ptLastName = ptLastName;
     }
 
     public void setAthCompleteName(String athCompleteName) {

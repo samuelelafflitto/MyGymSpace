@@ -30,8 +30,8 @@ public class AthleteMenuCLI {
         }
     }
 
-    public void goToEvents() {//TODO Da implementare
-
+    public void goToEvents() {
+        // Da implementare
     }
 
     public void goToMyBookings() {

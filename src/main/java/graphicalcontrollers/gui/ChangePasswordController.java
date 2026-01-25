@@ -34,6 +34,10 @@ public class ChangePasswordController {
             ProfileController pController = new ProfileController();
 
             try {
+                if(pController.changePassword(bean)) {
+                    System.out.println("Password modificata con successo!");
+                    ViewManager.changePage("/views/MyProfile.fxml");
+                }
                 pController.changePassword(bean);
             } catch (InvalidPasswordConfirmationException e1) {
                 e1.handleException();
@@ -41,7 +45,6 @@ public class ChangePasswordController {
         } catch (MissingDataException e2) {
             e2.handleException();
         }
-        onCancelClick();
     }
 
     @FXML

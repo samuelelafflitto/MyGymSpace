@@ -3,6 +3,7 @@ package models.dailyschedule;
 import models.training.Training;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public abstract class DailyScheduleDAO {
@@ -10,4 +11,5 @@ public abstract class DailyScheduleDAO {
     public abstract List<DailySchedule> getSchedulesByTraining(Training training);
     public abstract DailySchedule loadSingleScheduleByTraining(Training training, LocalDate date);
     public abstract void updateDailySchedule(Training training, DailySchedule dailySchedule);
+    public abstract void resetSlotInSchedule(Training training, LocalDate date, LocalTime time);
 }

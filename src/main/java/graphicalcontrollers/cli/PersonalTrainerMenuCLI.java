@@ -1,10 +1,9 @@
 package graphicalcontrollers.cli;
 
-import controllers.BookingController;
 import utils.session.SessionManager;
 
 public class PersonalTrainerMenuCLI {
-    BookingController bController = new BookingController();
+//    BookingController bController = new BookingController();
     SessionManager sessionManager = SessionManager.getInstance();
 
     public void showMenu() {
@@ -16,9 +15,6 @@ public class PersonalTrainerMenuCLI {
     }
 
     public void goToHome() {
-        if(bController.isBookingSessionOpen())
-            sessionManager.freeBookingSession();
-        // ALTRE EVENTUALI SESSIONI
         new HomepageCLI().start();
     }
 
@@ -30,20 +26,15 @@ public class PersonalTrainerMenuCLI {
 
     }
 
-    public void goToAthleteBookings() {// Da implementare
-
+    public void goToAthleteBookings() {
+        new MyBookingsPageCLI().start();
     }
 
     public void goToMyProfile() {
-        if(bController.isBookingSessionOpen())
-            sessionManager.freeBookingSession();
         new MyProfilePageCLI().start();
     }
 
     public void logout() {
-        if(bController.isBookingSessionOpen())
-            sessionManager.freeBookingSession();
-        // ALTRE EVENTUALI SESSIONI
         sessionManager.freeSession();
         new  HomepageCLI().start();
     }

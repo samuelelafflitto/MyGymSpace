@@ -2,23 +2,19 @@ package graphicalcontrollers.gui;
 
 import beans.SelectedDateBean;
 import beans.SelectedSlotAndExtraBean;
-import beans.SelectedTrainingBean;
-import com.mysql.cj.Session;
 import controllers.BookingController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import utils.session.BookingSession;
 import utils.session.SessionManager;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 public class BookingFormController {
-    @FXML
-    private AthleteHomepageController athleteController = new AthleteHomepageController();
+    private final AthleteHomepageController athleteController = new AthleteHomepageController();
+    private final BookingController bController = new BookingController();
 
     @FXML
     private DatePicker datePicker;
@@ -39,8 +35,6 @@ public class BookingFormController {
 
     SelectedDateBean selectedDateBean;
     SelectedSlotAndExtraBean slotAndExtraBean;
-
-    BookingController bController = new BookingController();
 
     private static final String ERROR_STYLE = "input-error";
 

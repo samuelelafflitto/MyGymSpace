@@ -277,6 +277,21 @@
     -fx-border-color: #5b80b6; /* Diventa leggermente più scuro se selezionato, o lascia uguale */
 }
 
+/* Bottone per eliminazione */
+.delete-button {
+    -fx-background-color: #ff4444;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+
+.delete-button:hover {
+    -fx-background-color: #cc0000;
+}
+
+
+
+
 
 
 /* FOTO PROGETTO */

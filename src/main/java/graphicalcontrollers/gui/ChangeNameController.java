@@ -39,6 +39,10 @@ public class ChangeNameController {
             ProfileController pController = new ProfileController();
 
             try {
+                if(pController.changeName(bean)) {
+                    System.out.println("Anagrafica modificata con successo!");
+                    ViewManager.changePage("/views/MyProfile.fxml");
+                }
                 pController.changeName(bean);
             } catch (InvalidPasswordConfirmationException e1) {
                 e1.handleException();
@@ -46,7 +50,6 @@ public class ChangeNameController {
         } catch (MissingDataException e2) {
             e2.handleException();
         }
-        onCancelClick();
     }
 
     @FXML

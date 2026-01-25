@@ -1,18 +1,25 @@
 package models.booking;
 
+import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import exceptions.DataLoadException;
+import exceptions.FailedBookingCancellationException;
 import models.booking.record.*;
 import models.dailyschedule.DailySchedule;
 import models.dailyschedule.DailyScheduleDAO;
 import models.dao.factory.FactoryDAO;
 import models.training.Training;
 import models.training.TrainingDAO;
+import models.training.TrainingDAODB;
 import models.user.*;
 import utils.DBConnection;
 import utils.ResourceLoader;
+import utils.session.SessionManager;
 
+import java.awt.print.Book;
 import java.sql.*;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 public class BookingDAODB extends BookingDAO {
@@ -54,6 +61,39 @@ public class BookingDAODB extends BookingDAO {
     }
 
     @Override
+    public void deleteBooking(String athleteUsername, String ptUsername, LocalDate date, LocalTime time) {
+        String sql = getQueryOrThrow("DELETE_BOOKING");
+
+        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            System.out.println(athleteUsername);
+            System.out.println(ptUsername);
+            System.out.println(date);
+            System.out.println(time);
+
+            statement.setString(1, athleteUsername);
+            statement.setString(2, ptUsername);
+            statement.setDate(3, Date.valueOf(date));
+            statement.setTime(4, Time.valueOf(time));
+
+            int affectedRows = statement.executeUpdate();
+            if(affectedRows > 0) {
+                TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
+                UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
+                PersonalTrainer pt = (PersonalTrainer) userDAO.getUserByUsername(ptUsername);
+                Training training = trainingDAO.getTrainingByPT(pt);
+
+                DailyScheduleDAO dailyScheduleDAO = FactoryDAO.getInstance().createDailyScheduleDAO();
+                dailyScheduleDAO.resetSlotInSchedule(training, date, time);
+
+            }else if(affectedRows == 0) {
+                throw new FailedBookingCancellationException();
+            }
+        } catch (SQLException e) {
+            throw new DataLoadException("Errore nell'eliminazione della prenotazione", e);
+        }
+    }
+
+    @Override
     public List<BasicBookingDataFromPersistence> fetchBasicBookingData(User user) {
         String queryKey = (user.getType().equals(ATHLETE_TYPE)) ? "SELECT_BOOKINGS_BY_ATHLETE" : "SELECT_BOOKINGS_BY_PT";
         String sql = getQueryOrThrow(queryKey);
@@ -80,27 +120,27 @@ public class BookingDAODB extends BookingDAO {
         return records;
     }
 
-    @Override
-    public List<BookingInterface> getBookingByTraining(Training training) {
-        String sql = queries.getProperty("SELECT_BOOKINGS_BY_TRAINING");
-        if(sql == null)
-            throw new DataLoadException("Query SELECT_BOOKING_BY_TRAINING non trovata");
-
-        List<BookingInterface> bookings = new ArrayList<>();
-
-        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, training.getName());
-
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while(resultSet.next()) {
-                    bookings.add(mapBookingFromResultSet(resultSet));
-                }
-            }
-        } catch (SQLException e) {
-            throw new DataLoadException("Errore nel recupero delle prenotazioni per l'allenamento " + training.getName(), e);
-        }
-        return bookings;
-    }
+//    @Override
+//    public List<BookingInterface> getBookingByTraining(Training training) {
+//        String sql = queries.getProperty("SELECT_BOOKINGS_BY_TRAINING");
+//        if(sql == null)
+//            throw new DataLoadException("Query SELECT_BOOKING_BY_TRAINING non trovata");
+//
+//        List<BookingInterface> bookings = new ArrayList<>();
+//
+//        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+//            statement.setString(1, training.getName());
+//
+//            try (ResultSet resultSet = statement.executeQuery()) {
+//                while(resultSet.next()) {
+//                    bookings.add(mapBookingFromResultSet(resultSet));
+//                }
+//            }
+//        } catch (SQLException e) {
+//            throw new DataLoadException("Errore nel recupero delle prenotazioni per l'allenamento " + training.getName(), e);
+//        }
+//        return bookings;
+//    }
 
     private ConcreteBooking mapBookingFromResultSet(ResultSet resultSet) throws SQLException {
         ConcreteBooking booking = new ConcreteBooking();

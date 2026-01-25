@@ -3,6 +3,7 @@ package models.dailyschedule;
 import models.training.Training;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class DailyScheduleDAOFsys extends DailyScheduleDAO {
@@ -21,6 +22,11 @@ public class DailyScheduleDAOFsys extends DailyScheduleDAO {
 
     @Override
     public void updateDailySchedule(Training training, DailySchedule dailySchedule) {
-        // Non Implementato
+        // Non implementato
+    }
+
+    @Override
+    public void resetSlotInSchedule(Training training, LocalDate date, LocalTime time) {
+        // Non implementato
     }
 }
