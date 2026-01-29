@@ -1,2 +1,3 @@
 username;password;firstname;lastname;type
-trainer1;pass1;Mario;Rossi;PT
+trainer1;pass1;Luca;Rossi;PT
+athlete1;pass1;Marco;Bianchi;ATH

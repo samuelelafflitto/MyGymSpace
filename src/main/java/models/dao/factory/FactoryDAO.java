@@ -26,6 +26,10 @@ public abstract class FactoryDAO {
         return instance;
     }
 
+    public boolean isFsys() {
+        return Main.getPersistenceMode().equals("fsys");
+    }
+
     public abstract UserDAO createUserDAO();
     public abstract TrainingDAO createTrainingDAO();
     public abstract DailyScheduleDAO createDailyScheduleDAO();

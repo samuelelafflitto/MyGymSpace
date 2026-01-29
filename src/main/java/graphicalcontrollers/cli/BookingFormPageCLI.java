@@ -212,7 +212,15 @@ public class BookingFormPageCLI {
         }
 
         bController.setBookingSessionBooking(slotAndExtraBean);
-        goToRecapPage();
+
+        try {
+            if(!bController.checkSameDateSameTimeBooking()) {
+                goToRecapPage();
+            }
+        } catch (SameDateSameTimeException e) {
+            e.handleException();
+            new BookingFormPageCLI().start();
+        }
     }
 
     private void goToRecapPage() {

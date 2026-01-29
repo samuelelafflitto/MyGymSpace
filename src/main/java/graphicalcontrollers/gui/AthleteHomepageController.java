@@ -10,7 +10,7 @@ public class AthleteHomepageController {
 
     @FXML
     void onUpcomingEventsClick() {
-        System.out.println("Vai a Upcoming Events");
+        System.out.println("UPCOMING EVENTS - Funzione non ancora implementata");
     }
 
     @FXML

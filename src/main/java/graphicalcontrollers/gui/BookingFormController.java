@@ -3,6 +3,7 @@ package graphicalcontrollers.gui;
 import beans.SelectedDateBean;
 import beans.SelectedSlotAndExtraBean;
 import controllers.BookingController;
+import exceptions.SameDateSameTimeException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
@@ -128,7 +129,14 @@ public class BookingFormController {
 
         bController.setBookingSessionBooking(slotAndExtraBean);
 
-        ViewManager.changePage("/views/BookingRecap.fxml");
+        try {
+            if(!bController.checkSameDateSameTimeBooking()) {
+                ViewManager.changePage("/views/BookingRecap.fxml");
+            }
+
+        } catch (SameDateSameTimeException e) {
+            e.handleException();
+        }
     }
 
     @FXML

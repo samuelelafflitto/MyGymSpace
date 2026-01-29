@@ -4,11 +4,12 @@ import exceptions.DataLoadException;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class UserDAOFsys extends UserDAO{
-    private static final String FILE_PATH = "/fsys/users.txt";
+    private static final String FILE_PATH = "C:\\Users\\Samuele\\Desktop\\MyGymSpace\\src\\main\\resources\\fsys\\users.txt";
     private static final String DELIMITER = ";";
     private static final String HEADER = "username;password;firstname;lastname;type";
     private static final String PT_TYPE = "PT";
@@ -38,7 +39,8 @@ public class UserDAOFsys extends UserDAO{
         List<User> users = getAllUsers();
         for (User user : users) {
             if (user.getUsername().equals(usr) && user.getPassword().equals(psw)) {
-                return populateUser(user);
+//                return populateUser(user);
+                return user;
             }
         }
         return null;
@@ -49,7 +51,8 @@ public class UserDAOFsys extends UserDAO{
         List<User> users = getAllUsers();
         for (User user : users) {
             if (user.getUsername().equals(usr)) {
-                return populateUser(user);
+//                return populateUser(user);
+                return user;
             }
         }
         return null;
@@ -144,13 +147,14 @@ public class UserDAOFsys extends UserDAO{
         List<User> users = new ArrayList<>();
         File file = new File(FILE_PATH);
         if (!file.exists()) {
+            System.out.println("[DEBUG] File non trovato! Ritorno lista vuota.");
             return users;
         }
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                if (!line.trim().isEmpty() || !line.equalsIgnoreCase(HEADER)) {
+                if (!line.trim().isEmpty() && !line.trim().equalsIgnoreCase(HEADER)) {
                     String[] data = line.split(DELIMITER);
 
                     if (data.length >= 5) {
@@ -161,7 +165,7 @@ public class UserDAOFsys extends UserDAO{
                         String type = data[4];
 
                         User user;
-                        if (PT_TYPE.equals(type)) {
+                        if (PT_TYPE.equalsIgnoreCase(type)) {
                             user = new PersonalTrainer(usr, psw, fName, lName, type);
                         } else {
                             user = new Athlete(usr, psw, fName, lName, type);
@@ -169,8 +173,6 @@ public class UserDAOFsys extends UserDAO{
                         users.add(user);
                     }
                 }
-
-
             }
         } catch (IOException e) {
             throw new DataLoadException("Errore lettura su file users.txt: " + e.getMessage());
@@ -189,14 +191,14 @@ public class UserDAOFsys extends UserDAO{
         return String.join(DELIMITER, username, user.getPassword(), user.getFirstName(), user.getLastName(), user.getType());
     }
 
-    // Nella versione su Fsys non realizziamo le relazioni complesse che includono Training o Bookings
-    // Viene solo creato e popolato il file users.txt.
-    private User populateUser(User user) {
-        if (user.getType().equals(PT_TYPE)) {
-            ((PersonalTrainer) user).setTraining(null);
-        } else if (user.getType().equals(ATHLETE_TYPE)) {
-            ((Athlete) user).setBookings(new ArrayList<>());
-        }
-        return user;
-    }
+//    // Nella versione su Fsys non realizziamo le relazioni complesse che includono Training o Bookings
+//    // Viene solo creato e popolato il file users.txt.
+//    private User populateUser(User user) {
+//        if (user.getType().equals(PT_TYPE)) {
+//            ((PersonalTrainer) user).setTraining(null);
+//        } else if (user.getType().equals(ATHLETE_TYPE)) {
+//            ((Athlete) user).setBookings(new ArrayList<>());
+//        }
+//        return user;
+//    }
 }

@@ -66,7 +66,7 @@ public class AuthController {
 
         try {
             User existingUser = userDAO.getUserByUsername(username);
-            if(existingUser == null) {
+            if(existingUser != null) {
                 throw new ExistingUserException();
             } else {
                 user = new Athlete(username, password, firstName, lastName, ATHLETE_TYPE);
@@ -83,32 +83,37 @@ public class AuthController {
 
     // Associa tutto il necessario all'Utente loggato
     private User populateUser(User user) {
-        // Se user è ATHLETE
-        if (user.getType().equals(ATHLETE_TYPE)) {
-            List<BookingInterface> bookings = new ArrayList<>();
+        // Popola l'utente se non siamo in Modalità Fsys
+        if(!FactoryDAO.getInstance().isFsys()) {
+            // Se user è ATHLETE
+            if (user.getType().equals(ATHLETE_TYPE)) {
+                List<BookingInterface> bookings = new ArrayList<>();
 
-            try {
-                bookings = getBookingByUser(user);
-            } catch (DataLoadException e) {
-                System.out.println(e.getMessage());
+                try {
+                    bookings = getBookingByUser(user);
+                } catch (DataLoadException e) {
+                    System.out.println(e.getMessage());
+                }
+                ( (Athlete) user).setBookings(bookings);
+            } else if (user.getType().equals(PT_TYPE)) {
+                List<BookingInterface> privateSessions = new ArrayList<>();
+
+                TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
+                Training training = null;
+
+                try {
+                    privateSessions = getBookingByUser(user);
+                    training = trainingDAO.getTrainingByPT((PersonalTrainer)user);
+                    training.setPersonalTrainer((PersonalTrainer)user);
+                } catch (DataLoadException e) {
+                    System.out.println(e.getMessage());
+                }
+                ( (PersonalTrainer) user).setPrivateSessions(privateSessions);
+                ( (PersonalTrainer) user).setTraining(training);
             }
-            ( (Athlete) user).setBookings(bookings);
-        } else if (user.getType().equals(PT_TYPE)) {
-            List<BookingInterface> privateSessions = new ArrayList<>();
-
-            TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
-            Training training = null;
-
-            try {
-                privateSessions = getBookingByUser(user);
-                training = trainingDAO.getTrainingByPT((PersonalTrainer)user);
-                training.setPersonalTrainer((PersonalTrainer)user);
-            } catch (DataLoadException e) {
-                System.out.println(e.getMessage());
-            }
-            ( (PersonalTrainer) user).setPrivateSessions(privateSessions);
-            ( (PersonalTrainer) user).setTraining(training);
+            return user;
         }
+        // Ritorna stesso User inserito
         return user;
     }
 

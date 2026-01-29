@@ -3,7 +3,6 @@ package graphicalcontrollers.cli;
 import utils.session.SessionManager;
 
 public class PersonalTrainerMenuCLI {
-//    BookingController bController = new BookingController();
     SessionManager sessionManager = SessionManager.getInstance();
 
     public void showMenu() {
@@ -18,12 +17,12 @@ public class PersonalTrainerMenuCLI {
         new HomepageCLI().start();
     }
 
-    public void goToAddEvent() {// Da implementare
-
+    public void goToAddEvent() {
+        System.out.println("ADD NEW EVENT - Funzione non ancora implementata");
     }
 
-    public void goToManageEvents() {// Da implementare
-
+    public void goToManageEvents() {
+        System.out.println("MANAGE EVENTS - Funzione non ancora implementata");
     }
 
     public void goToAthleteBookings() {

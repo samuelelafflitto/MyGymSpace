@@ -31,7 +31,7 @@ public class AthleteMenuCLI {
     }
 
     public void goToEvents() {
-        // Da implementare
+        System.out.println("UPCOMING EVENTS - Funzione non ancora implementata");
     }
 
     public void goToMyBookings() {

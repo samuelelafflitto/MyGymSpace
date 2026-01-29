@@ -20,7 +20,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BookingController {
 
@@ -152,6 +154,34 @@ public class BookingController {
         return availableSlots;
     }
 
+    // Verifica che l'utente non abbia altre prenotazioni in quella stessa data a quella stessa ora
+    public boolean checkSameDateSameTimeBooking() {
+        BookingInterface bookingInProgress = SessionManager.getInstance().getBookingSession().getBooking();
+        User user = SessionManager.getInstance().getLoggedUser();
+
+        Map<BookingKey, BookingInterface> bookingsMap = new HashMap<>();
+
+        if(user.getType().equals(ATHLETE_TYPE)) {
+            bookingsMap = ((Athlete)user).getBookings();
+        } else if(user.getType().equals(PT_TYPE)) {
+            bookingsMap = ((PersonalTrainer)user).getPrivateSessions();
+        }
+
+        if(bookingsMap == null || bookingsMap.isEmpty()) {
+            return false;
+        }
+
+        for(BookingInterface b : bookingsMap.values()) {
+            boolean sameDate = b.getDailySchedule().getDate().equals(bookingInProgress.getDailySchedule().getDate());
+            boolean sameTime = b.getSelectedSlot().equals(bookingInProgress.getSelectedSlot());
+
+            if(sameDate && sameTime) {
+                throw new SameDateSameTimeException();
+            }
+        }
+        return false;
+    }
+
     // CHIAMATO ALLA RICHIESTA DI MOSTRARE UN RECAP (una volta inseriti tutti i dati)
     // Ottiene la Booking finale e la restituisce come BookingRecapBean per inviare i dati del Recap al Controller grafico
     public BookingRecapBean getBookingRecap() {
@@ -173,7 +203,6 @@ public class BookingController {
 
         return bean;
     }
-
 
     // CHIAMATO ALLA CONFERMA DEL RECAP
     // Si occupa di memorizzare la Booking confermata
