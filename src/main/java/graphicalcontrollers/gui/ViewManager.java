@@ -46,7 +46,7 @@ public class ViewManager {
             initialStage.setResizable(false);
             initialStage.setTitle("MyGymSpace");
             initialStage.show();
-        } catch (IOException e) {
+        } catch (IOException _) {
             throw new DataLoadException("Impossibile caricare la scena " + fxmlPath);
         }
     }

@@ -35,7 +35,6 @@ public class DBConnection {
         try {
             this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
-            //System.out.println(e.getMessage());
             throw new DataLoadException("Impossibile connettersi al Database", e);
         }
     }

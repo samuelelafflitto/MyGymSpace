@@ -13,7 +13,6 @@ public class UserDAOMem extends UserDAO {
     private static final String ATHLETE_TYPE = "ATH";
 
     protected UserDAOMem() {
-//        this.users = new HashMap<>();
         users = new HashMap<>();
         initializeDemoData();
     }

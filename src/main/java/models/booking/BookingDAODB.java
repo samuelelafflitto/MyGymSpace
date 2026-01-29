@@ -1,21 +1,16 @@
 package models.booking;
 
-import com.mysql.cj.x.protobuf.MysqlxPrepare;
 import exceptions.DataLoadException;
 import exceptions.FailedBookingCancellationException;
 import models.booking.record.*;
-import models.dailyschedule.DailySchedule;
 import models.dailyschedule.DailyScheduleDAO;
 import models.dao.factory.FactoryDAO;
 import models.training.Training;
 import models.training.TrainingDAO;
-import models.training.TrainingDAODB;
 import models.user.*;
 import utils.DBConnection;
 import utils.ResourceLoader;
-import utils.session.SessionManager;
 
-import java.awt.print.Book;
 import java.sql.*;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -30,7 +25,6 @@ public class BookingDAODB extends BookingDAO {
     public static final String SELECTED_SLOT = "selected_slot";
     private final Properties queries;
     private static final String ATHLETE_TYPE = "ATH";
-//    private static final String PT_TYPE = "PT";
 
     public BookingDAODB() {
         try {
@@ -119,59 +113,6 @@ public class BookingDAODB extends BookingDAO {
         }
         return records;
     }
-
-//    @Override
-//    public List<BookingInterface> getBookingByTraining(Training training) {
-//        String sql = queries.getProperty("SELECT_BOOKINGS_BY_TRAINING");
-//        if(sql == null)
-//            throw new DataLoadException("Query SELECT_BOOKING_BY_TRAINING non trovata");
-//
-//        List<BookingInterface> bookings = new ArrayList<>();
-//
-//        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-//            statement.setString(1, training.getName());
-//
-//            try (ResultSet resultSet = statement.executeQuery()) {
-//                while(resultSet.next()) {
-//                    bookings.add(mapBookingFromResultSet(resultSet));
-//                }
-//            }
-//        } catch (SQLException e) {
-//            throw new DataLoadException("Errore nel recupero delle prenotazioni per l'allenamento " + training.getName(), e);
-//        }
-//        return bookings;
-//    }
-
-    private ConcreteBooking mapBookingFromResultSet(ResultSet resultSet) throws SQLException {
-        ConcreteBooking booking = new ConcreteBooking();
-
-        // Ricavo Athlete e Personal Trainer dagli username nel DB
-        UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
-        Athlete ath = (Athlete)userDAO.getUserByUsername(resultSet.getString(ATHLETE_USERNAME));
-        PersonalTrainer pt = (PersonalTrainer)userDAO.getUserByUsername(resultSet.getString(PT_USERNAME));
-
-        // Ricavo Training dal Personal Trainer
-        TrainingDAO trainingDAO = FactoryDAO.getInstance().createTrainingDAO();
-        Training t = trainingDAO.getTrainingByPT(pt);
-
-        // Ricavo DailySchedule da Training e la date nel DB
-        DailyScheduleDAO dsDAO = FactoryDAO.getInstance().createDailyScheduleDAO();
-        DailySchedule ds = dsDAO.loadSingleScheduleByTraining(t, resultSet.getDate("date").toLocalDate());
-
-        // Ricreo la ConcreteBooking vera e propria
-        booking.setAthlete(ath);
-        booking.setTraining(t);
-        booking.setDailySchedule(ds);
-        booking.setSelectedSlot(resultSet.getTime(SELECTED_SLOT).toLocalTime());
-        booking.setDescription(resultSet.getString(DESCRIPTION));
-        booking.setFinalPrice(resultSet.getBigDecimal(FINAL_PRICE));
-
-        return booking;
-    }
-
-
-
-
 
     // HELPER
     private String getQueryOrThrow(String query) {

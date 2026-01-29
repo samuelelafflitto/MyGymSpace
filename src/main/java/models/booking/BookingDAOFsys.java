@@ -1,7 +1,6 @@
 package models.booking;
 
 import models.booking.record.BasicBookingDataFromPersistence;
-import models.training.Training;
 import models.user.User;
 
 import java.time.LocalDate;
@@ -24,10 +23,4 @@ public class BookingDAOFsys extends BookingDAO {
         // Non implementato
         return List.of();
     }
-
-//    @Override
-//    public List<BookingInterface> getBookingByTraining(Training training) {
-//        // Non implementato
-//        return List.of();
-//    }
 }

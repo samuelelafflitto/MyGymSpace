@@ -20,11 +20,6 @@ public class MyBookingsController extends MyBookingsBaseController {
     @Override
     protected void deleteBooking(BookingRecapBean booking) {
         BookingController bController = new BookingController();
-        // TODO richiamo al controller applicativo per eliminare
-        // Metodo deve restituire un boolean
-        // deve eliminare la Bookings
-        // deve liberare lo slot
-        boolean success = false;
         if(bController.deleteBooking(booking)) {
             //Rimozione visiva dalla tabella senza ricaricare tutto
             bookingsTable.getItems().remove(booking);

@@ -4,16 +4,14 @@ import exceptions.DataLoadException;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class UserDAOFsys extends UserDAO{
-    private static final String FILE_PATH = "C:\\Users\\Samuele\\Desktop\\MyGymSpace\\src\\main\\resources\\fsys\\users.txt";
+    private static final String FILE_PATH = "fsys/users.txt";
     private static final String DELIMITER = ";";
     private static final String HEADER = "username;password;firstname;lastname;type";
     private static final String PT_TYPE = "PT";
-    private static final String ATHLETE_TYPE = "ATH";
 
     public UserDAOFsys() {
         File file = new File(FILE_PATH);
@@ -39,7 +37,6 @@ public class UserDAOFsys extends UserDAO{
         List<User> users = getAllUsers();
         for (User user : users) {
             if (user.getUsername().equals(usr) && user.getPassword().equals(psw)) {
-//                return populateUser(user);
                 return user;
             }
         }
@@ -51,7 +48,6 @@ public class UserDAOFsys extends UserDAO{
         List<User> users = getAllUsers();
         for (User user : users) {
             if (user.getUsername().equals(usr)) {
-//                return populateUser(user);
                 return user;
             }
         }
@@ -190,15 +186,4 @@ public class UserDAOFsys extends UserDAO{
     private String formatUserAsLine (String username, User user) {
         return String.join(DELIMITER, username, user.getPassword(), user.getFirstName(), user.getLastName(), user.getType());
     }
-
-//    // Nella versione su Fsys non realizziamo le relazioni complesse che includono Training o Bookings
-//    // Viene solo creato e popolato il file users.txt.
-//    private User populateUser(User user) {
-//        if (user.getType().equals(PT_TYPE)) {
-//            ((PersonalTrainer) user).setTraining(null);
-//        } else if (user.getType().equals(ATHLETE_TYPE)) {
-//            ((Athlete) user).setBookings(new ArrayList<>());
-//        }
-//        return user;
-//    }
 }

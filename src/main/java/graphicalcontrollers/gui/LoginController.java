@@ -37,20 +37,10 @@ public class LoginController {
             loginBean.setUsername(username);
             loginBean.setPassword(password);
 
-            AuthController authController = new AuthController();
+            checkIfSuccessfullyLoggedIn(loginBean);
 
-            try {
-                if(authController.authUser(loginBean)) {
-                    System.out.println("\nLogin riuscito! Benvenuto, " + username);
-                    if(SessionManager.getInstance().getLoggedUser().getType().equals(ATHLETE_TYPE)) {
-                        ViewManager.changePage("/views/AthleteHomepage.fxml");
-                    } else if (SessionManager.getInstance().getLoggedUser().getType().equals(PT_TYPE)) {
-                        ViewManager.changePage("/views/PTHomepage.fxml");
-                    }
-                }
-            } catch (UserSearchFailedException e) {
-                e.handleException();
-            }
+        } catch (UserSearchFailedException e) {
+            e.handleException();
         } catch (MissingDataException e) {
             e.handleException();
         }
@@ -59,5 +49,18 @@ public class LoginController {
     @FXML
     void onCreateAccountClick() {
         ViewManager.changePage("/views/SignUp.fxml");
+    }
+
+    private void checkIfSuccessfullyLoggedIn(LoginBean bean) {
+        AuthController authController = new AuthController();
+
+        if(authController.authUser(bean)) {
+            System.out.println("\nLogin riuscito! Benvenuto, " + bean.getUsername());
+            if(SessionManager.getInstance().getLoggedUser().getType().equals(ATHLETE_TYPE)) {
+                ViewManager.changePage("/views/AthleteHomepage.fxml");
+            } else if (SessionManager.getInstance().getLoggedUser().getType().equals(PT_TYPE)) {
+                ViewManager.changePage("/views/PTHomepage.fxml");
+            }
+        }
     }
 }

@@ -25,7 +25,6 @@ public class HomepageCLI {
             msg = "          Bentornato Personal Trainer!";
         }
 
-//        System.out.println("BENVENUTO IN MYGYMSPACE!");
         System.out.println(SEPARATOR);
         System.out.println("                    HOMEPAGE");
         System.out.println(msg);

@@ -68,8 +68,6 @@ public class Main extends Application {
     }
 
     private static void startCLI() {
-//        BookingController bController = new BookingController();
-//        bController.initializeDemoData();
         HomepageCLI homeCLI = new HomepageCLI();
         homeCLI.start();
     }

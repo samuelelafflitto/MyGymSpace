@@ -2,7 +2,6 @@ package controllers;
 
 import beans.*;
 import exceptions.*;
-import javafx.scene.chart.PieChart;
 import models.booking.*;
 import models.booking.record.BookingKey;
 import models.dailyschedule.DailySchedule;
@@ -33,14 +32,6 @@ public class BookingController {
     public boolean isBookingSessionOpen() {
         return SessionManager.getInstance().getBookingSession() != null;
     }
-
-//    // CHIUSURA SESSIONE
-//    private void closeSession() {
-//        SessionManager.getInstance().freeBookingSession();
-//        // CHIUSURA DI ALTRE SESSIONI
-//    }
-
-    // [Book A Session Use Case]
 
     // Ricavo allenamenti disponibili e li fornisco sotto forma di lista
     // OTTENIMENTO LISTA DEGLI ALLENAMENTI DISPONIBILI
@@ -168,7 +159,7 @@ public class BookingController {
         }
 
         if(bookingsMap == null || bookingsMap.isEmpty()) {
-            return false;
+            return true;
         }
 
         for(BookingInterface b : bookingsMap.values()) {
@@ -179,7 +170,7 @@ public class BookingController {
                 throw new SameDateSameTimeException();
             }
         }
-        return false;
+        return true;
     }
 
     // CHIAMATO ALLA RICHIESTA DI MOSTRARE UN RECAP (una volta inseriti tutti i dati)
@@ -275,7 +266,6 @@ public class BookingController {
 
     public void checkAttempts(int currAttempt, int maxAttempts){
         if(currAttempt < maxAttempts) {
-//            String msg = AttemptsErrorType.REMAINING.getMSG(maxAttempts -  currAttempt);
             throw new AttemptsException(AttemptsErrorType.REMAINING, (maxAttempts - currAttempt));
         }
         throw new AttemptsException(AttemptsErrorType.MAX_ATTEMPTS_REACHED);

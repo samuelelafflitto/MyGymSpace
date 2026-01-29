@@ -2,7 +2,6 @@ package models.booking;
 
 import exceptions.DataLoadException;
 import models.booking.record.BasicBookingDataFromPersistence;
-import models.training.Training;
 import models.user.User;
 
 import java.time.LocalDate;
@@ -62,7 +61,7 @@ public class BookingDAOMem extends BookingDAO {
         List<BasicBookingDataFromPersistence> basicBookingData = new ArrayList<>();
 
         for(BookingInterface b : bookings) {
-            boolean isMatch = false;
+            boolean isMatch;
 
             if(type.equals(ATHLETE_TYPE)) {
                 isMatch = b.getAthlete().getUsername().equals(username);
@@ -84,11 +83,4 @@ public class BookingDAOMem extends BookingDAO {
 
         return basicBookingData;
     }
-
-//    @Override
-//    public List<BookingInterface> getBookingByTraining(Training training) {
-//        return bookings.stream()
-//                .filter(b -> b.getTraining().getPersonalTrainer().getUsername().equals(training.getPersonalTrainer().getUsername()))
-//                .toList();
-//    }
 }

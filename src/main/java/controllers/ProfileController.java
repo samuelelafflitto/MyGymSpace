@@ -17,7 +17,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 public class ProfileController {
     private static final String ATHLETE_TYPE = "ATH";
@@ -48,8 +47,6 @@ public class ProfileController {
                 ? new ArrayList<>(bookings.values())
                 : new ArrayList<>();
 
-//        String username = user.getUsername();
-//        boolean isAthlete = type.equals(ATHLETE_TYPE);
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
 

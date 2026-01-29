@@ -1,7 +1,5 @@
 package models.training;
 
-import models.booking.BookingInterface;
-import models.booking.record.BookingKey;
 import models.dailyschedule.DailySchedule;
 import models.user.PersonalTrainer;
 
@@ -15,11 +13,9 @@ public class Training {
     private String description;
     private BigDecimal basePrice;
     private final HashMap<LocalDate, DailySchedule> schedules;
-//    private final HashMap<BookingKey, BookingInterface> bookings;
 
     public Training() {
         this.schedules = new HashMap<>();
-//        this.bookings = new HashMap<>();
     }
 
     // GET

@@ -1,7 +1,6 @@
 package models.training;
 
 import exceptions.DataLoadException;
-import models.dailyschedule.DailySchedule;
 import models.dailyschedule.DailyScheduleDAO;
 import models.dao.factory.FactoryDAO;
 import models.user.PersonalTrainer;
@@ -15,7 +14,6 @@ import java.sql.SQLException;
 import java.util.*;
 
 public class TrainingDAODB extends TrainingDAO {
-    private static final String ATHLETE_TYPE = "ATH";
     private static final String PT_TYPE = "PT";
 
     private final Properties queries;

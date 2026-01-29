@@ -36,24 +36,27 @@ public class ChangeNameController {
             bean.setNewLastName(newLN);
             bean.setCurrentPassword(oldPsw);
 
-            ProfileController pController = new ProfileController();
+            checkIfSuccessfullyModified(bean);
 
-            try {
-                if(pController.changeName(bean)) {
-                    System.out.println("Anagrafica modificata con successo!");
-                    ViewManager.changePage("/views/MyProfile.fxml");
-                }
-                pController.changeName(bean);
-            } catch (InvalidPasswordConfirmationException e1) {
-                e1.handleException();
-            }
-        } catch (MissingDataException e2) {
-            e2.handleException();
+        } catch (InvalidPasswordConfirmationException e) {
+            e.handleException();
+        } catch (MissingDataException e) {
+            e.handleException();
         }
     }
 
     @FXML
     private void onCancelClick() {
         ViewManager.changePage("/views/MyProfile.fxml");
+    }
+
+    private void checkIfSuccessfullyModified(ProfileDataBean bean) {
+        ProfileController pController = new ProfileController();
+
+        if(pController.changeName(bean)) {
+            System.out.println("Anagrafica modificata con successo!");
+            ViewManager.changePage("/views/MyProfile.fxml");
+        }
+        pController.changeName(bean);
     }
 }

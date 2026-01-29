@@ -34,6 +34,8 @@ public abstract class MyBookingsBaseController {
     @FXML
     protected TableColumn<BookingRecapBean, Void> actionColumn;
 
+    private final Button btn = new Button("Delete");
+
     @FXML
     public void initialize() {
         trainingColumn.setCellValueFactory(new PropertyValueFactory<>("trainingName"));
@@ -52,10 +54,9 @@ public abstract class MyBookingsBaseController {
             @Override
             public TableCell<BookingRecapBean, Void> call(final TableColumn<BookingRecapBean, Void> param) {
                 return new TableCell<>() {
-                    private final Button btn = new Button("Delete");
                     {
                         btn.getStyleClass().add("delete-button");
-                        btn.setOnAction(event -> {
+                        btn.setOnAction(_ -> {
                             BookingRecapBean booking = getTableView().getItems().get(getIndex());
                             deleteBooking(booking);
                         });

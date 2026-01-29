@@ -40,7 +40,6 @@ public class UserDAODB extends UserDAO {
                 user = mapUserFromResultSet(resultSet);
             }
         } catch (SQLException e) {
-            //System.out.println(e.getMessage());
             throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
         }
         return user;
@@ -70,7 +69,6 @@ public class UserDAODB extends UserDAO {
                 }
             }
         } catch (SQLException e) {
-            //System.out.println(e.getMessage());
             throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
         }
         return user;

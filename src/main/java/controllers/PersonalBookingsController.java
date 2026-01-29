@@ -37,41 +37,40 @@ public class PersonalBookingsController {
         }
 
         if(bookingsMap == null) {
-            System.out.println("No bookings found");
+            System.out.println("Nessuna prenotazione trovata");
+            bookingsMap = new HashMap<>();
         }
 
         LocalDate today = LocalDate.now();
         LocalTime now =  LocalTime.now();
 
-        assert bookingsMap != null;
         for(BookingInterface b : bookingsMap.values()) {
             LocalDate bDate = b.getDailySchedule().getDate();
             LocalTime bTime = b.getSelectedSlot();
 
             boolean isPastEvent = bDate.isBefore(today) || (bDate.equals(today) && bTime.isBefore(now));
 
-            if(fetchFuture && isPastEvent) {
-                continue;
+            if(fetchFuture != isPastEvent) {
+                BookingRecapBean bean = new BookingRecapBean();
+                bean.setTrainingName(b.getTraining().getName());
+
+                if(b.getTraining().getPersonalTrainer() != null) {
+                    bean.setPtTraining(b.getTraining().getPersonalTrainer().getUsername());
+                    bean.setPtLastName(b.getTraining().getPersonalTrainer().getLastName());
+                }
+
+                if(b.getAthlete() != null) {
+                    bean.setAthCompleteName(b.getAthlete().getFirstName() + " " + b.getAthlete().getLastName());
+                }
+
+                bean.setAthCompleteName(b.getAthlete().getFirstName() + " " + b.getAthlete().getLastName());
+                bean.setDate(bDate);
+                bean.setStartTime(bTime);
+                bean.setDescription(b.getDescription());
+                bean.setPrice(b.getFinalPrice());
+
+                resultBeans.add(bean);
             }
-            if(!fetchFuture && !isPastEvent) {
-                continue;
-            }
-
-            BookingRecapBean bean = new BookingRecapBean();
-            bean.setTrainingName(b.getTraining().getName());
-
-            if(b.getTraining().getPersonalTrainer() != null) {
-                bean.setPtTraining(b.getTraining().getPersonalTrainer().getUsername());
-                bean.setPtLastName(b.getTraining().getPersonalTrainer().getLastName());
-            }
-
-            bean.setAthCompleteName(b.getAthlete().getFirstName() + " " + b.getAthlete().getLastName());
-            bean.setDate(bDate);
-            bean.setStartTime(bTime);
-            bean.setDescription(b.getDescription());
-            bean.setPrice(b.getFinalPrice());
-
-            resultBeans.add(bean);
         }
 
         resultBeans.sort(Comparator.comparing(BookingRecapBean::getDate).thenComparing(BookingRecapBean::getStartTime));

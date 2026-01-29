@@ -43,7 +43,7 @@ public class BookingFormController {
     public void initialize() {
         configureDatePicker();
 
-        datePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
+        datePicker.valueProperty().addListener((_, _, newDate) -> {
             if(newDate != null) {
                 onDateSelected(newDate);
             }
@@ -103,40 +103,14 @@ public class BookingFormController {
 
     @FXML
     private void onProceedClick() {
-        if(datePicker.getValue() == null || timeSlotSelector.getValue() == null) {
-            if(datePicker.getValue() == null) {
-                if(!datePicker.getStyleClass().contains(ERROR_STYLE)) {
-                    datePicker.getStyleClass().add(ERROR_STYLE);
-                }
-            }
-            if(timeSlotSelector.getValue() == null) {
-                if(!timeSlotSelector.getStyleClass().contains(ERROR_STYLE)) {
-                    timeSlotSelector.getStyleClass().add(ERROR_STYLE);
-                }
-            }
+        if(!isInputValid()) {
             return;
         }
-        slotAndExtraBean = new SelectedSlotAndExtraBean();
-        String slotString = timeSlotSelector.getValue();
-        int selectedSlot = Integer.parseInt(slotString.split(":")[0]);
 
-        slotAndExtraBean.setSelectedSlot(selectedSlot);
-
-        slotAndExtraBean.setTowel(towelCheck.isSelected() ? "y" : "n");
-        slotAndExtraBean.setSauna(saunaCheck.isSelected() ? "y" : "n");
-        slotAndExtraBean.setEnergizer(energizerCheck.isSelected() ? "y" : "n");
-        slotAndExtraBean.setVideo(videoCheck.isSelected() ? "y" : "n");
-
+        slotAndExtraBean = createSlotAndExtraBean();
         bController.setBookingSessionBooking(slotAndExtraBean);
 
-        try {
-            if(!bController.checkSameDateSameTimeBooking()) {
-                ViewManager.changePage("/views/BookingRecap.fxml");
-            }
-
-        } catch (SameDateSameTimeException e) {
-            e.handleException();
-        }
+        goToBookingRecap();
     }
 
     @FXML
@@ -144,5 +118,53 @@ public class BookingFormController {
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
         bSession.clearBookingSession();
         athleteController.onBookSessionClick();
+    }
+
+    // HELPER
+    private boolean isInputValid() {
+        boolean valid = true;
+
+        if(datePicker.getValue() == null) {
+            addErrorStyle(datePicker);
+            valid = false;
+        }
+
+        if(timeSlotSelector.getValue() == null) {
+            addErrorStyle(timeSlotSelector);
+            valid = false;
+        }
+        return valid;
+    }
+
+    private void addErrorStyle(Control node) {
+        if(!node.getStyleClass().contains(ERROR_STYLE)) {
+            node.getStyleClass().add(ERROR_STYLE);
+        }
+    }
+
+    private SelectedSlotAndExtraBean createSlotAndExtraBean() {
+        SelectedSlotAndExtraBean bean = new SelectedSlotAndExtraBean();
+
+        String slotString = timeSlotSelector.getValue();
+        int selectedSlot = Integer.parseInt(slotString.split(":")[0]);
+
+        bean.setSelectedSlot(selectedSlot);
+
+        bean.setTowel(towelCheck.isSelected() ? "y" : "n");
+        bean.setSauna(saunaCheck.isSelected() ? "y" : "n");
+        bean.setEnergizer(energizerCheck.isSelected() ? "y" : "n");
+        bean.setVideo(videoCheck.isSelected() ? "y" : "n");
+
+        return bean;
+    }
+
+    private void goToBookingRecap() {
+        try{
+            if(bController.checkSameDateSameTimeBooking()) {
+                ViewManager.changePage("/views/bookingRecap.fxml");
+            }
+        } catch (SameDateSameTimeException e) {
+            e.handleException();
+        }
     }
 }

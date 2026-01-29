@@ -207,12 +207,12 @@ public class AuthController {
 
             DailySchedule day = null;
             for(DailySchedule s : schedules) {
-                if(s.getDate().equals(element.record().date())) {
+                if(s.getDate().equals(element.previousRecord().date())) {
                     day = s;
                     break;
                 }
             }
-            FinalBookingData newR = new FinalBookingData(element.athlete(), element.training(), day, element.record());
+            FinalBookingData newR = new FinalBookingData(element.athlete(), element.training(), day, element.previousRecord());
             finalRecords.add(newR);
         }
         return finalRecords;

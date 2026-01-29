@@ -6,6 +6,10 @@ import javafx.scene.control.TextInputControl;
 public class ValidationUtils {
     private static final String ERROR_STYLE_CLASS = "input-error";
 
+    private ValidationUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static void validateNotEmpty(TextInputControl... fields) throws MissingDataException {
         boolean error = false;
 

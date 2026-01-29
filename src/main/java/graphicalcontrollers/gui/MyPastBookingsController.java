@@ -15,8 +15,8 @@ public class MyPastBookingsController extends MyBookingsBaseController {
 
     @Override
     protected void loadData() {
-        PersonalBookingsController PBController = new PersonalBookingsController();
-        List<BookingRecapBean> list = PBController.getPastBookingsFromMap();
+        PersonalBookingsController pbController = new PersonalBookingsController();
+        List<BookingRecapBean> list = pbController.getPastBookingsFromMap();
 
         setTableData(list);
     }
