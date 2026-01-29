@@ -2,56 +2,31 @@ package graphicalcontrollers.gui;
 
 import beans.ProfileDataBean;
 import controllers.ProfileController;
-import exceptions.InvalidPasswordConfirmationException;
-import exceptions.MissingDataException;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
-import utils.ValidationUtils;
+import javafx.scene.control.TextInputControl;
 
-public class ChangePasswordController {
+public class ChangePasswordController extends ProfileDataChangeController{
     @FXML
     private PasswordField newPasswordField;
-    @FXML
-    private PasswordField oldPasswordField;
 
-    @FXML
-    public void initialize() {
-        ValidationUtils.resetErrorOnType(newPasswordField, oldPasswordField);
+    @Override
+    protected TextInputControl[] getFieldsToValidate() {
+        return new TextInputControl[]{newPasswordField, oldPasswordField};
     }
 
-    @FXML
-    private void onConfirmClick() {
-        try {
-            ValidationUtils.validateNotEmpty(newPasswordField, oldPasswordField);
-
-            String newPsw = newPasswordField.getText();
-            String oldPsw = oldPasswordField.getText();
-
-            ProfileDataBean bean = new ProfileDataBean();
-            bean.setNewPassword(newPsw);
-            bean.setCurrentPassword(oldPsw);
-
-            checkIfSuccessfullyModified(bean);
-
-        } catch (InvalidPasswordConfirmationException e) {
-            e.handleException();
-        } catch (MissingDataException e) {
-            e.handleException();
-        }
+    @Override
+    protected void populateSpecificDataBean(ProfileDataBean bean) {
+        bean.setNewPassword(newPasswordField.getText());
     }
 
-    @FXML
-    private void onCancelClick() {
-        ViewManager.changePage("/views/MyProfile.fxml");
+    @Override
+    protected boolean performControllerAction(ProfileController pController, ProfileDataBean bean) {
+        return pController.changePassword(bean);
     }
 
-    private void checkIfSuccessfullyModified(ProfileDataBean bean) {
-        ProfileController pController = new ProfileController();
-
-        if(pController.changePassword(bean)) {
-            System.out.println("Password modificata con successo!");
-            onCancelClick();
-        }
-        pController.changeName(bean);
+    @Override
+    protected String getSuccessMessage() {
+        return "Password modificata con successo!";
     }
 }
