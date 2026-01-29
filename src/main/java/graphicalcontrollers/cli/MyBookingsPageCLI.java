@@ -134,23 +134,22 @@ public class MyBookingsPageCLI {
             if(index >= 0 && index < activeList.size()) {
                 BookingRecapBean bean = activeList.get(index);
 
-//                System.out.println("Stai per eliminare la prenotazione: " + bean.getTrainingName() + "in data: " + bean.getDate());
-//                System.out.println("Inserisci la tua password per confermare: ");
-//                String password = sc.nextLine();
+                checkIfSuccessfullyDeleted(bean);
 
-                try {
-                    bController.deleteBooking(bean);
-                    System.out.println("Prenotazione eliminata con successo!");
-                    showActiveBookings();
-                } catch (FailedBookingCancellationException e) {
-                    e.handleException();
-                }
             } else {
                 System.out.print("Nessuna prenotazione presente a quel numero.");
                 showActiveBookings();
             }
-        } catch (NumberFormatException e) {
+        } catch (FailedBookingCancellationException e) {
+            e.handleException();
+        } catch (NumberFormatException _) {
             System.out.println("Input non valido. Inserire un numero da 0 a " + activeList.size());
         }
+    }
+
+    private void checkIfSuccessfullyDeleted(BookingRecapBean bean) {
+        bController.deleteBooking(bean);
+        System.out.println("Prenotazione eliminata con successo!");
+        showActiveBookings();
     }
 }

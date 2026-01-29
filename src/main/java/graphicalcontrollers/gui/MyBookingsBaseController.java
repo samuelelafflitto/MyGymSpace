@@ -9,7 +9,6 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -34,7 +33,7 @@ public abstract class MyBookingsBaseController {
     @FXML
     protected TableColumn<BookingRecapBean, Void> actionColumn;
 
-    private final Button btn = new Button("Delete");
+//    private final Button btn = new Button("Delete");
 
     @FXML
     public void initialize() {
@@ -50,32 +49,29 @@ public abstract class MyBookingsBaseController {
     }
 
     private void addButtonToTable() {
-        Callback<TableColumn<BookingRecapBean, Void>, TableCell<BookingRecapBean, Void>> cellFactory = new Callback<>() {
-            @Override
-            public TableCell<BookingRecapBean, Void> call(final TableColumn<BookingRecapBean, Void> param) {
-                return new TableCell<>() {
-                    {
-                        btn.getStyleClass().add("delete-button");
-                        btn.setOnAction(_ -> {
-                            BookingRecapBean booking = getTableView().getItems().get(getIndex());
-                            deleteBooking(booking);
-                        });
-                    }
+        actionColumn.setCellFactory(_ -> new DeleteButtonCell());
+    }
 
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
+    private class DeleteButtonCell extends TableCell<BookingRecapBean, Void> {
+        private final Button rowBtn = new Button("Delete");
+
+        public DeleteButtonCell() {
+            rowBtn.getStyleClass().add("DeleteButtonCell");
+            rowBtn.setOnAction(_ -> {
+                BookingRecapBean booking = getTableView().getItems().get(getIndex());
+                deleteBooking(booking);
+            });
+        }
+
+        @Override
+        protected void updateItem(Void item, boolean empty) {
+            super.updateItem(item, empty);
+            if(empty) {
+                setGraphic(null);
+            } else {
+                setGraphic(rowBtn);
             }
-        };
-
-        actionColumn.setCellFactory(cellFactory);
+        }
     }
 
     protected void setTableData(List<BookingRecapBean> list) {

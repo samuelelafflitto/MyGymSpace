@@ -200,8 +200,6 @@ public class BookingController {
     public boolean saveBooking() {
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
 
-        //TODO Controllo sullo specifico time slot
-
         BookingInterface finalBooking = bSession.getBooking();
 
         updateDailySchedule();
