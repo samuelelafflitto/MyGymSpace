@@ -33,8 +33,6 @@ public abstract class MyBookingsBaseController {
     @FXML
     protected TableColumn<BookingRecapBean, Void> actionColumn;
 
-//    private final Button btn = new Button("Delete");
-
     @FXML
     public void initialize() {
         trainingColumn.setCellValueFactory(new PropertyValueFactory<>("trainingName"));
