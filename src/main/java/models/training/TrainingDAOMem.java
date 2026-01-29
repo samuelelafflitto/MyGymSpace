@@ -49,19 +49,21 @@ public class TrainingDAOMem extends TrainingDAO {
         String description2 = "Sessione privata di Sala Pesi con Personal Trainer";
         BigDecimal price2 = PriceConfig.getPrice("training.weight.price", new BigDecimal("18.00"));
 
-        Training demoTraining1 = new Training();
-        demoTraining1.setPersonalTrainer(pt1);
-        demoTraining1.setName(title1);
-        demoTraining1.setDescription(description1);
-        demoTraining1.setBasePrice(price1);
+        Training demoTraining1 = newDemoTraining(pt1, title1, description1, price1);
 
-        Training demoTraining2 = new Training();
-        demoTraining2.setPersonalTrainer(pt2);
-        demoTraining2.setName(title2);
-        demoTraining2.setDescription(description2);
-        demoTraining2.setBasePrice(price2);
+        Training demoTraining2 = newDemoTraining(pt2, title2, description2, price2);
 
         this.trainings.add(demoTraining1);
         this.trainings.add(demoTraining2);
+    }
+
+    private Training newDemoTraining(PersonalTrainer pt, String title, String description, BigDecimal basePrice) {
+        Training newT = new Training();
+        newT.setPersonalTrainer(pt);
+        newT.setName(title);
+        newT.setDescription(description);
+        newT.setBasePrice(basePrice);
+
+        return newT;
     }
 }

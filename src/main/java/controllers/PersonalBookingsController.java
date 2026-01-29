@@ -3,8 +3,6 @@ package controllers;
 import beans.BookingRecapBean;
 import models.booking.BookingInterface;
 import models.booking.record.BookingKey;
-import models.user.Athlete;
-import models.user.PersonalTrainer;
 import models.user.User;
 import utils.session.SessionManager;
 
@@ -13,8 +11,8 @@ import java.time.LocalTime;
 import java.util.*;
 
 public class PersonalBookingsController {
-    private static final String ATHLETE_TYPE = "ATH";
-    private static final String PT_TYPE = "PT";
+
+    BookingController bController =  new BookingController();
 
     public List<BookingRecapBean> getActiveBookingsFromMap() {
         return getBookingsInternal(true);
@@ -28,13 +26,7 @@ public class PersonalBookingsController {
         User user = SessionManager.getInstance().getLoggedUser();
         List<BookingRecapBean> resultBeans = new ArrayList<>();
 
-        Map<BookingKey, BookingInterface> bookingsMap = new HashMap<>();
-
-        if(user.getType().equals(ATHLETE_TYPE)) {
-            bookingsMap = ((Athlete)user).getBookings();
-        } else if(user.getType().equals(PT_TYPE)) {
-            bookingsMap = ((PersonalTrainer)user).getPrivateSessions();
-        }
+        Map<BookingKey, BookingInterface> bookingsMap = bController.getBookingsMap(user);
 
         if(bookingsMap == null) {
             System.out.println("Nessuna prenotazione trovata");

@@ -55,7 +55,7 @@ public class ChangeNameController {
 
         if(pController.changeName(bean)) {
             System.out.println("Anagrafica modificata con successo!");
-            ViewManager.changePage("/views/MyProfile.fxml");
+            onCancelClick();
         }
         pController.changeName(bean);
     }

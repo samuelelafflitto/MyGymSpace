@@ -150,13 +150,7 @@ public class BookingController {
         BookingInterface bookingInProgress = SessionManager.getInstance().getBookingSession().getBooking();
         User user = SessionManager.getInstance().getLoggedUser();
 
-        Map<BookingKey, BookingInterface> bookingsMap = new HashMap<>();
-
-        if(user.getType().equals(ATHLETE_TYPE)) {
-            bookingsMap = ((Athlete)user).getBookings();
-        } else if(user.getType().equals(PT_TYPE)) {
-            bookingsMap = ((PersonalTrainer)user).getPrivateSessions();
-        }
+        Map<BookingKey, BookingInterface> bookingsMap = getBookingsMap(user);
 
         if(bookingsMap == null || bookingsMap.isEmpty()) {
             return true;
@@ -278,6 +272,18 @@ public class BookingController {
     public boolean isHoliday(LocalDate date) {
         HolidayChecker hc = new  HolidayChecker();
         return hc.isClosedForHoliday(date);
+    }
+
+    public Map<BookingKey, BookingInterface> getBookingsMap(User user) {
+        Map<BookingKey, BookingInterface> bookingsMap = new HashMap<>();
+
+        if(user.getType().equals(ATHLETE_TYPE)) {
+            bookingsMap = ((Athlete)user).getBookings();
+        } else if(user.getType().equals(PT_TYPE)) {
+            bookingsMap = ((PersonalTrainer)user).getPrivateSessions();
+        }
+
+        return bookingsMap;
     }
 
 

@@ -50,7 +50,7 @@ public class ChangePasswordController {
 
         if(pController.changePassword(bean)) {
             System.out.println("Password modificata con successo!");
-            ViewManager.changePage("/views/MyProfile.fxml");
+            onCancelClick();
         }
         pController.changeName(bean);
     }
