@@ -16,15 +16,15 @@
         <Insets left="20.0" right="20.0" />
     </padding>
 
-    <Label onMouseClicked="#onHomeClick" styleClass="top-bar-text" text="MyGymSpace" />
+    <Label onMouseClicked="#onHomeClick" styleClass="top-bar-text" style="-fx-text-fill: black !important;" text="MyGymSpace" />
 
     <Region HBox.hgrow="ALWAYS" />
 
     <ImageView fitHeight="45.0" fitWidth="45.0" onMouseClicked="#onProfileClick" pickOnBounds="true"
                preserveRatio="true">
+        <Image url="@../images/user_icon.png"/>
         <cursor>
             <Cursor fx:constant="HAND"/>
         </cursor>
-        <Image url="@../images/user_icon.png"/>
     </ImageView>
 </HBox>

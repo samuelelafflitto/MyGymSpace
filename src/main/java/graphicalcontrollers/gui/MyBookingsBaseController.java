@@ -54,7 +54,7 @@ public abstract class MyBookingsBaseController {
         private final Button rowBtn = new Button("Delete");
 
         public DeleteButtonCell() {
-            rowBtn.getStyleClass().add("DeleteButtonCell");
+            rowBtn.getStyleClass().add("delete-button");
             rowBtn.setOnAction(_ -> {
                 BookingRecapBean booking = getTableView().getItems().get(getIndex());
                 deleteBooking(booking);

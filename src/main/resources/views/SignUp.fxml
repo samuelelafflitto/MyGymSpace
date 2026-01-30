@@ -26,7 +26,7 @@
 
             <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="500.0" spacing="20.0" styleClass="form-container">
                 <padding>
-                    <Insets bottom="30.0" left="40.0" right="40.0" top="40.0" />
+                    <Insets bottom="30.0" left="50.0" right="50.0" top="40.0" />
                 </padding>
 
                 <Label style="-fx-font-weight: bold; -fx-font-size: 26px;" text="Sign Up">
@@ -66,14 +66,16 @@
                     </VBox>
                 </GridPane>
 
-                <Button maxWidth="250.0" onAction="#onCreateClick" defaultButton="true" prefHeight="45.0" styleClass="primary-button" text="Create">
+                <VBox prefHeight="10.0" />
+
+                <Button maxWidth="300.0" onAction="#onCreateClick" defaultButton="true" prefHeight="60.0" styleClass="primary-button" text="Create">
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>
                 </Button>
 
                 <HBox alignment="CENTER" spacing="5.0">
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Already have an account?" />
+                    <Text styleClass="text-black" strokeType="OUTSIDE" strokeWidth="0.0" text="Already have an account?" />
                     <Text onMouseClicked="#onLoginClick" styleClass="text-link" text="Log In" />
                     <VBox.margin>
                         <Insets top="5.0" />

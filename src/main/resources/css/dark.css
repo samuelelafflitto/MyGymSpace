@@ -3,22 +3,22 @@
     -fx-font-family: Arial;
 }
 
-/* Rende BIANCHE tutte le label e i testi semplici (es. "Nome:", "Cognome:", Titoli) */
+/*Rende BIANCHE tutte le label e i testi semplici (es. "Nome:", "Cognome:", Titoli)*/
 .label {
-    -fx-text-fill: black;
+    -fx-text-fill: white;
 }
 
-.text {
-    -fx-text-fill: black;
-}
+/*.text {*/
+/*    -fx-fill: white;*/
+/*}*/
 
 .background-pane {
-    -fx-background-color: #d0e8ff;
+    -fx-background-color: #121212;
 }
 
 /* TopBar */
 .top-bar {
-    -fx-background-color: #7da0d6;
+    -fx-background-color: #ff8b00;
     -fx-border-color: black;
     -fx-border-width: 0 0 1 0;
 }
@@ -30,29 +30,29 @@
     -fx-cursor: hand;
 }
 .top-bar-text:hover {
-    -fx-text-fill: #2c3e50 !important;
+    -fx-text-fill: #333333 !important;
 }
 
 /* Contenitori form */
 .form-container {
-    -fx-background-color: #d0e8ff;
-    -fx-border-color: #7da0d6;
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: #ff8b00;
     -fx-border-width: 3px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);
 }
 
 /* Input (TextField) */
 .input-field {
-    -fx-background-color: #e6f2ff;
-    -fx-border-color: #7da0d6;
+    -fx-background-color: #2c2c2c;
+    -fx-border-color: #ff8b00;
     -fx-border-width: 2px;
-    -fx-text-fill: black;
-    -fx-prompt-fill: gray;
+    -fx-text-fill: white;
+    -fx-prompt-fill: #888888;
 }
 
 /* Bottoni principali (pieni) */
 .primary-button {
-    -fx-background-color: #7da0d6;
+    -fx-background-color: #ff8b00;
     -fx-border-color: black;
     -fx-text-fill: black;
     -fx-font-weight: bold;
@@ -60,18 +60,22 @@
     -fx-cursor: hand;
 }
 .primary-button:hover {
-    -fx-background-color: #5b80b6;
+    -fx-background-color: #e67e00;
+}
+
+.text-black {
+    -fx-fill: white;
 }
 
 /* Link testuali */
 .text-link {
-    -fx-fill: black;
+    -fx-fill: #ff8b00;
     -fx-font-weight: bold;
     -fx-underline: true;
     -fx-cursor: hand;
 }
 .text-link:hover {
-    -fx-fill: #5b80b6;
+    -fx-fill: white;
 }
 
 /* Homepage */
@@ -79,7 +83,7 @@
 .welcome-title {
     -fx-font-weight: bold;
     -fx-font-size: 28px;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
 }
 
 /* Contenitore card */
@@ -91,10 +95,10 @@
 
 /* Singola card */
 .card-container {
-    -fx-background-color: #e6f2ff;
-    -fx-border-color: #7da0d6;
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: #ff8b00;
     -fx-border-width: 2px;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 5, 0, 0, 0);
     -fx-pref-width: 250px;
     -fx-pref-height: 450px;
 }
@@ -104,11 +108,12 @@
     -fx-background-size: cover;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
+    -fx-opacity: 0.9;
 }
 
 /* Bottone nelle card */
 .card-button {
-    -fx-background-color: #7da0d6;
+    -fx-background-color: #ff8b00;
     -fx-border-color: black;
     -fx-text-fill: black;
     -fx-font-weight: bold;
@@ -117,7 +122,7 @@
     -fx-max-width: infinity;
 }
 .card-button:hover {
-    -fx-background-color: #5b80b6;
+    -fx-background-color: #e67e00;
 }
 
 /* No input */
@@ -130,9 +135,9 @@
 /* Campo di testo stile "Profilo" (Sottolineato, sfondo trasparente) */
 .profile-field {
     -fx-background-color: transparent;
-    -fx-border-color: #7da0d6;
+    -fx-border-color: #ff8b00;
     -fx-border-width: 0 0 3 0;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-padding: 0 0 5 0;
 }
@@ -140,20 +145,20 @@
 /* Quando il campo profilo è disabilitato/non editabile, manteniamo il colore nero del testo */
 .profile-field:disabled {
     -fx-opacity: 1.0;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
 }
 
 /* Tabelle */
 /* Contenitore principale della tabella */
 .custom-table {
-    -fx-background-color: white;
-    -fx-border-color: #7da0d6;
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: #ff8b00;
     -fx-border-width: 1px;
 }
 
 /* L'intestazione (Header) delle colonne */
 .custom-table .column-header-background {
-    -fx-background-color: #7da0d6;
+    -fx-background-color: #ff8b00;
     -fx-border-color: black;
     -fx-border-width: 0 0 1px 0;
 }
@@ -173,42 +178,46 @@
 
 /* Le righe della tabella */
 .custom-table .table-row-cell {
-    -fx-background-color: white;
-    -fx-border-color: #e6e6e6;
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: #333333;
     -fx-border-width: 0 0 1px 0;
 }
 
 /* Righe pari/dispari (se vuoi l'effetto righe alternate, sennò lascia white sopra) */
 .custom-table .table-row-cell:odd {
-    -fx-background-color: #f0f8ff;
+    -fx-background-color: #252525;
 }
 
 /* Cella singola */
 .custom-table .table-cell {
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-alignment: CENTER;
     -fx-border-color: transparent;
 }
 
 /* Quando selezioni una riga */
 .custom-table .table-row-cell:selected {
-    -fx-background-color: #bcdbf7;
+    -fx-background-color: #4d2b00;
+    -fx-text-fill: white;
 }
 
 /* Rimuovi la colonna vuota extra a destra */
 .custom-table .filler {
-    -fx-background-color: transparent;
+    -fx-background-color: #1e1e1e;
 }
 
 /* Scrollbar stile "MyGymSpace" (Semplificata) */
 .custom-table .scroll-bar:vertical .thumb {
-    -fx-background-color: #7da0d6;
+    -fx-background-color: #ff8b00;
+}
+.custom-table .scroll-bar:vertical .track {
+    -fx-background-color: #2c2c2c;
 }
 
 /* ComboBox */
 .custom-combobox {
-    -fx-background-color: #e6f2ff;
-    -fx-border-color: #7da0d6;
+    -fx-background-color: #2c2c2c;
+    -fx-border-color: #ff8b00;
     -fx-border-width: 2px;
     -fx-background-radius: 0;
     -fx-border-radius: 0;
@@ -218,12 +227,17 @@
 .custom-combobox .list-cell,
 .custom-combobox .list-cell:filled:selected,
 .custom-combobox .list-cell:filled:hover {
-    -fx-text-fill: black;
+    -fx-text-fill: white;
+    -fx-background-color: #2c2c2c;
+}
+
+.custom-combobox .list-cell:filled:hover {
+    -fx-background-color: #4d2b00;
 }
 
 /* La freccetta a destra */
 .custom-combobox .arrow-button {
-    -fx-background-color: #7da0d6;
+    -fx-background-color: #ff8b00;
 }
 .custom-combobox .arrow {
     -fx-background-color: black;
@@ -231,34 +245,59 @@
 
 /* Quando apri il menu a tendina */
 .custom-combobox .list-view {
-    -fx-background-color: white;
-    -fx-border-color: #7da0d6;
+    -fx-background-color: #2c2c2c;
+    -fx-border-color: #ff8b00;
 }
 
 /* DatePicker */
 .date-picker .text-field {
-    -fx-background-color: #e6f2ff;
-    -fx-border-color: #7da0d6;
+    -fx-background-color: #2c2c2c;
+    -fx-border-color: #ff8b00;
     -fx-border-width: 2px;
+    -fx-text-fill: white;
 }
 
 /* Bottone icona calendario */
 .date-picker .arrow-button {
-    -fx-background-color: #7da0d6;
+    -fx-background-color: #ff8b00;
 }
 .date-picker .arrow-button .arrow {
     -fx-background-color: black;
 }
 
-/* CheckBox */
-.custom-checkbox {
-    -fx-font-size: 14px;
+/* Necessario per il popup scuro (anche se non c'era commento originale, serve per la leggibilità) */
+.date-picker-popup {
+    -fx-background-color: #1e1e1e;
+    -fx-border-color: #ff8b00;
+}
+.date-picker-popup .month-year-pane {
+    -fx-background-color: #ff8b00;
+}
+.date-picker-popup .label {
+    -fx-text-fill: white;
+}
+.date-picker-popup .month-year-pane .label {
+    -fx-text-fill: black;
+}
+.date-picker-popup .day-cell {
+    -fx-background-color: #1e1e1e;
+    -fx-text-fill: white;
+}
+.date-picker-popup .day-cell:hover,
+.date-picker-popup .selected {
+    -fx-background-color: #ff8b00;
     -fx-text-fill: black;
 }
 
+/* CheckBox */
+.custom-checkbox {
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+}
+
 .custom-checkbox .box {
-    -fx-background-color: #e6f2ff;
-    -fx-border-color: #7da0d6;
+    -fx-background-color: #2c2c2c;
+    -fx-border-color: #ff8b00;
     -fx-border-width: 2px;
 }
 
@@ -266,23 +305,26 @@
 .custom-checkbox:selected .mark {
     -fx-background-color: black;
 }
+.custom-checkbox:selected .box {
+    -fx-background-color: #ff8b00;
+}
 
 /* Recap (solo lettura) */
 .recap-field {
     -fx-background-color: transparent;
-    -fx-border-color: #7da0d6;
+    -fx-border-color: #ff8b00;
     -fx-border-width: 0 0 3px 0;
     -fx-alignment: CENTER;
 
     -fx-font-size: 18px;
-    -fx-text-fill: black;
+    -fx-text-fill: white;
     -fx-cursor: default;
 }
 
 /* Rimuove l'effetto focus blu di default quando clicchi sul campo */
 .recap-field:focused {
     -fx-background-color: transparent;
-    -fx-border-color: #5b80b6;
+    -fx-border-color: #e67e00;
 }
 
 /* Bottone per eliminazione */
@@ -296,11 +338,6 @@
 .delete-button:hover {
     -fx-background-color: #cc0000;
 }
-
-
-
-
-
 
 /* FOTO PROGETTO */
 /* Guest-Athlete */

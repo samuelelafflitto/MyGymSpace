@@ -51,7 +51,7 @@
                 </Button>
 
                 <HBox alignment="CENTER" spacing="5.0">
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account?" />
+                    <Text styleClass="text-black" strokeType="OUTSIDE" strokeWidth="0.0" text="Don't have an account?" />
                     <Text onMouseClicked="#onCreateAccountClick" styleClass="text-link" text="Create Now" />
                     <VBox.margin>
                         <Insets top="5.0" />
