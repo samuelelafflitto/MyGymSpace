@@ -2,61 +2,34 @@ package graphicalcontrollers.gui;
 
 import beans.ProfileDataBean;
 import controllers.ProfileController;
-import exceptions.InvalidPasswordConfirmationException;
-import exceptions.MissingDataException;
 import javafx.fxml.FXML;
-import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import utils.ValidationUtils;
+import javafx.scene.control.TextInputControl;
 
-public class ChangeNameController {
+public class ChangeNameController extends BaseDataChangeController {
     @FXML
     private TextField firstNameField;
     @FXML
     private TextField lastNameField;
-    @FXML
-    private PasswordField oldPasswordField;
 
-    @FXML
-    public void initialize() {
-        ValidationUtils.resetErrorOnType(firstNameField, lastNameField, oldPasswordField);
+    @Override
+    protected TextInputControl[] getFieldsToValidate() {
+        return new TextInputControl[]{firstNameField, lastNameField, oldPasswordField};
     }
 
-    @FXML
-    private void onConfirmClick() {
-        try {
-            ValidationUtils.validateNotEmpty(firstNameField, lastNameField, oldPasswordField);
-
-            String newFN = firstNameField.getText();
-            String newLN = lastNameField.getText();
-            String oldPsw = oldPasswordField.getText();
-
-            ProfileDataBean bean = new ProfileDataBean();
-            bean.setNewFirstName(newFN);
-            bean.setNewLastName(newLN);
-            bean.setCurrentPassword(oldPsw);
-
-            checkIfSuccessfullyModified(bean);
-
-        } catch (InvalidPasswordConfirmationException e) {
-            e.handleException();
-        } catch (MissingDataException e) {
-            e.handleException();
-        }
+    @Override
+    protected void populateSpecificBeanData(ProfileDataBean bean) {
+        bean.setNewFirstName(firstNameField.getText());
+        bean.setNewLastName(lastNameField.getText());
     }
 
-    @FXML
-    private void onCancelClick() {
-        ViewManager.changePage("/views/MyProfile.fxml");
+    @Override
+    protected boolean performControllerAction(ProfileController pController, ProfileDataBean bean) {
+        return pController.changeName(bean);
     }
 
-    private void checkIfSuccessfullyModified(ProfileDataBean bean) {
-        ProfileController pController = new ProfileController();
-
-        if(pController.changeName(bean)) {
-            System.out.println("Anagrafica modificata con successo!");
-            onCancelClick();
-        }
-        pController.changeName(bean);
+    @Override
+    protected String getSuccessMessage() {
+        return "Anagrafica modificata con successo!";
     }
 }
