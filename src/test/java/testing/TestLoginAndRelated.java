@@ -46,7 +46,7 @@ class TestLoginAndRelated {
 
 
     @Test
-    @DisplayName("Test Login")
+    @DisplayName("T04 - Test Login")
     void testAuthUser() {
         SignupBean signupBean = new SignupBean();
         signupBean.setFirstName("testFirstName");
@@ -78,7 +78,7 @@ class TestLoginAndRelated {
     }
 
     @Test
-    @DisplayName("Test Login con password sbagliata")
+    @DisplayName("T05 - Test Login con password sbagliata")
     void testAuthUser_wrongPassword() {
         SignupBean signupBean = new SignupBean();
         signupBean.setFirstName("testFirstName");
@@ -103,7 +103,7 @@ class TestLoginAndRelated {
     }
 
     @Test
-    @DisplayName("Test Login con utente non registrato")
+    @DisplayName("T06 - Test Login con utente non registrato")
     void testAuthUser_userNotFound() {
         LoginBean loginBean = new LoginBean();
         loginBean.setUsername(TESTUSERNAME);

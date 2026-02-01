@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class TestDBConnection {
 
     @Test
-    @DisplayName("Test Singleton: getInstance deve restituire sempre lo stesso oggetto")
+    @DisplayName("T01 - Test Singleton: getInstance deve restituire sempre lo stesso oggetto")
     void testGetInstance() {
         DBConnection firstInstance = DBConnection.getInstance();
         DBConnection secondInstance = DBConnection.getInstance();
@@ -22,7 +22,7 @@ class TestDBConnection {
     }
 
     @Test
-    @DisplayName("Test Connessione: getConnection deve restituire una connessione valida")
+    @DisplayName("T02 - Test Connessione: getConnection deve restituire una connessione valida")
     void testGetConnection() throws SQLException {
         DBConnection dbConnection = DBConnection.getInstance();
         Connection connection = dbConnection.getConnection();
@@ -32,7 +32,7 @@ class TestDBConnection {
     }
 
     @Test
-    @DisplayName("Test Riconnessione: se chiusa, ne crea una nuova")
+    @DisplayName("T03 - Test Riconnessione: se chiusa, ne crea una nuova")
     void testReconnection() throws SQLException {
         DBConnection dbConnection = DBConnection.getInstance();
 

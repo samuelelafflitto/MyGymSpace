@@ -46,7 +46,7 @@ class TestSignupAndRelated {
 
 
     @Test
-    @DisplayName("Test Registrazione")
+    @DisplayName("T07 - Test Registrazione")
     void testRegisterUser() {
         SignupBean bean = new SignupBean();
         bean.setFirstName("testFirstName");
@@ -74,7 +74,7 @@ class TestSignupAndRelated {
     }
 
     @Test
-    @DisplayName("Test Registrazione con username già usato")
+    @DisplayName("T08 - Test Registrazione con username già usato")
     void testRegisterUser_secondTime() {
         SignupBean bean = new SignupBean();
         bean.setFirstName("testFirstName");
