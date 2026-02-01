@@ -63,6 +63,20 @@
     -fx-background-color: #e67e00;
 }
 
+/* Bottone di eliminazione account */
+.delete-account-button {
+    -fx-background-color: #ff4444;
+    -fx-border-color: black;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+    -fx-font-size: 16pt;
+    -fx-cursor: hand;
+}
+
+.delete-account-button:hover {
+    -fx-background-color: #cc0000;
+}
+
 .text-black {
     -fx-fill: white;
 }

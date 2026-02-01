@@ -1,17 +1,13 @@
 package controllers;
 
 import beans.LoginBean;
+import beans.ProfileDataBean;
 import beans.SignupBean;
-import exceptions.DataLoadException;
-import exceptions.ExistingUserException;
-import exceptions.UserSearchFailedException;
+import exceptions.*;
 import models.booking.BookingDAO;
 import models.booking.BookingInterface;
 import models.booking.ConcreteBooking;
-import models.booking.record.BasicBookingDataFromPersistence;
-import models.booking.record.BookingDataWithTraining;
-import models.booking.record.BookingDataWithUsers;
-import models.booking.record.FinalBookingData;
+import models.booking.record.*;
 import models.dailyschedule.DailySchedule;
 import models.dailyschedule.DailyScheduleDAO;
 import models.dao.factory.FactoryDAO;
@@ -23,6 +19,8 @@ import models.user.User;
 import models.user.UserDAO;
 import utils.session.SessionManager;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,6 +77,61 @@ public class AuthController {
             System.out.println(e.getMessage());
         }
         return false;
+    }
+
+    public boolean deleteUser(ProfileDataBean bean) {
+        UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
+        User loggedUser = SessionManager.getInstance().getLoggedUser();
+        HashMap<BookingKey, BookingInterface> dsToReset = null;
+
+        if(loggedUser == null) {
+            return false;
+        }
+
+        if(loggedUser.getType().equals(ATHLETE_TYPE)) {
+            Athlete ath = (Athlete) loggedUser;
+            dsToReset = (HashMap<BookingKey, BookingInterface>) ath.getBookings();
+        } else if(loggedUser.getType().equals(PT_TYPE)) {
+            PersonalTrainer pt = (PersonalTrainer) loggedUser;
+            dsToReset = (HashMap<BookingKey, BookingInterface>) pt.getPrivateSessions();
+        }
+
+        List<BookingInterface> bookingList = (dsToReset != null)
+                ? new ArrayList<>(dsToReset.values())
+                : new ArrayList<>();
+
+        String inputPassword = bean.getInputPassword();
+        String confirmPassword = bean.getConfirmPassword();
+
+        if(inputPassword == null || confirmPassword == null) {
+            throw new MissingDataException();
+        }
+
+        if(!inputPassword.equals(confirmPassword)) {
+            throw new InvalidPasswordConfirmationException();
+        }
+
+        if(!loggedUser.getPassword().equals(inputPassword)) {
+            throw new UserSearchFailedException();
+        }
+
+        try {
+            // Reset slot occupati per prenotazioni attive
+            for(BookingInterface b : bookingList) {
+                if (b.getDailySchedule().getDate().isAfter(LocalDate.now()) ||
+                        (b.getDailySchedule().getDate().isEqual(LocalDate.now()) && b.getSelectedSlot().isAfter(LocalTime.now()))) {
+                    DailyScheduleDAO dsDAO = FactoryDAO.getInstance().createDailyScheduleDAO();
+                    dsDAO.resetSlotInSchedule(b.getTraining(), b.getDailySchedule().getDate(), b.getSelectedSlot());
+                }
+            }
+            // Eliminazione effettiva account
+            userDAO.deleteUser(loggedUser.getUsername());
+            SessionManager.getInstance().setLoggedUser(null);
+            return true;
+        } catch (DataLoadException e) {
+            System.out.println("Errore durante l'eliminazione dell'account" + e.getMessage());
+            return false;
+        }
     }
 
     // Associa tutto il necessario all'Utente loggato

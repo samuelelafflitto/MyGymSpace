@@ -18,11 +18,11 @@ public class PersonalTrainerMenuCLI {
     }
 
     public void goToAddEvent() {
-        System.out.println("ADD NEW EVENT - Funzione non ancora implementata");
+        System.out.println("ADD NEW EVENT - COMING SOON");
     }
 
     public void goToManageEvents() {
-        System.out.println("MANAGE EVENTS - Funzione non ancora implementata");
+        System.out.println("MANAGE EVENTS - COMING SOON");
     }
 
     public void goToAthleteBookings() {

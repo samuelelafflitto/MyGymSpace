@@ -92,6 +92,22 @@ public class UserDAODB extends UserDAO {
     }
 
     @Override
+    public void deleteUser(String username) {
+        String sql = getQueryOrThrow("DELETE_USER");
+
+        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, username);
+            int affectedRows = statement.executeUpdate();
+
+            if(affectedRows == 0) {
+                System.out.println("Nessun utente trovato con username: " + username);
+            }
+        } catch (SQLException e) {
+            throw new DataLoadException("Errore durante l'eliminazione dell'utente");
+        }
+    }
+
+    @Override
     public void updatePassword(String username, String newPassword) {
         String sql = getQueryOrThrow("UPDATE_PASSWORD");
 

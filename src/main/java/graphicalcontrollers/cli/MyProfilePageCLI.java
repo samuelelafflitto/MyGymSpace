@@ -1,7 +1,12 @@
 package graphicalcontrollers.cli;
 
+import beans.ProfileDataBean;
 import beans.ProfileStatsBean;
+import controllers.AuthController;
 import controllers.ProfileController;
+import exceptions.InvalidPasswordConfirmationException;
+import exceptions.MissingDataException;
+import exceptions.UserSearchFailedException;
 import models.user.User;
 import utils.session.SessionManager;
 
@@ -12,6 +17,8 @@ public class MyProfilePageCLI {
     private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
     private static final String SEPARATOR = "------------------------------------------------";
     private static final String ATHLETE_TYPE = "ATH";
+
+    AuthController authController = new AuthController();
     User user = SessionManager.getInstance().getLoggedUser();
     String type = user.getType();
 
@@ -56,6 +63,9 @@ public class MyProfilePageCLI {
                     athMenu.logout();
                 }
                 break;
+            case "D":
+                deleteAccount();
+                new HomepageCLI().start();
             default:
                 System.out.println(INVALIDINPUT);
                 break;
@@ -91,6 +101,36 @@ public class MyProfilePageCLI {
         System.out.println(" 1. Modifica Dati Personali");
         System.out.println(" 2. Torna al Menu Principale");
         System.out.println(" 3. Logout");
+        System.out.println(" D. Elimina il Profilo");
         System.out.println(SEPARATOR);
+    }
+
+    private void deleteAccount() {
+        System.out.println("\n" + SEPARATOR);
+        System.out.println("             ELIMINA IL TUO ACCOUNT");
+        System.out.println(SEPARATOR);
+
+        System.out.print("Inserisci la tua password: ");
+        String firstPassword = sc.nextLine();
+
+        System.out.print("Per confermare, inserisci di nuovo la password: ");
+        String secondPassword = sc.nextLine();
+
+        ProfileDataBean profileDataBean = new ProfileDataBean();
+        profileDataBean.setInputPassword(firstPassword);
+        profileDataBean.setConfirmPassword(secondPassword);
+
+        try {
+            if(authController.deleteUser(profileDataBean)) {
+                System.out.println("\nEliminazione profilo riuscita!");
+                new HomepageCLI().start();
+            }
+        } catch (MissingDataException e) {
+            e.handleException();
+        }catch (InvalidPasswordConfirmationException e) {
+            e.handleException();
+        } catch (UserSearchFailedException e) {
+            e.handleException();
+        }
     }
 }

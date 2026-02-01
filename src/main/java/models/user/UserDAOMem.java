@@ -50,6 +50,16 @@ public class UserDAOMem extends UserDAO {
     }
 
     @Override
+    public void deleteUser(String username) {
+        if(users.containsKey(username)) {
+            users.remove(username);
+            System.out.println("[MEM] User " + username + " eliminato correttamente");
+        } else {
+            System.err.println("[MEM] Nessun utente trovato con username: " + username);
+        }
+    }
+
+    @Override
     public void updatePassword(String username, String newPassword) {
         User user = users.get(username);
         if(user != null) {

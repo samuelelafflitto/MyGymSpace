@@ -75,6 +75,25 @@ public class UserDAOFsys extends UserDAO{
     }
 
     @Override
+    public void deleteUser(String username) {
+        List<User> users = getAllUsers();
+
+        List<User> usersToKeep = new ArrayList<>();
+        boolean found  = false;
+        for (User user : users) {
+            if (!user.getUsername().equals(username)) {
+                usersToKeep.add(user);
+            } else {
+                found = true;
+            }
+        }
+
+        if(found) {
+            saveAllUsers(usersToKeep);
+        }
+    }
+
+    @Override
     public void updatePassword(String username, String newPassword) {
         List<User> users = getAllUsers();
         boolean found = false;

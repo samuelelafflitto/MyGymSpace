@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <BorderPane prefHeight="600.0" prefWidth="800.0"
             xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="graphicalcontrollers.gui.ChangePasswordController">
+            fx:controller="graphicalcontrollers.gui.DeleteAccountController">
 
     <top>
         <fx:include source="TopBar.fxml" />
@@ -25,21 +25,21 @@
                     <Insets bottom="30.0" left="50.0" right="50.0" top="40.0" />
                 </padding>
 
-                <Label style="-fx-font-weight: bold; -fx-font-size: 26px;" text="Change Password" />
+                <Label style="-fx-font-weight: bold; -fx-font-size: 26px;" text="Delete Account" />
 
                 <VBox spacing="5.0" alignment="CENTER_LEFT">
-                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px" text="New Password" />
-                    <PasswordField fx:id="newPasswordField" prefHeight="40.0" promptText="Enter new password" styleClass="input-field" />
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px" text="Password" />
+                    <PasswordField fx:id="inputPassword" prefHeight="40.0" promptText="Enter your password" styleClass="input-field" />
                 </VBox>
 
                 <VBox spacing="5.0" alignment="CENTER_LEFT">
-                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px" text="Old Password" />
-                    <PasswordField fx:id="oldPasswordField" prefHeight="40.0" promptText="Confirm with current password" styleClass="input-field" />
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px" text="Password Confirmation" />
+                    <PasswordField fx:id="confirmPassword" prefHeight="40.0" promptText="Confirm your password" styleClass="input-field" />
                 </VBox>
 
                 <VBox prefHeight="10.0" />
 
-                <Button onAction="#onConfirmClick" defaultButton="true" prefHeight="40.0" prefWidth="150.0" styleClass="primary-button" text="Update">
+                <Button onAction="#onConfirmClick" defaultButton="true" prefHeight="60.0" maxWidth="300.0" styleClass="primary-button" text="Delete">
                     <VBox.margin>
                         <Insets top="10.0" />
                     </VBox.margin>

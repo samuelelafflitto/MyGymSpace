@@ -9,7 +9,7 @@ import javafx.scene.control.TextField;
 import models.user.User;
 import utils.session.SessionManager;
 
-public class UserProfileController {
+public class MyProfileController {
     User user = SessionManager.getInstance().getLoggedUser();
 
     @FXML
@@ -56,6 +56,11 @@ public class UserProfileController {
     @FXML
     private void onEditPersonalDataClick() {
         ViewManager.changePage("/views/ChangeName.fxml");
+    }
+
+    @FXML
+    private void onDeleteAccountClick() {
+        ViewManager.changePage("/views/DeleteAccountConfirmation.fxml");
     }
 
     @FXML

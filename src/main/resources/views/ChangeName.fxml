@@ -22,24 +22,24 @@
 
             <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0" spacing="15.0" styleClass="form-container">
                 <padding>
-                    <Insets bottom="30.0" left="40.0" right="40.0" top="30.0" />
+                    <Insets bottom="30.0" left="50.0" right="50.0" top="40.0" />
                 </padding>
 
-                <Label style="-fx-font-weight: bold; -fx-font-size: 24px;" text="Edit Profile" />
+                <Label style="-fx-font-weight: bold; -fx-font-size: 26px;" text="Edit Profile" />
 
                 <VBox spacing="5.0" alignment="CENTER_LEFT">
-                    <Label style="-fx-font-weight: bold;" text="First Name" />
-                    <TextField fx:id="firstNameField" promptText="Enter your first Name" />
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px" text="First Name" />
+                    <TextField fx:id="firstNameField" prefHeight="40.0" promptText="Enter your first Name" styleClass="input-field" />
                 </VBox>
 
                 <VBox spacing="5.0" alignment="CENTER_LEFT">
-                    <Label style="-fx-font-weight: bold;" text="Last Name" />
-                    <TextField fx:id="lastNameField" promptText="Enter your last Name" />
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px" text="Last Name" />
+                    <TextField fx:id="lastNameField" prefHeight="40.0" promptText="Enter your last Name" styleClass="input-field" />
                 </VBox>
 
                 <VBox spacing="5.0" alignment="CENTER_LEFT">
-                    <Label style="-fx-font-weight: bold;" text="Current Password" />
-                    <PasswordField fx:id="oldPasswordField" promptText="Confirm with current password" />
+                    <Label style="-fx-font-weight: bold; -fx-font-size: 14px" text="Current Password" />
+                    <PasswordField fx:id="oldPasswordField" prefHeight="40.0" promptText="Confirm with current password" styleClass="input-field"/>
                 </VBox>
 
                 <VBox prefHeight="10.0" />

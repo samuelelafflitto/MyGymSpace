@@ -18,8 +18,8 @@ public class GuestMenuCLI {
         new HomepageCLI().start();
     }
 
-    public void goToEvents() {// Da implementare
-
+    public void goToEvents() {
+        System.out.println("UPCOMING EVENTS - COMING SOON");
     }
 
     public void goToLogin() {
