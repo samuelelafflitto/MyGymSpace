@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LoginAndRelatedTest {
     private AuthController authController;
-    private final String TESTUSERNAME = "test_user";
+    private static final String TESTUSERNAME = "test_user";
 
     @BeforeEach
     void setUp() throws Exception {
