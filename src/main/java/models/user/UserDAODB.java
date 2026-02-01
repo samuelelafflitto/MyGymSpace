@@ -103,7 +103,7 @@ public class UserDAODB extends UserDAO {
                 System.out.println("Nessun utente trovato con username: " + username);
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore durante l'eliminazione dell'utente");
+            throw new DataLoadException("Errore durante l'eliminazione dell'utente", e);
         }
     }
 

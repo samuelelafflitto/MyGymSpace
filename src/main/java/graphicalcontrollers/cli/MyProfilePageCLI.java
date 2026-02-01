@@ -66,6 +66,7 @@ public class MyProfilePageCLI {
             case "D":
                 deleteAccount();
                 new HomepageCLI().start();
+                break;
             default:
                 System.out.println(INVALIDINPUT);
                 break;

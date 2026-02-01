@@ -20,9 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class SignupAndRelatedTest {
+class SignupAndRelatedTest {
     private AuthController authController;
-    private final String TEST_USERNAME = "test_user";
+    private final String TESTUSERNAME = "test_user";
 
     @BeforeEach
     void setUp() throws Exception {
@@ -51,7 +51,7 @@ public class SignupAndRelatedTest {
         SignupBean bean = new SignupBean();
         bean.setFirstName("testFirstName");
         bean.setLastName("testLastName");
-        bean.setUsername(TEST_USERNAME);
+        bean.setUsername(TESTUSERNAME);
         bean.setPassword("testPassword");
 
         boolean result = authController.registerUser(bean);
@@ -60,13 +60,13 @@ public class SignupAndRelatedTest {
 
         User loggedUser = SessionManager.getInstance().getLoggedUser();
         assertNotNull(loggedUser, "L'utente dovrebbe essere loggato dopo la registrazione");
-        assertEquals(TEST_USERNAME, loggedUser.getUsername());
+        assertEquals(TESTUSERNAME, loggedUser.getUsername());
 
         UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
         User dbUser = null;
         try {
-            dbUser = userDAO.getUserByUsername(TEST_USERNAME);
-        } catch (DataLoadException e) {
+            dbUser = userDAO.getUserByUsername(TESTUSERNAME);
+        } catch (DataLoadException _) {
             fail("Errore DB durante la verifica");
         }
 
@@ -79,7 +79,7 @@ public class SignupAndRelatedTest {
         SignupBean bean = new SignupBean();
         bean.setFirstName("testFirstName");
         bean.setLastName("testLastName");
-        bean.setUsername(TEST_USERNAME);
+        bean.setUsername(TESTUSERNAME);
         bean.setPassword("testPassword");
 
         // Prima registrazione
@@ -100,7 +100,7 @@ public class SignupAndRelatedTest {
     private void deleteTestUserFromDB() {
         UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
         try {
-            userDAO.deleteUser(TEST_USERNAME);
+            userDAO.deleteUser(TESTUSERNAME);
         } catch (DataLoadException e) {
             System.err.println("ATTENZIONE: pulizia utente di test fallita. " + e.getMessage());
         }

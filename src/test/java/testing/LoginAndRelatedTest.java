@@ -20,9 +20,9 @@ import java.lang.reflect.Field;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LoginAndRelatedTest {
+class LoginAndRelatedTest {
     private AuthController authController;
-    private final String TEST_USERNAME = "test_user";
+    private final String TESTUSERNAME = "test_user";
 
     @BeforeEach
     void setUp() throws Exception {
@@ -51,7 +51,7 @@ public class LoginAndRelatedTest {
         SignupBean signupBean = new SignupBean();
         signupBean.setFirstName("testFirstName");
         signupBean.setLastName("testLastName");
-        signupBean.setUsername(TEST_USERNAME);
+        signupBean.setUsername(TESTUSERNAME);
         signupBean.setPassword("testPassword");
 
         authController.registerUser(signupBean);
@@ -65,7 +65,7 @@ public class LoginAndRelatedTest {
         assertNull(SessionManager.getInstance().getLoggedUser(), "La sessione deve essere vuota prima di tentare il login");
 
         LoginBean loginBean = new LoginBean();
-        loginBean.setUsername(TEST_USERNAME);
+        loginBean.setUsername(TESTUSERNAME);
         loginBean.setPassword("testPassword");
 
         boolean result = authController.authUser(loginBean);
@@ -74,7 +74,7 @@ public class LoginAndRelatedTest {
 
         User loggedUser = SessionManager.getInstance().getLoggedUser();
         assertNotNull(loggedUser, "L'utente dovrebbe essere loggato dopo il login");
-        assertEquals(TEST_USERNAME, loggedUser.getUsername());
+        assertEquals(TESTUSERNAME, loggedUser.getUsername());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class LoginAndRelatedTest {
         SignupBean signupBean = new SignupBean();
         signupBean.setFirstName("testFirstName");
         signupBean.setLastName("testLastName");
-        signupBean.setUsername(TEST_USERNAME);
+        signupBean.setUsername(TESTUSERNAME);
         signupBean.setPassword("testPassword");
 
         authController.registerUser(signupBean);
@@ -95,7 +95,7 @@ public class LoginAndRelatedTest {
         }
 
         LoginBean loginBean = new LoginBean();
-        loginBean.setUsername(TEST_USERNAME);
+        loginBean.setUsername(TESTUSERNAME);
         loginBean.setPassword("wrongPassword");
 
         assertThrows(UserSearchFailedException.class, () -> authController.authUser(loginBean));
@@ -106,7 +106,7 @@ public class LoginAndRelatedTest {
     @DisplayName("Test Login con utente non registrato")
     void testAuthUser_userNotFound() {
         LoginBean loginBean = new LoginBean();
-        loginBean.setUsername(TEST_USERNAME);
+        loginBean.setUsername(TESTUSERNAME);
         loginBean.setPassword("testPassword");
 
         assertThrows(UserSearchFailedException.class, () -> authController.authUser(loginBean));
@@ -117,7 +117,7 @@ public class LoginAndRelatedTest {
     private void deleteTestUserFromDB() {
         UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
         try {
-            userDAO.deleteUser(TEST_USERNAME);
+            userDAO.deleteUser(TESTUSERNAME);
         } catch (DataLoadException e) {
             System.err.println("ATTENZIONE: pulizia utente di test fallita. " + e.getMessage());
         }
