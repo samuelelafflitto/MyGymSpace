@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class SignupAndRelatedTest {
+class TestSignupAndRelated {
     private AuthController authController;
     private static final String TESTUSERNAME = "test_user";
 

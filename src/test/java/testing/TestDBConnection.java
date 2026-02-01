@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DBConnectionTest {
+class TestDBConnection {
 
     @Test
     @DisplayName("Test Singleton: getInstance deve restituire sempre lo stesso oggetto")
