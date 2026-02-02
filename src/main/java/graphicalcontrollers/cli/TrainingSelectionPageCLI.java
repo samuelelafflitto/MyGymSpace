@@ -100,7 +100,7 @@ public class TrainingSelectionPageCLI {
 
     private void showTrainingDetails(AvailableTrainingBean tBean, int index) {
         System.out.println("\n" + index + ") " + tBean.getName());
-        System.out.println("Personal Trainer: " +  tBean.getPersonalTrainer());
+        System.out.println("Personal Trainer: " +  tBean.getPtLastName());
         System.out.println("Descrizione: " + tBean.getDescription());
         System.out.println("Prezzo base: " + tBean.getBasePrice() + "€");
         System.out.println(SEPARATOR);

@@ -1,5 +1,6 @@
 package utils.session;
 
+import beans.BookingRecapBean;
 import models.user.User;
 
 import java.util.HashMap;
@@ -7,6 +8,8 @@ import java.util.HashMap;
 public class SessionManager {
     private static SessionManager instance;
     private User loggedUser;
+
+    private BookingRecapBean selectedBookingToDelete;
 
     private final HashMap<String, BookingSession> bookingSessionHashMap;
 
@@ -25,8 +28,16 @@ public class SessionManager {
         return loggedUser;
     }
 
+    public BookingRecapBean getSelectedBookingToDelete() {
+        return selectedBookingToDelete;
+    }
+
     public void setLoggedUser(User loggedUser) {
         this.loggedUser = loggedUser;
+    }
+
+    public void setSelectedBookingToDelete(BookingRecapBean booking) {
+        this.selectedBookingToDelete = booking;
     }
 
     public void freeSession() {

@@ -25,6 +25,8 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
 
     @Override
     public List<DailySchedule> getSchedulesByTraining(Training training) {
+        deleteAllUselessSchedules();
+
         String sql = getQueryOrThrow("SELECT_DS_FOR_TRAINING");
         List<DailySchedule> schedules = new ArrayList<>();
         String ptUsername = training.getPersonalTrainer().getUsername();
@@ -92,14 +94,28 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
         int index = time.getHour();
 
         StringBuilder slots = schedule.getTimeSlots();
-        if(index >= 0 && index < 24) {
-            slots.setCharAt(index, '0');
+        slots.setCharAt(index, '0');
 
-            updateDailySchedule(training, schedule);
-        } else {
-            throw new DataLoadException("Indice slot fuori intervallo" + time);
+        updateDailySchedule(training, schedule);
+    }
+
+    private void deleteAllUselessSchedules() {
+        String sql = getQueryOrThrow("DELETE_USELESS_SCHEDULES");
+        LocalDate today = LocalDate.now();
+        String emptySlots = "0".repeat(24);
+
+        try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setDate(1, Date.valueOf(today));
+            statement.setDate(2, Date.valueOf(today.plusMonths(1)));
+            statement.setString(3, emptySlots);
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new DataLoadException("Errore nell'eliminazione della dailyschedule di una data passata ", e);
         }
     }
+
 
 
 

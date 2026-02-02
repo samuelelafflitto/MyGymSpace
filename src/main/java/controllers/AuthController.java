@@ -134,6 +134,11 @@ public class AuthController {
         }
     }
 
+    public boolean isPasswordWrong(ProfileDataBean bean) {
+        String password = bean.getInputPassword();
+        return !SessionManager.getInstance().getLoggedUser().getPassword().equals(password);
+    }
+
     // Associa tutto il necessario all'Utente loggato
     private User populateUser(User user) {
         // Popola l'utente se non siamo in Modalità Fsys

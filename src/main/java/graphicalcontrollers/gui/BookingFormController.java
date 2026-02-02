@@ -66,12 +66,14 @@ public class BookingFormController {
                         boolean isPast = bController.isPastDate(item);
                         boolean isHoliday = bController.isHoliday(item);
 
+                        getStyleClass().remove("disabled-cell");
+
                         if(isPast) {
                             setDisable(true);
-                            setStyle("-fx-background-color: #e2dfdf;");
+                            getStyleClass().add("disabled-cell");
                         } else if(isHoliday) {
                             setDisable(true);
-                            setStyle("-fx-background-color: #e2dfdf;");
+                            getStyleClass().add("disabled-cell");
                             setTooltip(new Tooltip("La palestra è chiusa!"));
                         }
                     }

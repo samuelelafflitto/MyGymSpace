@@ -1,9 +1,14 @@
 package graphicalcontrollers.cli;
 
 import beans.BookingRecapBean;
+import beans.ProfileDataBean;
+import controllers.AuthController;
 import controllers.BookingController;
 import controllers.PersonalBookingsController;
 import exceptions.FailedBookingCancellationException;
+import exceptions.InvalidPasswordConfirmationException;
+import exceptions.MissingDataException;
+import exceptions.UserSearchFailedException;
 
 import java.util.List;
 import java.util.Scanner;
@@ -14,6 +19,7 @@ public class MyBookingsPageCLI {
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
     private static final Scanner sc = new Scanner(System.in);
 
+    AuthController authController = new AuthController();
     PersonalBookingsController pBController = new PersonalBookingsController();
     BookingController bController = new BookingController();
 
@@ -35,7 +41,6 @@ public class MyBookingsPageCLI {
         switch (choice) {
             case "1":
                 System.out.print("\n" + SEPARATOR);
-                System.out.println("\nELENCO PRENOTAZIONI ATTIVE");
                 showActiveBookings();
                 break;
             case "2":
@@ -58,7 +63,10 @@ public class MyBookingsPageCLI {
     private void showActiveBookings() {
         List<BookingRecapBean> activeList = pBController.getActiveBookingsFromMap();
 
+        System.out.println("\nELENCO PRENOTAZIONI ATTIVE");
+
         if(activeList.isEmpty()) {
+            System.out.print(SEPARATOR);
             System.out.println("Nessuna prenotazione attiva");
         } else {
             showBookings(activeList);
@@ -108,14 +116,15 @@ public class MyBookingsPageCLI {
     }
 
     private void showBookings(List<BookingRecapBean> bList) {
-        System.out.println(SEPARATOR);
         int counter = 0;
         for(BookingRecapBean bean : bList) {
+            System.out.println(SEPARATOR);
             System.out.println((counter + 1) + ") Allenamento: " + bean.getTrainingName() + " - PT: " + bean.getPtLastName());
             System.out.println("Atleta: " + bean.getAthCompleteName());
             System.out.println("Data e ora: " + bean.getDate() + ", " + bean.getStartTime());
             System.out.println("Extra selezionati: " + bean.getDescription());
             System.out.println("Costo totale: " + bean.getPrice() + "€");
+            counter++;
         }
     }
 
@@ -134,7 +143,7 @@ public class MyBookingsPageCLI {
             if(index >= 0 && index < activeList.size()) {
                 BookingRecapBean bean = activeList.get(index);
 
-                checkIfSuccessfullyDeleted(bean);
+                deletionAttempt(bean);
 
             } else {
                 System.out.print("Nessuna prenotazione presente a quel numero.");
@@ -147,9 +156,46 @@ public class MyBookingsPageCLI {
         }
     }
 
-    private void checkIfSuccessfullyDeleted(BookingRecapBean bean) {
-        bController.deleteBooking(bean);
-        System.out.println("Prenotazione eliminata con successo!");
-        showActiveBookings();
+    private void deletionAttempt(BookingRecapBean bookingToDelete) {
+        System.out.println("\n" + SEPARATOR);
+        System.out.println("              CONFERMA ELIMINAZIONE");
+        System.out.println(SEPARATOR);
+
+        System.out.print("Inserisci la tua password: ");
+        String pass1 = sc.nextLine();
+
+        System.out.print("Conferma la tua password: ");
+        String pass2 = sc.nextLine();
+
+        try {
+            if(pass1 == null || pass2 == null) {
+                throw new MissingDataException();
+            }
+
+            if(!pass1.equals(pass2)) {
+                throw new InvalidPasswordConfirmationException();
+            }
+
+            ProfileDataBean bean = new ProfileDataBean();
+            bean.setInputPassword(pass1);
+            bean.setConfirmPassword(pass2);
+
+            if(authController.isPasswordWrong(bean)) {
+                throw new UserSearchFailedException();
+            } else {
+                if(bController.deleteBooking(bookingToDelete)) {
+                    System.out.println("Eliminazione prenotazione riuscita!");
+                    showActiveBookings();
+                } else {
+                    System.out.println("Errore in fase di eliminazione!");
+                }
+            }
+        } catch (MissingDataException e) {
+            e.handleException();
+        } catch (InvalidPasswordConfirmationException e) {
+            e.handleException();
+        } catch (UserSearchFailedException e) {
+            e.handleException();
+        }
     }
 }

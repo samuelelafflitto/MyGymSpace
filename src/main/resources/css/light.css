@@ -264,6 +264,13 @@
     -fx-background-color: black;
 }
 
+.date-picker-popup .disabled-cell {
+    -fx-background-color: #e2dfdf;
+    -fx-text-fill: #999999;
+}
+
+
+
 /* CheckBox */
 .custom-checkbox {
     -fx-font-size: 14px;

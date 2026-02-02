@@ -59,11 +59,6 @@ public class BookingDAODB extends BookingDAO {
         String sql = getQueryOrThrow("DELETE_BOOKING");
 
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            System.out.println(athleteUsername);
-            System.out.println(ptUsername);
-            System.out.println(date);
-            System.out.println(time);
-
             statement.setString(1, athleteUsername);
             statement.setString(2, ptUsername);
             statement.setDate(3, Date.valueOf(date));

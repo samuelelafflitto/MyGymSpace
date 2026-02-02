@@ -12,6 +12,7 @@ public class TopBarController {
         SessionManager sessionManager = SessionManager.getInstance();
         if(sessionManager.getLoggedUser() != null) {
             sessionManager.freeBookingSession();
+            sessionManager.setSelectedBookingToDelete(null);
             // ALTRE SESSIONI DA LIBERARE
             if(sessionManager.getLoggedUser().getType().equals(ATHLETE_TYPE)) {
                 ViewManager.changePage("/views/AthleteHomepage.fxml");
@@ -29,6 +30,7 @@ public class TopBarController {
         SessionManager sessionManager = SessionManager.getInstance();
         if(sessionManager.getLoggedUser() != null) {
             sessionManager.freeBookingSession();
+            sessionManager.setSelectedBookingToDelete(null);
             // ALTRE SESSIONI DA LIBERARE
             ViewManager.changePage("/views/MyProfile.fxml");
         } else {

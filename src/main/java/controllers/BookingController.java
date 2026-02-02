@@ -108,6 +108,12 @@ public class BookingController {
 
         List<String> availableSlots = new ArrayList<>();
 
+        LocalDate selectedDate = dailySchedule.getDate();
+        LocalDate today = LocalDate.now();
+
+        boolean isToday = selectedDate.equals(today);
+        int currentHour = LocalTime.now().getHour();
+
         // Turno mattina
         LocalTime morningStart = ScheduleConfig.getTime("schedule.morning.start", "09:00");
         LocalTime morningEnd = ScheduleConfig.getTime("schedule.morning.end", "13:00");
@@ -127,6 +133,9 @@ public class BookingController {
         // Uso indici per popolare Lista quando slot sono liberi
         for(int i = morningStartIndex; i < (morningStartIndex + mSlot); i++) {
             if(timeSlots.charAt(i) == '0') {
+                if(isToday && i <= currentHour) {
+                    continue;
+                }
                 String hLabel = i + ":00";
                 availableSlots.add(hLabel);
             }
@@ -134,6 +143,9 @@ public class BookingController {
 
         for(int i = afternoonStartIndex; i < (afternoonStartIndex + aSlot); i++) {
             if(timeSlots.charAt(i) == '0') {
+                if(isToday && i <= currentHour) {
+                    continue;
+                }
                 String hLabel = i + ":00";
                 availableSlots.add(hLabel);
             }

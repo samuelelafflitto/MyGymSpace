@@ -52,7 +52,7 @@
 
                     <Text onMouseClicked="#onBackClick" styleClass="text-link" text="Go Back" />
 
-                    <ComboBox fx:id="trainingSelector" prefHeight="40.0" prefWidth="300.0" promptText="Select an option..." styleClass="custom-combobox" />
+                    <ComboBox fx:id="trainingSelector" visibleRowCount="2" prefHeight="40.0" prefWidth="300.0" promptText="Select an option..." styleClass="custom-combobox" />
 
                     <Button fx:id="confirmButton" onAction="#onConfirmClick" defaultButton="true" prefHeight="40.0" prefWidth="120.0" styleClass="primary-button" text="Confirm" />
                 </HBox>

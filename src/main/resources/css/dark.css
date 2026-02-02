@@ -271,6 +271,43 @@
     -fx-text-fill: white;
 }
 
+/* Sfondo generale del popup */
+.date-picker-popup,
+.date-picker-popup .calendar-grid {
+    -fx-background-color: #1e1e1e;
+}
+
+/* 2. NUMERI SETTIMANA (Colonna a sinistra: 5, 6, 7...) */
+.date-picker-popup .week-number-cell {
+    -fx-background-color: #1e1e1e;
+    -fx-text-fill: #ff8b00;
+    -fx-font-weight: bold;
+}
+
+/* 3. GIORNI PRECEDENTI/SUCCESSIVI (26, 27... grigi) */
+.date-picker-popup .previous-month,
+.date-picker-popup .next-month {
+    -fx-background-color: #666666;
+    -fx-text-fill: #1e1e1e;
+}
+
+/* 4. GIORNI DEL MESE CORRENTE */
+.date-picker-popup .day-cell {
+    -fx-background-color: #1e1e1e;
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
+}
+
+/* 5. Giorno Selezionato o Hover */
+.date-picker-popup .day-cell:hover,
+.date-picker-popup .day-cell:selected {
+    -fx-background-color: #ff8b00;
+    -fx-text-fill: black;
+    -fx-font-weight: bold;
+}
+
+
+
 /* Bottone icona calendario */
 .date-picker .arrow-button {
     -fx-background-color: #ff8b00;
@@ -279,28 +316,38 @@
     -fx-background-color: black;
 }
 
-/* Necessario per il popup scuro (anche se non c'era commento originale, serve per la leggibilità) */
-.date-picker-popup {
+/* Necessario per il popup scuro */
+.date-picker-popup,
+.date-picker-popup .calendar {
     -fx-background-color: #1e1e1e;
     -fx-border-color: #ff8b00;
 }
+
 .date-picker-popup .month-year-pane {
     -fx-background-color: #ff8b00;
 }
-.date-picker-popup .label {
-    -fx-text-fill: white;
-}
+
 .date-picker-popup .month-year-pane .label {
     -fx-text-fill: black;
 }
-.date-picker-popup .day-cell {
-    -fx-background-color: #1e1e1e;
-    -fx-text-fill: white;
+
+.date-picker-popup .spinner .button .left-arrow,
+.date-picker-popup .spinner .button .right-arrow {
+    -fx-background-color: black;
 }
-.date-picker-popup .day-cell:hover,
-.date-picker-popup .selected {
-    -fx-background-color: #ff8b00;
-    -fx-text-fill: black;
+
+.date-picker-popup .day-name-cell {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.date-picker-popup .calendar-grid {
+    -fx-background-color: #1e1e1e;
+}
+
+.date-picker-popup .disabled-cell {
+    -fx-background-color: #202020;
+    -fx-text-fill: #7e7e7e;
 }
 
 /* CheckBox */
