@@ -6,6 +6,8 @@ import exceptions.DataLoadException;
 import exceptions.ExistingUserException;
 import models.dao.factory.DBDAO;
 import models.dao.factory.FactoryDAO;
+import models.dao.factory.FsysDAO;
+import models.dao.factory.MemDAO;
 import models.user.User;
 import models.user.UserDAO;
 import org.junit.jupiter.api.AfterEach;
@@ -23,19 +25,21 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class TestSignupAndRelated {
     private AuthController authController;
     private static final String TESTUSERNAME = "test_user";
+    // Impostare come: demo, db, fsys per testare
+    private static final String PERSISTENCE = "db";
 
     @BeforeEach
     void setUp() throws Exception {
         resetSessionManager();
-        forceFactoryToUseDBDAO();
+        forceFactoryMode();
 
         authController = new AuthController();
-        deleteTestUserFromDB();
+        deleteTestUser();
     }
 
     @AfterEach
     void tearDown() {
-        deleteTestUserFromDB();
+        deleteTestUser();
 
         try {
             resetSessionManager();
@@ -63,14 +67,14 @@ class TestSignupAndRelated {
         assertEquals(TESTUSERNAME, loggedUser.getUsername());
 
         UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
-        User dbUser = null;
+        User savedUser = null;
         try {
-            dbUser = userDAO.getUserByUsername(TESTUSERNAME);
+            savedUser = userDAO.getUserByUsername(TESTUSERNAME);
         } catch (DataLoadException _) {
-            fail("Errore DB durante la verifica");
+            fail("Errore durante la verifica nel sistema di persistenza");
         }
 
-        assertNotNull(dbUser, "L'utente dovrebbe essere stato salvato nel Database");
+        assertNotNull(savedUser, "L'utente dovrebbe essere stato salvato in persistenza");
     }
 
     @Test
@@ -97,7 +101,7 @@ class TestSignupAndRelated {
 
 
     // HELPER
-    private void deleteTestUserFromDB() {
+    private void deleteTestUser() {
         UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
         try {
             userDAO.deleteUser(TESTUSERNAME);
@@ -112,13 +116,21 @@ class TestSignupAndRelated {
         instance.set(null, null);
     }
 
-    private void forceFactoryToUseDBDAO() throws Exception {
+    private void forceFactoryMode() throws Exception {
         Field instanceField = FactoryDAO.class.getDeclaredField("instance");
         instanceField.setAccessible(true);
         instanceField.set(null, null);
 
-        FactoryDAO dbInstance = new DBDAO();
+        FactoryDAO selectedFactory = switch (PERSISTENCE.toUpperCase()) {
+            case "DEMO" -> new MemDAO();
+            case "DB" -> new DBDAO();
+            case "FSYS" -> new FsysDAO();
+            default -> {
+                System.out.println("Errore nel recupero del tipo di persistenza, avvio in modalità DEMO");
+                yield new MemDAO();
+            }
+        };
 
-        instanceField.set(null, dbInstance);
+        instanceField.set(null, selectedFactory);
     }
 }
