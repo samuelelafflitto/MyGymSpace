@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UserDAOFsys extends UserDAO{
-    private static final String FILE_PATH = "fsys/users.txt";
+    private static final String FILE_PATH = "src/main/resources/fsys/users.txt";
     private static final String DELIMITER = ";";
     private static final String HEADER = "username;password;firstname;lastname;type";
     private static final String PT_TYPE = "PT";
