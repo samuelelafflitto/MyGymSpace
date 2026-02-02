@@ -14,6 +14,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class BookingFormController {
+    private static final String INVALIDDATESTYLE = "disabled-cell";
+
     private final AthleteHomepageController athleteController = new AthleteHomepageController();
     private final BookingController bController = new BookingController();
 
@@ -66,14 +68,14 @@ public class BookingFormController {
                         boolean isPast = bController.isPastDate(item);
                         boolean isHoliday = bController.isHoliday(item);
 
-                        getStyleClass().remove("disabled-cell");
+                        getStyleClass().remove(INVALIDDATESTYLE);
 
                         if(isPast) {
                             setDisable(true);
-                            getStyleClass().add("disabled-cell");
+                            getStyleClass().add(INVALIDDATESTYLE);
                         } else if(isHoliday) {
                             setDisable(true);
-                            getStyleClass().add("disabled-cell");
+                            getStyleClass().add(INVALIDDATESTYLE);
                             setTooltip(new Tooltip("La palestra è chiusa!"));
                         }
                     }
