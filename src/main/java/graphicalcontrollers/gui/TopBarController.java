@@ -22,7 +22,6 @@ public class TopBarController {
         } else {
             ViewManager.changePage("/views/GuestHomepage.fxml");
         }
-        System.out.println("Go to Home");
     }
 
     @FXML
@@ -36,6 +35,5 @@ public class TopBarController {
         } else {
             ViewManager.changePage("/views/Login.fxml");
         }
-        System.out.println("Go to Profile");
     }
 }

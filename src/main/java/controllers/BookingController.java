@@ -385,7 +385,6 @@ public class BookingController {
 
         // Cerca/Crea la DailySchedule associata alla coppia (Training, LocalDate)
         if(!training.getSchedules().containsKey(date)) {
-            System.out.println("Data non trovata");
             // Ricavo DailySchedule (o creo)
             DailySchedule newDS = new DailySchedule(training, date, null);
 
