@@ -13,6 +13,7 @@ import utils.session.SessionManager;
 public class MyProfileController {
     User user = SessionManager.getInstance().getLoggedUser();
     private static final String PT_TYPE = "PT";
+    private static final String COMPACT_BUTTON_STYLE = "compact-button";
 
     @FXML
     private TextField firstNameField;
@@ -115,12 +116,12 @@ public class MyProfileController {
 
     // HELPER
     private void applyCompactStyleCSS(Button btn) {
-        if(!btn.getStyleClass().contains("compact-button")) {
-            btn.getStyleClass().add("compact-button");
+        if(!btn.getStyleClass().contains(COMPACT_BUTTON_STYLE)) {
+            btn.getStyleClass().add(COMPACT_BUTTON_STYLE);
         }
     }
 
     private void removeCompactStyleCSS(Button btn) {
-        btn.getStyleClass().remove("compact-button");
+        btn.getStyleClass().remove(COMPACT_BUTTON_STYLE);
     }
 }

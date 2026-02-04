@@ -77,7 +77,7 @@ public class EditTrainingController {
             }
 
             priceField.getStyleClass().remove(ERROR_STYLE);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException _) {
             if(!priceField.getStyleClass().contains(ERROR_STYLE)) {
                 priceField.getStyleClass().add(ERROR_STYLE);
             }
