@@ -7,9 +7,11 @@ import exceptions.SameDateSameTimeException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.Callback;
+import utils.PriceConfig;
 import utils.session.BookingSession;
 import utils.session.SessionManager;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -43,6 +45,11 @@ public class BookingFormController {
 
     @FXML
     public void initialize() {
+        setupCheckboxPrice(towelCheck, "Towel rental", "towel");
+        setupCheckboxPrice(saunaCheck, "Sauna access", "sauna");
+        setupCheckboxPrice(energizerCheck, "Post-workout shake", "energizer");
+        setupCheckboxPrice(videoCheck, "PT Video Analysis", "video");
+
         configureDatePicker();
 
         datePicker.valueProperty().addListener((_, _, newDate) -> {
@@ -50,6 +57,16 @@ public class BookingFormController {
                 onDateSelected(newDate);
             }
         });
+    }
+
+    private void setupCheckboxPrice(CheckBox checkBox, String baseName, String key) {
+        BigDecimal price = PriceConfig.getExtraPrice(key);
+
+        if(price != null && price.compareTo(BigDecimal.ZERO) > 0) {
+            checkBox.setText(String.format("%s (+ %s€)", baseName, price.toPlainString()));
+        } else {
+            checkBox.setText(baseName);
+        }
     }
 
     private void configureDatePicker() {

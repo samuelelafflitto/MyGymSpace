@@ -57,6 +57,19 @@ public class TrainingDAOMem extends TrainingDAO {
         this.trainings.add(demoTraining2);
     }
 
+    @Override
+    public void updateTrainingDetails(Training t) {
+        for(Training training : trainings) {
+            if(training.getPersonalTrainer().getUsername().equals(t.getPersonalTrainer().getUsername())) {
+                training.setDescription(t.getDescription());
+                training.setBasePrice(t.getBasePrice());
+
+                return;
+            }
+        }
+        System.out.println("Nessun allenamento trovato in memoria.");
+    }
+
     private Training newDemoTraining(PersonalTrainer pt, String title, String description, BigDecimal basePrice) {
         Training newT = new Training();
         newT.setPersonalTrainer(pt);

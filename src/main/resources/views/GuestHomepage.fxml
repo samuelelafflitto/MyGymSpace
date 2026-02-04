@@ -20,7 +20,7 @@
                 <Insets top="40.0" />
             </padding>
 
-            <Label styleClass="welcome-title" text="Welcome among us!" />
+            <Label styleClass="welcome-title" text="Get Started Now!" />
 
             <HBox alignment="CENTER" styleClass="homepage-container">
 

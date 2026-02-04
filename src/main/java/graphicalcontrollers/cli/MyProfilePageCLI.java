@@ -63,6 +63,13 @@ public class MyProfilePageCLI {
                     athMenu.logout();
                 }
                 break;
+            case "M":
+                if(!type.equals(ATHLETE_TYPE)) {
+                    new EditTrainingPageCLI().start();
+                } else {
+                    System.out.println(INVALIDINPUT);
+                }
+                break;
             case "D":
                 deleteAccount();
                 new HomepageCLI().start();
@@ -99,10 +106,15 @@ public class MyProfilePageCLI {
 
     private void printOptions() {
         System.out.println(SEPARATOR);
-        System.out.println(" 1. Modifica Dati Personali");
-        System.out.println(" 2. Torna al Menu Principale");
-        System.out.println(" 3. Logout");
-        System.out.println(" D. Elimina il Profilo");
+        System.out.println("1) Modifica Dati Personali");
+        System.out.println("2) Torna al Menu Principale");
+        System.out.println("3) Logout");
+
+        if(!type.equals(ATHLETE_TYPE)) {
+            System.out.println("M) Modifica Dettagli Allenamento");
+        }
+
+        System.out.println("D) Elimina il Profilo");
         System.out.println(SEPARATOR);
     }
 

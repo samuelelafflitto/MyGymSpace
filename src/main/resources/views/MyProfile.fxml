@@ -80,10 +80,13 @@
                         <Insets top="20.0" />
                     </VBox.margin>
 
-                    <Button onAction="#onEditPersonalDataClick" prefWidth="300.0" prefHeight="60.0" styleClass="primary-button"
+                    <Button fx:id="btnEditPersonalData" onAction="#onEditPersonalDataClick" prefWidth="300.0" prefHeight="60.0" styleClass="primary-button"
                             text="Edit Personal Data" textAlignment="CENTER" wrapText="true" />
 
-                    <Button onAction="#onDeleteAccountClick" prefWidth="300.0" prefHeight="60.0" styleClass="delete-account-button"
+                    <Button fx:id="btnEditTraining" onAction="#onEditTrainingClick" prefWidth="300.0" prefHeight="60.0" styleClass="primary-button, compact-button"
+                            text="Edit Training" textAlignment="CENTER" wrapText="true" visible="false" managed="false" />
+
+                    <Button fx:id="btnDeleteAccount" onAction="#onDeleteAccountClick" prefWidth="300.0" prefHeight="60.0" styleClass="delete-account-button"
                             text="Delete Account" textAlignment="CENTER" wrapText="true" />
                 </HBox>
 

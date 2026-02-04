@@ -81,6 +81,25 @@ public class TrainingDAODB extends TrainingDAO {
         // Usato solo in modalità demo
     }
 
+    @Override
+    public void updateTrainingDetails(Training t) {
+        String sql =  getQueryOrThrow("UPDATE_TRAINING_DETAILS");
+
+        try(Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, t.getDescription());
+            statement.setBigDecimal(2, t.getBasePrice());
+            statement.setString(3, t.getPersonalTrainer().getUsername());
+
+            int affectedRows = statement.executeUpdate();
+
+            if(affectedRows == 0) {
+                System.out.println("Nessun allenamento trovato");
+            }
+        } catch (SQLException e) {
+            throw new DataLoadException("Errore nell'aggiornamento dei dettagli dell'allenamento", e);
+        }
+    }
+
 
 
     // HELPER

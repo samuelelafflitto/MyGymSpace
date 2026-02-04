@@ -50,6 +50,10 @@
     -fx-prompt-fill: gray;
 }
 
+.input-field .content {
+    -fx-background-color: #e6f2ff;
+}
+
 /* Bottoni principali (pieni) */
 .primary-button {
     -fx-background-color: #7da0d6;
@@ -75,6 +79,12 @@
 
 .delete-account-button:hover {
     -fx-background-color: #cc0000;
+}
+
+.compact-button {
+    -fx-padding: 5px 2px 5px 2px;
+    -fx-font-size: 14px;
+    -fx-text-alignment: center;
 }
 
 /* Link testuali */
@@ -318,7 +328,11 @@
     -fx-background-color: #cc0000;
 }
 
-
+.success-label {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
 
 
 

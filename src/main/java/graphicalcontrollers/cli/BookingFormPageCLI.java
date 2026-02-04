@@ -65,7 +65,7 @@ public class BookingFormPageCLI {
                     e.handleException();
 
                     // Fallimento causa tentativi terminati, ritorno alla Homepage
-                    isAttemptsTeminated(e);
+                    isAttemptsEnded(e);
                 }
                 break;
             // Indietro
@@ -262,11 +262,11 @@ public class BookingFormPageCLI {
         } catch (AttemptsException e2) {
             e2.handleException();
 
-            isAttemptsTeminated(e2);
+            isAttemptsEnded(e2);
         }
     }
 
-    private void isAttemptsTeminated(AttemptsException e) {
+    private void isAttemptsEnded(AttemptsException e) {
         if(e.getErrorType() == AttemptsErrorType.MAX_ATTEMPTS_REACHED) {
             clearAndGoToHome();
         }

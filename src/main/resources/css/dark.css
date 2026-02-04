@@ -8,10 +8,6 @@
     -fx-text-fill: white;
 }
 
-/*.text {*/
-/*    -fx-fill: white;*/
-/*}*/
-
 .background-pane {
     -fx-background-color: #121212;
 }
@@ -50,6 +46,10 @@
     -fx-prompt-fill: #888888;
 }
 
+.input-field .content {
+    -fx-background-color: #2c2c2c;
+}
+
 /* Bottoni principali (pieni) */
 .primary-button {
     -fx-background-color: #ff8b00;
@@ -75,6 +75,12 @@
 
 .delete-account-button:hover {
     -fx-background-color: #cc0000;
+}
+
+.compact-button {
+    -fx-padding: 5px 2px 5px 2px;
+    -fx-font-size: 14px;
+    -fx-text-alignment: center;
 }
 
 .text-black {
@@ -399,6 +405,15 @@
 .delete-button:hover {
     -fx-background-color: #cc0000;
 }
+
+.success-label {
+    -fx-font-size: 36px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+
+
 
 /* FOTO PROGETTO */
 /* Guest-Athlete */

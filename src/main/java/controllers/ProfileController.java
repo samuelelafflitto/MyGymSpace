@@ -2,10 +2,13 @@ package controllers;
 
 import beans.ProfileDataBean;
 import beans.ProfileStatsBean;
+import beans.TrainingToEditBean;
 import exceptions.InvalidPasswordConfirmationException;
 import models.booking.BookingInterface;
 import models.booking.record.BookingKey;
 import models.dao.factory.FactoryDAO;
+import models.training.Training;
+import models.training.TrainingDAO;
 import models.user.Athlete;
 import models.user.PersonalTrainer;
 import models.user.User;
@@ -95,6 +98,22 @@ public class ProfileController {
             return true;
         } else {
             throw new InvalidPasswordConfirmationException();
+        }
+    }
+
+    public boolean updateTraining(TrainingToEditBean tBean) {
+        Training t = new Training();
+        t.setPersonalTrainer(((PersonalTrainer) SessionManager.getInstance().getLoggedUser()));
+        t.setName(tBean.getName());
+        t.setDescription(tBean.getDescription());
+        t.setBasePrice(tBean.getBasePrice());
+
+        TrainingDAO tDAO = FactoryDAO.getInstance().createTrainingDAO();
+        try {
+            tDAO.updateTrainingDetails(t);
+            return true;
+        } catch (Exception _) {
+            return false;
         }
     }
 

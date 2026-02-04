@@ -31,7 +31,7 @@ public abstract class BaseDataChangeController {
             ProfileController pController = new ProfileController();
             if(performControllerAction(pController, bean)) {
                 System.out.println(getSuccessMessage());
-                onCancelClick();
+                ViewManager.changePage("/views/SuccessfulPage.fxml");
             }
         } catch (InvalidPasswordConfirmationException e) {
             e.handleException();
