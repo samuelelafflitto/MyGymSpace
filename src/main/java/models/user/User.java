@@ -15,7 +15,7 @@ public abstract class User {
         this.type = type;
     }
 
-    //GET
+    //GETTER
     public String getFirstName() {
         return firstName;
     }
@@ -36,7 +36,7 @@ public abstract class User {
         return type;
     }
 
-    //SET
+    //SETTER
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -56,6 +56,7 @@ public abstract class User {
     public void setType(String type) {
         this.type = type;
     }
+
 
     public String toString() {
         return "User{" + "username=" + username + ", type=" + type + '}';

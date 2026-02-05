@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TestLoginAndRelated {
     private AuthController authController;
     private static final String TESTUSERNAME = "test_user";
-    // Impostare come: demo, db, fsys per testare
+    // To be set as: demo, db, fsys
     private static final String PERSISTENCE = "db";
 
     @BeforeEach
@@ -50,7 +50,7 @@ class TestLoginAndRelated {
 
 
     @Test
-    @DisplayName("T04 - Test Login")
+    @DisplayName("T04 - Login Test")
     void testAuthUser() {
         SignupBean signupBean = new SignupBean();
         signupBean.setFirstName("testFirstName");
@@ -66,7 +66,7 @@ class TestLoginAndRelated {
             System.out.println(e.getMessage());
         }
 
-        assertNull(SessionManager.getInstance().getLoggedUser(), "La sessione deve essere vuota prima di tentare il login");
+        assertNull(SessionManager.getInstance().getLoggedUser(), "The session must be empty before attempting login");
 
         LoginBean loginBean = new LoginBean();
         loginBean.setUsername(TESTUSERNAME);
@@ -74,15 +74,15 @@ class TestLoginAndRelated {
 
         boolean result = authController.authUser(loginBean);
 
-        assertTrue(result, "Il login dovrebbe avere successo");
+        assertTrue(result, "Login should be successful");
 
         User loggedUser = SessionManager.getInstance().getLoggedUser();
-        assertNotNull(loggedUser, "L'utente dovrebbe essere loggato dopo il login");
+        assertNotNull(loggedUser, "The user should be logged in after logging in");
         assertEquals(TESTUSERNAME, loggedUser.getUsername());
     }
 
     @Test
-    @DisplayName("T05 - Test Login con password sbagliata")
+    @DisplayName("T05 - Login test with wrong password")
     void testAuthUser_wrongPassword() {
         SignupBean signupBean = new SignupBean();
         signupBean.setFirstName("testFirstName");
@@ -103,11 +103,11 @@ class TestLoginAndRelated {
         loginBean.setPassword("wrongPassword");
 
         assertThrows(UserSearchFailedException.class, () -> authController.authUser(loginBean));
-        assertNull(SessionManager.getInstance().getLoggedUser(), "Nessun utente dovrebbe essere loggato");
+        assertNull(SessionManager.getInstance().getLoggedUser(), "No user should be logged in");
     }
 
     @Test
-    @DisplayName("T06 - Test Login con utente non registrato")
+    @DisplayName("T06 - Login Test with unregistered user")
     void testAuthUser_userNotFound() {
         LoginBean loginBean = new LoginBean();
         loginBean.setUsername(TESTUSERNAME);
@@ -123,7 +123,7 @@ class TestLoginAndRelated {
         try {
             userDAO.deleteUser(TESTUSERNAME);
         } catch (DataLoadException e) {
-            System.err.println("ATTENZIONE: pulizia utente di test fallita. " + e.getMessage());
+            System.err.println("WARNING: Test user cleanup failed " + e.getMessage());
         }
     }
 
@@ -143,7 +143,7 @@ class TestLoginAndRelated {
             case "DB" -> new DBDAO();
             case "FSYS" -> new FsysDAO();
             default -> {
-                System.out.println("Errore nel recupero del tipo di persistenza, avvio in modalità DEMO");
+                System.out.println("Persistence mode retrieving error, starting test in Demo mode...");
                 yield new MemDAO();
             }
         };

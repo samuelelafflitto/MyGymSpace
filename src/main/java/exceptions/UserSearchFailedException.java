@@ -4,7 +4,7 @@ import controllers.PopUpManager;
 import start.Main;
 
 public class UserSearchFailedException extends RuntimeException {
-    private static final String MSG = "Credenziali incorrette. Riprovare";
+    private static final String MSG = "Incorrect credentials! Try again";
 
     public UserSearchFailedException() {
         super(MSG);

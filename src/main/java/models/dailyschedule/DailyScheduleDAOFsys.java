@@ -10,23 +10,23 @@ public class DailyScheduleDAOFsys extends DailyScheduleDAO {
 
     @Override
     public List<DailySchedule> getSchedulesByTraining(Training training) {
-        // Non implementato
+        // Not implemented
         return List.of();
     }
 
     @Override
     public DailySchedule loadSingleScheduleByTraining(Training training, LocalDate date) {
-        // Non implementato
+        // Not implemented
         return null;
     }
 
     @Override
     public void updateDailySchedule(Training training, DailySchedule dailySchedule) {
-        // Non implementato
+        // Not implemented
     }
 
     @Override
     public void resetSlotInSchedule(Training training, LocalDate date, LocalTime time) {
-        // Non implementato
+        // Not implemented
     }
 }

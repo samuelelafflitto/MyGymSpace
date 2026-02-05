@@ -18,7 +18,7 @@ public class UserDAOFsys extends UserDAO{
         File parent = file.getParentFile();
 
         if(parent != null && !parent.exists() && !parent.mkdirs()) {
-            throw new DataLoadException("Impossibile creare la cartella: " + parent.getAbsolutePath());
+            throw new DataLoadException("Unable to create the folder: " + parent.getAbsolutePath());
         }
 
         if(!file.exists()) {
@@ -27,7 +27,7 @@ public class UserDAOFsys extends UserDAO{
                     initializeFile(file);
                 }
             } catch (IOException e) {
-                throw new DataLoadException("Impossibile caricare il file di persistenza: " + FILE_PATH, e);
+                throw new DataLoadException("Unable to upload the persistence file: " + FILE_PATH, e);
             }
         }
     }
@@ -70,7 +70,7 @@ public class UserDAOFsys extends UserDAO{
             bufferedWriter.newLine();
 
         }catch (IOException e) {
-            throw new DataLoadException("Errore di scrittura su file users.txt: " + e.getMessage());
+            throw new DataLoadException("Error writing on users.txt file: " + e.getMessage());
         }
     }
 
@@ -109,7 +109,7 @@ public class UserDAOFsys extends UserDAO{
         if(found) {
             saveAllUsers(users);
         } else {
-            throw new DataLoadException("Errore di scrittura su file users.txt");
+            throw new DataLoadException("Error writing on users.txt file");
         }
     }
 
@@ -130,7 +130,7 @@ public class UserDAOFsys extends UserDAO{
         if(found) {
             saveAllUsers(users);
         } else {
-            throw new DataLoadException("Errore di scrittura su file users.txt");
+            throw new DataLoadException("Error writing on users.txt file");
         }
     }
 
@@ -154,7 +154,7 @@ public class UserDAOFsys extends UserDAO{
                 writer.newLine();
             }
         } catch (IOException e) {
-            throw new DataLoadException("Errore di scrittura su file users.txt: " + e.getMessage());
+            throw new DataLoadException("Error writing on users.txt file: " + e.getMessage());
         }
     }
 
@@ -162,7 +162,7 @@ public class UserDAOFsys extends UserDAO{
         List<User> users = new ArrayList<>();
         File file = new File(FILE_PATH);
         if (!file.exists()) {
-            System.out.println("[DEBUG] File non trovato! Ritorno lista vuota.");
+            System.out.println("[DEBUG] File not found! Return empty list");
             return users;
         }
 
@@ -190,7 +190,7 @@ public class UserDAOFsys extends UserDAO{
                 }
             }
         } catch (IOException e) {
-            throw new DataLoadException("Errore lettura su file users.txt: " + e.getMessage());
+            throw new DataLoadException("Error writing on users.txt file: " + e.getMessage());
         }
         return users;
     }

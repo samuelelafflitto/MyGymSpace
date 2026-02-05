@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class TestSignupAndRelated {
     private AuthController authController;
     private static final String TESTUSERNAME = "test_user";
-    // Impostare come: demo, db, fsys per testare
+    // To be set as: demo, db, fsys
     private static final String PERSISTENCE = "db";
 
     @BeforeEach
@@ -50,7 +50,7 @@ class TestSignupAndRelated {
 
 
     @Test
-    @DisplayName("T07 - Test Registrazione")
+    @DisplayName("T07 - Signup Test")
     void testRegisterUser() {
         SignupBean bean = new SignupBean();
         bean.setFirstName("testFirstName");
@@ -60,10 +60,10 @@ class TestSignupAndRelated {
 
         boolean result = authController.registerUser(bean);
 
-        assertTrue(result, "La registrazione dovrebbe essere stata effettuata");
+        assertTrue(result, "Registration should have been made");
 
         User loggedUser = SessionManager.getInstance().getLoggedUser();
-        assertNotNull(loggedUser, "L'utente dovrebbe essere loggato dopo la registrazione");
+        assertNotNull(loggedUser, "The user should be logged in after registration");
         assertEquals(TESTUSERNAME, loggedUser.getUsername());
 
         UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
@@ -71,14 +71,14 @@ class TestSignupAndRelated {
         try {
             savedUser = userDAO.getUserByUsername(TESTUSERNAME);
         } catch (DataLoadException _) {
-            fail("Errore durante la verifica nel sistema di persistenza");
+            fail("Error while checking in persistence");
         }
 
-        assertNotNull(savedUser, "L'utente dovrebbe essere stato salvato in persistenza");
+        assertNotNull(savedUser, "The user should have been saved persistently");
     }
 
     @Test
-    @DisplayName("T08 - Test Registrazione con username già usato")
+    @DisplayName("T08 - Signup Test with already used username")
     void testRegisterUser_secondTime() {
         SignupBean bean = new SignupBean();
         bean.setFirstName("testFirstName");
@@ -86,7 +86,7 @@ class TestSignupAndRelated {
         bean.setUsername(TESTUSERNAME);
         bean.setPassword("testPassword");
 
-        // Prima registrazione
+        // First signup
         authController.registerUser(bean);
 
         // Logout
@@ -106,7 +106,7 @@ class TestSignupAndRelated {
         try {
             userDAO.deleteUser(TESTUSERNAME);
         } catch (DataLoadException e) {
-            System.err.println("ATTENZIONE: pulizia utente di test fallita. " + e.getMessage());
+            System.err.println("WARNING: Test user cleanup failed " + e.getMessage());
         }
     }
 
@@ -126,7 +126,7 @@ class TestSignupAndRelated {
             case "DB" -> new DBDAO();
             case "FSYS" -> new FsysDAO();
             default -> {
-                System.out.println("Errore nel recupero del tipo di persistenza, avvio in modalità DEMO");
+                System.out.println("Persistence mode retrieving error, starting test in Demo mode...");
                 yield new MemDAO();
             }
         };

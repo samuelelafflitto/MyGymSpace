@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class MyProfilePageCLI {
     private static final Scanner sc = new Scanner(System.in);
-    private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
+    private static final String INVALIDINPUT = "Invalid Option! Try again";
     private static final String SEPARATOR = "------------------------------------------------";
     private static final String ATHLETE_TYPE = "ATH";
 
@@ -25,7 +25,7 @@ public class MyProfilePageCLI {
     public void start() {
         while(true) {
             System.out.println("\n" + SEPARATOR);
-            System.out.println("            MYGYMSPACE - PROFILO");
+            System.out.println("            MYGYMSPACE - PROFILE");
             System.out.println(SEPARATOR);
 
             printUserData();
@@ -63,7 +63,7 @@ public class MyProfilePageCLI {
                     athMenu.logout();
                 }
                 break;
-            case "M":
+            case "E":
                 if(!type.equals(ATHLETE_TYPE)) {
                     new EditTrainingPageCLI().start();
                 } else {
@@ -82,10 +82,10 @@ public class MyProfilePageCLI {
 
     private void printUserData() {
         String typeName = user.getType().equals("ATH") ? "Atleta" : "Personal Trainer";
-        System.out.println(" Nome:            " + user.getFirstName());
-        System.out.println(" Cognome:         " + user.getLastName());
+        System.out.println(" First Name:      " + user.getFirstName());
+        System.out.println(" Last Name:       " + user.getLastName());
         System.out.println(" Username:        " + user.getUsername());
-        System.out.println(" Ruolo:           " + typeName);
+        System.out.println(" User type:       " + typeName);
         System.out.println(SEPARATOR);
     }
 
@@ -94,39 +94,39 @@ public class MyProfilePageCLI {
         ProfileStatsBean bean = pController.getProfileStats();
         String nextSession;
         if(bean.getNextDate() == null && bean.getNextTime() == null) {
-            nextSession = "Nessuna prenotazione attiva";
+            nextSession = "No active bookings";
         } else {
             nextSession = bean.getNextDate().toString() + ", " + bean.getNextTime().toString();
         }
 
-        System.out.println(" Sessioni totali:      " + bean.getStats1());
-        System.out.println(" Sessioni future:      " + bean.getStats2());
-        System.out.println(" Prossima sessione:    " + nextSession);
+        System.out.println(" Total sessions:       " + bean.getStats1());
+        System.out.println(" Future sessions:      " + bean.getStats2());
+        System.out.println(" Next session:         " + nextSession);
     }
 
     private void printOptions() {
         System.out.println(SEPARATOR);
-        System.out.println("1) Modifica Dati Personali");
-        System.out.println("2) Torna al Menu Principale");
+        System.out.println("1) Edit Personal Data");
+        System.out.println("2) Back to Homepage");
         System.out.println("3) Logout");
 
         if(!type.equals(ATHLETE_TYPE)) {
-            System.out.println("M) Modifica Dettagli Allenamento");
+            System.out.println("E) Edit Training");
         }
 
-        System.out.println("D) Elimina il Profilo");
+        System.out.println("D) Delete your account");
         System.out.println(SEPARATOR);
     }
 
     private void deleteAccount() {
         System.out.println("\n" + SEPARATOR);
-        System.out.println("             ELIMINA IL TUO ACCOUNT");
+        System.out.println("                ACCOUNT DELETION");
         System.out.println(SEPARATOR);
 
-        System.out.print("Inserisci la tua password: ");
+        System.out.print("Enter your password: ");
         String firstPassword = sc.nextLine();
 
-        System.out.print("Per confermare, inserisci di nuovo la password: ");
+        System.out.print("Confirm with your password: ");
         String secondPassword = sc.nextLine();
 
         ProfileDataBean profileDataBean = new ProfileDataBean();
@@ -135,7 +135,7 @@ public class MyProfilePageCLI {
 
         try {
             if(authController.deleteUser(profileDataBean)) {
-                System.out.println("\nEliminazione profilo riuscita!");
+                System.out.println("\nAccount successfully deleted!");
                 new HomepageCLI().start();
             }
         } catch (MissingDataException e) {

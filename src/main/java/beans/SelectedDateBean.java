@@ -7,18 +7,18 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 public class SelectedDateBean {
-
     private LocalDate selectedDate;
 
     public SelectedDateBean(String date) {
         stringToDate(date);
     }
 
+    // GETTER
     public LocalDate getSelectedDate() {
         return selectedDate;
     }
 
-    // CONVERSIONE STRING TO LOCALDATE E CONTROLLO SULLA DATA
+    // String to LocalDate Conversion and Date Control
     private void stringToDate(String input) throws DateException {
         if(input.isEmpty()) {
             throw new InvalidDateFormatException();

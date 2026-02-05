@@ -4,7 +4,7 @@ import controllers.PopUpManager;
 import start.Main;
 
 public class InvalidDateFormatException extends RuntimeException {
-    private static final String MSG = "Formato della data non valido!";
+    private static final String MSG = "Invalid date format!";
 
     public InvalidDateFormatException() {
         super(MSG);

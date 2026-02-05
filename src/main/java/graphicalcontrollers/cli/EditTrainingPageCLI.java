@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class EditTrainingPageCLI {
     private static final Scanner sc = new Scanner(System.in);
-    private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
+    private static final String INVALIDINPUT = "Invalid Option! Try again";
     private static final String SEPARATOR = "------------------------------------------------";
     private static final String ATHLETE_TYPE = "ATH";
     private static final BigDecimal MAX_PRICE = new BigDecimal("30.00");
@@ -25,14 +25,14 @@ public class EditTrainingPageCLI {
     public void start() {
         while(true) {
             System.out.println("\n" + SEPARATOR);
-            System.out.println("       MYGYMSPACE - MODIFICA ALLENAMENTO");
+            System.out.println("         MYGYMSPACE - EDIT TRAINING PAGE");
             System.out.println(SEPARATOR);
 
             printTraining();
 
-            System.out.println("1) Modifica Descrizione");
-            System.out.println("2) Modifica Prezzo Base");
-            System.out.println("3) Torna al Profilo");
+            System.out.println("1) Edit Description");
+            System.out.println("2) Edit Base Price");
+            System.out.println("3) Back to My Profile");
             System.out.println("4) Logout ");
             System.out.print("--> ");
             String choice = sc.nextLine();
@@ -69,18 +69,18 @@ public class EditTrainingPageCLI {
 
 
     private void printTraining() {
-        System.out.println(" Nome Allenamento:      " + pt.getTraining().getName());
-        System.out.println(" Descrizione:           " + pt.getTraining().getDescription());
-        System.out.println(" Prezzo base (MAX 30):  " + pt.getTraining().getBasePrice());
+        System.out.println(" Training name:         " + pt.getTraining().getName());
+        System.out.println(" Description:           " + pt.getTraining().getDescription());
+        System.out.println(" Base Price (MAX 30):   " + pt.getTraining().getBasePrice());
         System.out.println(SEPARATOR);
     }
 
     private void changeDescription() {
         System.out.println("\n" + SEPARATOR);
-        System.out.println("            MODIFICA LA DESCRIZIONE");
+        System.out.println("                EDIT DESCRIPTION");
         System.out.println(SEPARATOR);
 
-        System.out.print("Inserisci la nuova descrizione: ");
+        System.out.print("Enter the new description: ");
         String newDescription = sc.nextLine();
 
         pt.getTraining().setDescription(newDescription);
@@ -90,14 +90,14 @@ public class EditTrainingPageCLI {
 
     private void changeBasePrice() {
         System.out.println("\n" + SEPARATOR);
-        System.out.println("            MODIFICA IL PREZZO BASE");
+        System.out.println("                 EDIT BASE PRICE");
         System.out.println(SEPARATOR);
 
-        System.out.print("Inserisci il nuovo prezzo: ");
+        System.out.print("Enter the new base price: ");
         String stringBasePrice = sc.nextLine();
 
         if(stringBasePrice.trim().isEmpty()) {
-            System.out.println("Il prezzo non può essere vuoto.");
+            System.out.println("The base price slot cannot be empty!");
             return;
         }
 
@@ -108,12 +108,12 @@ public class EditTrainingPageCLI {
             newBasePrice = new BigDecimal(priceText).setScale(2, RoundingMode.HALF_UP);
 
             if(newBasePrice.compareTo(BigDecimal.ZERO) < 0) {
-                System.out.println("Il prezzo non può essere negativo!");
+                System.out.println("The base price cannot be negative!");
                 return;
             }
 
             if(newBasePrice.compareTo(MAX_PRICE) > 0) {
-                System.out.println("Il prezzo supera il massimo consentito. Impostato a " + MAX_PRICE + "€");
+                System.out.println("The base price exceeds the maximum allowed. Set to " + MAX_PRICE + "€");
                 newBasePrice = MAX_PRICE;
             }
 
@@ -121,7 +121,7 @@ public class EditTrainingPageCLI {
 
             submitTrainingUpdate();
         } catch (NumberFormatException e) {
-            System.out.println("Formato del prezzo non valido " + e.getMessage());
+            System.out.println("Invalid price format " + e.getMessage());
         }
     }
 
@@ -134,9 +134,9 @@ public class EditTrainingPageCLI {
             bean.setBasePrice(pt.getTraining().getBasePrice());
 
             if(pController.updateTraining(bean)) {
-                System.out.println("Aggiornamento riuscito!");
+                System.out.println("Successful editing!");
             } else {
-                System.out.println("Aggiornamento non riuscito!");
+                System.out.println("Edit failed!");
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -1,9 +1,9 @@
 package exceptions;
 
 public enum DateErrorType {
-    PAST_DATE("Impossibile selezionare una data passata!"),
-    HOLIDAY("Impossibile selezionare la data in quanto giorno festivo."),
-    FULL_SCHEDULE("Impossibile prenotare questa data in quanto tutti gli slot sono occupati.");
+    PAST_DATE("Unable to select a past date!"),
+    HOLIDAY("Unable to select date as it is a holiday!"),
+    FULL_SCHEDULE("Unable to select this date as all slots are busy!");
 
     private final String msg;
 

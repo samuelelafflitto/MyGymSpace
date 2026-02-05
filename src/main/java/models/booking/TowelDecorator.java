@@ -6,10 +6,11 @@ import java.math.BigDecimal;
 
 public class TowelDecorator extends BookingDecorator {
     private final BigDecimal towelCost;
-
+    private final String towelName;
     public TowelDecorator(BookingInterface booking) {
         super(booking);
         towelCost = PriceConfig.getExtraPrice("towel");
+        towelName = PriceConfig.getExtraName("towel");
     }
 
     @Override
@@ -18,7 +19,7 @@ public class TowelDecorator extends BookingDecorator {
         if(!super.getDescription().isEmpty()) {
             addedExtraOption = " + ";
         }
-        return super.getDescription() + addedExtraOption + "Towel";
+        return super.getDescription() + addedExtraOption + towelName;
     }
 
     @Override

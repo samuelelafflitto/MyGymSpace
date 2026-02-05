@@ -4,9 +4,10 @@ public class SignupBean extends LoginBean {
     private String firstName;
     private String lastName;
 
-    public SignupBean() {// Il costruttore non ha bisogno di parametri
+    public SignupBean() {// The constructor does not need parameters
     }
 
+    // GETTER
     public String getFirstName() {
         return firstName;
     }
@@ -15,6 +16,7 @@ public class SignupBean extends LoginBean {
         return lastName;
     }
 
+    // SETTER
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }

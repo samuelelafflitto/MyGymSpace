@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class TrainingSelectionPageCLI {
-    private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
+    private static final String INVALIDINPUT = "Invalid Option! Try again";
     private static final String SEPARATOR = "------------------------------------------------";
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
     private static final Scanner sc = new Scanner(System.in);
@@ -22,9 +22,9 @@ public class TrainingSelectionPageCLI {
     public void start() {
         while (true) {
             System.out.println(SEPARATOR);
-            System.out.println("1) Seleziona Allenamento");
-            System.out.println("2) Annulla prenotazione");
-            System.out.println("3) Torna alla Homepage");
+            System.out.println("1) Select a Training");
+            System.out.println("2) Cancel");
+            System.out.println("3) Back to Homepage");
             System.out.println("4) Logout");
             System.out.print("--> ");
 
@@ -39,10 +39,8 @@ public class TrainingSelectionPageCLI {
                 try {
                     selectTraining();
                 } catch (TrainingsSearchFailedException e) {
-                    // Gestione eccezione "non ci sono allenamenti"
                     e.handleException();
                 } catch (AttemptsException e) {
-                    // Gestione eccezione "tentativi terminati"
                     e.handleException();
                     athleteMenuCLI.goToHome();
                 }
@@ -62,35 +60,28 @@ public class TrainingSelectionPageCLI {
     private void selectTraining() {
         List<AvailableTrainingBean> trainings = bController.getAvailableTrainings();
 
-        // Controlla se la lista ottenuta è vuota
         if (trainings.isEmpty()) {
             throw new TrainingsSearchFailedException();
         }
 
-        // Viene mostrata la lista
         for(int i = 0; i < trainings.size(); i++) {
             AvailableTrainingBean training = trainings.get(i);
             showTrainingDetails(training, i + 1);
         }
 
-        // Per gestione tentativi effettuati e massimi
         int attempts = 0;
 
         while(attempts < MAX_ATTEMPTS) {
-            System.out.print("Selezionare un allenamento tra quelli visualizzati: ");
-            // Raccoglie indice dell'allenamento da selezionare
+            System.out.print("Select a Training from those displayed: ");
+
             int selectedTraining = Integer.parseInt(sc.nextLine()) - 1;
 
-            // Controlla se l'indice inserito rientra nel range della lista
             if(selectedTraining >= 0 && selectedTraining < trainings.size()) {
-                // Se si, ricrea il Bean con l'allenamento selezionato
                 AvailableTrainingBean selectedT = trainings.get(selectedTraining);
-                // Setta la BookingSession con il Training
                 onSelection(selectedT);
             } else {
                 attempts++;
-                System.out.println("Selezione non valida. Inserire un numero tra 1 e " + trainings.size());
-                // Controlla quanti tentativi mancano o se sono terminati
+                System.out.println(INVALIDINPUT + ". Enter a number from 1 to " + trainings.size());
                 checkAttempts(attempts);
             }
         }
@@ -101,8 +92,8 @@ public class TrainingSelectionPageCLI {
     private void showTrainingDetails(AvailableTrainingBean tBean, int index) {
         System.out.println("\n" + index + ") " + tBean.getName());
         System.out.println("Personal Trainer: " +  tBean.getPtLastName());
-        System.out.println("Descrizione: " + tBean.getDescription());
-        System.out.println("Prezzo base: " + tBean.getBasePrice() + "€");
+        System.out.println("Description: " + tBean.getDescription());
+        System.out.println("Base price: " + tBean.getBasePrice() + "€");
         System.out.println(SEPARATOR);
     }
 
@@ -113,7 +104,7 @@ public class TrainingSelectionPageCLI {
 
     private void checkAttempts(int currAttempt) {
         if(currAttempt < MAX_ATTEMPTS) {
-            System.out.println("Tentativi rimasti: " + (MAX_ATTEMPTS - currAttempt));
+            System.out.println("Remaining attempts: " + (MAX_ATTEMPTS - currAttempt));
         }
     }
 }

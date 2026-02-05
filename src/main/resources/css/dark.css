@@ -1,9 +1,9 @@
-/* Impostazioni generali */
+/* GENERAL */
 .root {
     -fx-font-family: Arial;
 }
 
-/*Rende BIANCHE tutte le label e i testi semplici (es. "Nome:", "Cognome:", Titoli)*/
+/* LABEL */
 .label {
     -fx-text-fill: white;
 }
@@ -12,7 +12,7 @@
     -fx-background-color: #121212;
 }
 
-/* TopBar */
+/* TOPBAR */
 .top-bar {
     -fx-background-color: #ff8b00;
     -fx-border-color: black;
@@ -29,7 +29,7 @@
     -fx-text-fill: #333333 !important;
 }
 
-/* Contenitori form */
+/* CONTAINER */
 .form-container {
     -fx-background-color: #1e1e1e;
     -fx-border-color: #ff8b00;
@@ -37,7 +37,7 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.5), 10, 0, 0, 0);
 }
 
-/* Input (TextField) */
+/* INPUT (TEXTFIELD) */
 .input-field {
     -fx-background-color: #2c2c2c;
     -fx-border-color: #ff8b00;
@@ -50,7 +50,7 @@
     -fx-background-color: #2c2c2c;
 }
 
-/* Bottoni principali (pieni) */
+/* PRIMARY BUTTON */
 .primary-button {
     -fx-background-color: #ff8b00;
     -fx-border-color: black;
@@ -63,7 +63,7 @@
     -fx-background-color: #e67e00;
 }
 
-/* Bottone di eliminazione account */
+/* DELETE ACCOUNT BUTTON */
 .delete-account-button {
     -fx-background-color: #ff4444;
     -fx-border-color: black;
@@ -87,7 +87,7 @@
     -fx-fill: white;
 }
 
-/* Link testuali */
+/* TEXT LINK */
 .text-link {
     -fx-fill: #ff8b00;
     -fx-font-weight: bold;
@@ -98,22 +98,22 @@
     -fx-fill: white;
 }
 
-/* Homepage */
-/* Frase di benvenuto */
+/* HOMEPAGE */
+/* WELCOME SENTENCE */
 .welcome-title {
     -fx-font-weight: bold;
     -fx-font-size: 28px;
     -fx-text-fill: white;
 }
 
-/* Contenitore card */
+/* CARD CONTAINER */
 .homepage-container {
     -fx-spacing: 30px;
     -fx-alignment: CENTER;
     -fx-padding: 5px 30px 30px 30px;
 }
 
-/* Singola card */
+/* CARD */
 .card-container {
     -fx-background-color: #1e1e1e;
     -fx-border-color: #ff8b00;
@@ -123,7 +123,7 @@
     -fx-pref-height: 450px;
 }
 
-/* Foto */
+/* CARD IMAGE */
 .card-image-placeholder {
     -fx-background-size: cover;
     -fx-background-position: center;
@@ -131,7 +131,7 @@
     -fx-opacity: 0.9;
 }
 
-/* Bottone nelle card */
+/* CARD BUTTON */
 .card-button {
     -fx-background-color: #ff8b00;
     -fx-border-color: black;
@@ -145,14 +145,14 @@
     -fx-background-color: #e67e00;
 }
 
-/* No input */
+/* INPUT ERROR EFFECT */
 .input-error {
     -fx-border-color: #ff4444 !important;
     -fx-border-width: 2px;
 }
 
-/* My profile */
-/* Campo di testo stile "Profilo" (Sottolineato, sfondo trasparente) */
+/* MY PROFILE */
+/* PROFILE FIELD */
 .profile-field {
     -fx-background-color: transparent;
     -fx-border-color: #ff8b00;
@@ -162,21 +162,21 @@
     -fx-padding: 0 0 5 0;
 }
 
-/* Quando il campo profilo è disabilitato/non editabile, manteniamo il colore nero del testo */
+/* DISABLED PROFILE FIELD */
 .profile-field:disabled {
     -fx-opacity: 1.0;
     -fx-text-fill: white;
 }
 
-/* Tabelle */
-/* Contenitore principale della tabella */
+/* TABLE */
+/* PRIMARY CONTAINER */
 .custom-table {
     -fx-background-color: #1e1e1e;
     -fx-border-color: #ff8b00;
     -fx-border-width: 1px;
 }
 
-/* L'intestazione (Header) delle colonne */
+/* TABLE HEADER */
 .custom-table .column-header-background {
     -fx-background-color: #ff8b00;
     -fx-border-color: black;
@@ -196,37 +196,37 @@
     -fx-alignment: CENTER;
 }
 
-/* Le righe della tabella */
+/* TABLE ROW */
 .custom-table .table-row-cell {
     -fx-background-color: #1e1e1e;
     -fx-border-color: #333333;
     -fx-border-width: 0 0 1px 0;
 }
 
-/* Righe pari/dispari (se vuoi l'effetto righe alternate, sennò lascia white sopra) */
+/* ODD ROW */
 .custom-table .table-row-cell:odd {
     -fx-background-color: #252525;
 }
 
-/* Cella singola */
+/* CELL */
 .custom-table .table-cell {
     -fx-text-fill: white;
     -fx-alignment: CENTER;
     -fx-border-color: transparent;
 }
 
-/* Quando selezioni una riga */
+/* SELECTED ROW */
 .custom-table .table-row-cell:selected {
     -fx-background-color: #4d2b00;
     -fx-text-fill: white;
 }
 
-/* Rimuovi la colonna vuota extra a destra */
+/* REMOVE EMPTY COLUMN */
 .custom-table .filler {
     -fx-background-color: #1e1e1e;
 }
 
-/* Scrollbar stile "MyGymSpace" (Semplificata) */
+/* SCROLLBAR */
 .custom-table .scroll-bar:vertical .thumb {
     -fx-background-color: #ff8b00;
 }
@@ -234,7 +234,7 @@
     -fx-background-color: #2c2c2c;
 }
 
-/* ComboBox */
+/* COMBOBOX */
 .custom-combobox {
     -fx-background-color: #2c2c2c;
     -fx-border-color: #ff8b00;
@@ -243,7 +243,7 @@
     -fx-border-radius: 0;
 }
 
-/* Colore del testo dentro la combo */
+/* COMBOBOX BUTTON */
 .custom-combobox .list-cell,
 .custom-combobox .list-cell:filled:selected,
 .custom-combobox .list-cell:filled:hover {
@@ -255,7 +255,7 @@
     -fx-background-color: #4d2b00;
 }
 
-/* La freccetta a destra */
+/* COMBOBOX ROW */
 .custom-combobox .arrow-button {
     -fx-background-color: #ff8b00;
 }
@@ -263,13 +263,13 @@
     -fx-background-color: black;
 }
 
-/* Quando apri il menu a tendina */
+/* COMBOBOX OPENING VIEW */
 .custom-combobox .list-view {
     -fx-background-color: #2c2c2c;
     -fx-border-color: #ff8b00;
 }
 
-/* DatePicker */
+/* DATEPICKER */
 .date-picker .text-field {
     -fx-background-color: #2c2c2c;
     -fx-border-color: #ff8b00;
@@ -277,34 +277,34 @@
     -fx-text-fill: white;
 }
 
-/* Sfondo generale del popup */
+/* DATEPICKER BACKGROUND */
 .date-picker-popup,
 .date-picker-popup .calendar-grid {
     -fx-background-color: #1e1e1e;
 }
 
-/* 2. NUMERI SETTIMANA (Colonna a sinistra: 5, 6, 7...) */
+/* WEEK NUMBERS (ON THE LEFT) */
 .date-picker-popup .week-number-cell {
     -fx-background-color: #1e1e1e;
     -fx-text-fill: #ff8b00;
     -fx-font-weight: bold;
 }
 
-/* 3. GIORNI PRECEDENTI/SUCCESSIVI (26, 27... grigi) */
+/* PAST DAYS */
 .date-picker-popup .previous-month,
 .date-picker-popup .next-month {
     -fx-background-color: #666666;
     -fx-text-fill: #1e1e1e;
 }
 
-/* 4. GIORNI DEL MESE CORRENTE */
+/* THIS MONTH DAYS */
 .date-picker-popup .day-cell {
     -fx-background-color: #1e1e1e;
     -fx-text-fill: white;
     -fx-border-color: transparent;
 }
 
-/* 5. Giorno Selezionato o Hover */
+/* SELECTED DAY */
 .date-picker-popup .day-cell:hover,
 .date-picker-popup .day-cell:selected {
     -fx-background-color: #ff8b00;
@@ -314,7 +314,7 @@
 
 
 
-/* Bottone icona calendario */
+/* CALENDAR BUTTON ICON */
 .date-picker .arrow-button {
     -fx-background-color: #ff8b00;
 }
@@ -322,7 +322,7 @@
     -fx-background-color: black;
 }
 
-/* Necessario per il popup scuro */
+/* DARK CALENDAR */
 .date-picker-popup,
 .date-picker-popup .calendar {
     -fx-background-color: #1e1e1e;
@@ -356,7 +356,7 @@
     -fx-text-fill: #7e7e7e;
 }
 
-/* CheckBox */
+/* CHECKBOX */
 .custom-checkbox {
     -fx-font-size: 14px;
     -fx-text-fill: white;
@@ -368,7 +368,7 @@
     -fx-border-width: 2px;
 }
 
-/* Quando la checkbox è selezionata */
+/* SELECTED CHECKBOX OPTIONS */
 .custom-checkbox:selected .mark {
     -fx-background-color: black;
 }
@@ -376,7 +376,7 @@
     -fx-background-color: #ff8b00;
 }
 
-/* Recap (solo lettura) */
+/* RECAP */
 .recap-field {
     -fx-background-color: transparent;
     -fx-border-color: #ff8b00;
@@ -388,13 +388,12 @@
     -fx-cursor: default;
 }
 
-/* Rimuove l'effetto focus blu di default quando clicchi sul campo */
 .recap-field:focused {
     -fx-background-color: transparent;
     -fx-border-color: #e67e00;
 }
 
-/* Bottone per eliminazione */
+/* DELETE BUTTON */
 .delete-button {
     -fx-background-color: #ff4444;
     -fx-text-fill: white;
@@ -415,7 +414,7 @@
 
 
 
-/* FOTO PROGETTO */
+/* PROJECT IMAGES */
 /* Guest-Athlete */
 .events {
     -fx-background-image: url('../images/upcoming_events_coming_soon.jpg')

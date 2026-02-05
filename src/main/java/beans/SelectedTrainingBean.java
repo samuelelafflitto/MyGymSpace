@@ -11,10 +11,12 @@ public class SelectedTrainingBean {
         this.personalTrainer = personalTrainer;
     }
 
+    // GETTER
     public String getName() {
         return name;
     }
 
+    // SETTER
     public PersonalTrainer getPersonalTrainer() {
         return personalTrainer;
     }

@@ -14,6 +14,7 @@ public abstract class BookingDecorator implements BookingInterface {
         this.booking = booking;
     }
 
+    // GETTER
     @Override
     public Athlete getAthlete() {
         return booking.getAthlete();

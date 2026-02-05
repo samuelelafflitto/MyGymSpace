@@ -30,15 +30,13 @@ public class BookingDAODB extends BookingDAO {
         try {
             this.queries = ResourceLoader.loadProperties("/queries/booking_queries.properties");
         } catch (Exception e) {
-            throw new DataLoadException("Impossibile caricare il file booking_queries.properties", e);
+            throw new DataLoadException("Unable to upload booking_queries.properties file ", e);
         }
     }
 
     @Override
     public void saveBooking(BookingInterface booking) {
-        String sql = queries.getProperty("INSERT_BOOKING");
-        if(sql == null)
-            throw new DataLoadException("Query INSERT_BOOKING non trovata");
+        String sql = getQueryOrThrow("INSERT_BOOKING");
 
         try (Connection connection = DBConnection.getInstance().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, booking.getAthlete().getUsername());
@@ -50,7 +48,7 @@ public class BookingDAODB extends BookingDAO {
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel salvataggio della prenotazione", e);
+            throw new DataLoadException("Error saving booking ", e);
         }
     }
 
@@ -78,7 +76,7 @@ public class BookingDAODB extends BookingDAO {
                 throw new FailedBookingCancellationException();
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nell'eliminazione della prenotazione", e);
+            throw new DataLoadException("Error deleting booking ", e);
         }
     }
 
@@ -104,7 +102,7 @@ public class BookingDAODB extends BookingDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel recupero delle prenotazioni ", e);
+            throw new DataLoadException("Error retrieving booking ", e);
         }
         return records;
     }
@@ -113,7 +111,7 @@ public class BookingDAODB extends BookingDAO {
     private String getQueryOrThrow(String query) {
         String sql = queries.getProperty(query);
         if(sql == null)
-            throw new DataLoadException("Query " + query + " non trovata");
+            throw new DataLoadException(query + " query not found");
         return sql;
     }
 }

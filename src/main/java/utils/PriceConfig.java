@@ -17,14 +17,14 @@ public class PriceConfig {
         try {
             prices = ResourceLoader.loadProperties("/config/prices.properties");
         } catch (Exception e) {
-            throw new DataLoadException("Impossibile caricare il file di configurazione dei prezzi", e);
+            throw new DataLoadException("Unable to upload the prices.properties file ", e);
         }
     }
 
     public static String getName(String finalKey) {
         String name = prices.getProperty(finalKey);
         if (name == null) {
-            throw new DataLoadException("Dato non trovato nel file.");
+            throw new DataLoadException("Data not found: " + finalKey);
         }
         return name;
     }

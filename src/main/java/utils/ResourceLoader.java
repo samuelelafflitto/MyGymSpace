@@ -17,12 +17,12 @@ public class ResourceLoader {
 
         try (InputStream in = ResourceLoader.class.getResourceAsStream(resourcePath)) {
             if (in == null) {
-                throw new DataLoadException("Impossibile trovate il file: " + resourcePath);
+                throw new DataLoadException("Unable to find the file: " + resourcePath);
             }
             prop.load(in);
             return prop;
         } catch (IOException e) {
-            throw new DataLoadException("Errore durante la lettura del file: " + resourcePath, e);
+            throw new DataLoadException("Error reading the file: " + resourcePath, e);
         }
     }
 }

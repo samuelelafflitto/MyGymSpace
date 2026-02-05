@@ -30,7 +30,7 @@ public class AuthController {
     private static final String ATHLETE_TYPE = "ATH";
     private static final String PT_TYPE = "PT";
 
-    public AuthController() {// Il costruttore non ha bisogno di parametri
+    public AuthController() {// The constructor does not need parameters
     }
 
     public boolean authUser(LoginBean loginBean) {
@@ -79,6 +79,7 @@ public class AuthController {
         return false;
     }
 
+    // Account deletion
     public boolean deleteUser(ProfileDataBean bean) {
         UserDAO userDAO = FactoryDAO.getInstance().createUserDAO();
         User loggedUser = SessionManager.getInstance().getLoggedUser();
@@ -116,7 +117,7 @@ public class AuthController {
         }
 
         try {
-            // Reset slot occupati per prenotazioni attive
+            // Resets of slots occupied by bookings that are about to be eliminated
             for(BookingInterface b : bookingList) {
                 if (b.getDailySchedule().getDate().isAfter(LocalDate.now()) ||
                         (b.getDailySchedule().getDate().isEqual(LocalDate.now()) && b.getSelectedSlot().isAfter(LocalTime.now()))) {
@@ -124,12 +125,12 @@ public class AuthController {
                     dsDAO.resetSlotInSchedule(b.getTraining(), b.getDailySchedule().getDate(), b.getSelectedSlot());
                 }
             }
-            // Eliminazione effettiva account
+            // Account deletion
             userDAO.deleteUser(loggedUser.getUsername());
             SessionManager.getInstance().setLoggedUser(null);
             return true;
         } catch (DataLoadException e) {
-            System.out.println("Errore durante l'eliminazione dell'account" + e.getMessage());
+            System.out.println("Error deleting account: " + e.getMessage());
             return false;
         }
     }
@@ -139,11 +140,11 @@ public class AuthController {
         return !SessionManager.getInstance().getLoggedUser().getPassword().equals(password);
     }
 
-    // Associa tutto il necessario all'Utente loggato
+    // Associate everything necessary with the logged user
     private User populateUser(User user) {
-        // Popola l'utente se non siamo in Modalità Fsys
+        // Populate the user if we are not in Fsys Mode
         if(!FactoryDAO.getInstance().isFsys()) {
-            // Se user è ATHLETE
+
             if (user.getType().equals(ATHLETE_TYPE)) {
                 List<BookingInterface> bookings = new ArrayList<>();
 
@@ -171,7 +172,7 @@ public class AuthController {
             }
             return user;
         }
-        // Ritorna stesso User inserito
+        // Otherwise, return user created without any association
         return user;
     }
 
@@ -180,20 +181,21 @@ public class AuthController {
 
 
     private List<BookingInterface> getBookingByUser(User user) {
-        // BookingDAO
+        // Via BookingDAO
         BookingDAO bookingDAO = FactoryDAO.getInstance().createBookingDAO();
         List<BasicBookingDataFromPersistence> dbRecordsA = bookingDAO.fetchBasicBookingData(user);
 
-        // UserDAO
+        // Via UserDAO
         List<BookingDataWithUsers> dbRecordsB = enrichWithUsers(dbRecordsA, user);
-        // TrainingDAO
+        // Via TrainingDAO
         List<BookingDataWithTraining> dbRecordsC = enrichWithTraining(dbRecordsB);
-        // DailyScheduledDAO
+        // Via DailyScheduledDAO
         List<FinalBookingData> dbFinalRecords = enrichWithDailySchedules(dbRecordsC);
 
         return createFinalBookings(dbFinalRecords);
     }
 
+    // Populate Bookings with related User
     private List<BookingDataWithUsers> enrichWithUsers(List<BasicBookingDataFromPersistence> baseRecords, User user) {
         List<BookingDataWithUsers> enrichedRecords = new ArrayList<>();
         Map<String, User> userCache = new HashMap<>();
@@ -224,6 +226,7 @@ public class AuthController {
         return enrichedRecords;
     }
 
+    // Populate Bookings with related Training
     private List<BookingDataWithTraining> enrichWithTraining(List<BookingDataWithUsers> baseRecords) {
         List<BookingDataWithTraining> enrichedRecords = new ArrayList<>();
         Map<String, Training> trainingCache = new HashMap<>();
@@ -248,6 +251,7 @@ public class AuthController {
         return enrichedRecords;
     }
 
+    // Populate Bookings with related DailySchedule
     private List<FinalBookingData> enrichWithDailySchedules(List<BookingDataWithTraining> baseRecords) {
         List<FinalBookingData> finalRecords = new ArrayList<>();
         Map<String, List<DailySchedule>> dailyScheduleCache = new HashMap<>();
@@ -276,6 +280,7 @@ public class AuthController {
         return finalRecords;
     }
 
+    // Creation of full Bookings related to the logged User
     private List<BookingInterface> createFinalBookings(List<FinalBookingData> records) {
         List<BookingInterface> bookings = new ArrayList<>();
 

@@ -23,7 +23,7 @@ public class UserDAODB extends UserDAO {
         try {
             this.queries = ResourceLoader.loadProperties("/queries/user_queries.properties");
         } catch (Exception e) {
-            throw new DataLoadException("Impossibile caricare il file user_queries.properties", e);
+            throw new DataLoadException("Unable to upload user_queries.properties file ", e);
         }
     }
 
@@ -40,7 +40,7 @@ public class UserDAODB extends UserDAO {
                 user = mapUserFromResultSet(resultSet);
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
+            throw new DataLoadException("Error retrieving user", e);
         }
         return user;
     }
@@ -69,7 +69,7 @@ public class UserDAODB extends UserDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel recupero dei dati dal Database", e);
+            throw new DataLoadException("Error retrieving user ", e);
         }
         return user;
     }
@@ -87,7 +87,7 @@ public class UserDAODB extends UserDAO {
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DataLoadException("Errore durante l'inserimento dell'utente: " + username, e);
+            throw new DataLoadException("Error saving user: " + username, e);
         }
     }
 
@@ -100,10 +100,10 @@ public class UserDAODB extends UserDAO {
             int affectedRows = statement.executeUpdate();
 
             if(affectedRows == 0) {
-                System.out.println("Nessun utente trovato con username: " + username);
+                System.out.println("No user found with username: " + username);
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore durante l'eliminazione dell'utente", e);
+            throw new DataLoadException("Error deleting user ", e);
         }
     }
 
@@ -120,7 +120,7 @@ public class UserDAODB extends UserDAO {
                 throw new UserSearchFailedException();
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore durante l'aggiornamento della password", e);
+            throw new DataLoadException("Error updating password ", e);
         }
     }
 
@@ -138,7 +138,7 @@ public class UserDAODB extends UserDAO {
                 throw new UserSearchFailedException();
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore durante l'aggiornamento di Nome e Cognome", e);
+            throw new DataLoadException("Error updating personal data ", e);
         }
     }
 
@@ -170,7 +170,7 @@ public class UserDAODB extends UserDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel recupero dell'utente " + username, e);
+            throw new DataLoadException("Error retrieving user: " + username, e);
         }
         return null;
     }
@@ -197,7 +197,7 @@ public class UserDAODB extends UserDAO {
     private String getQueryOrThrow(String query) {
         String sql = queries.getProperty(query);
         if(sql == null)
-            throw new DataLoadException("Query " + query + " non trovata");
+            throw new DataLoadException(query + " query not found");
         return sql;
     }
 }

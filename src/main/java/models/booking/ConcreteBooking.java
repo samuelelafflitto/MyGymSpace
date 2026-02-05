@@ -21,7 +21,7 @@ public class ConcreteBooking implements BookingInterface {
         this.description = "";
     }
 
-    // GET
+    // GETTER
     @Override
     public Athlete getAthlete() {
         return athlete;
@@ -52,7 +52,7 @@ public class ConcreteBooking implements BookingInterface {
         return finalPrice;
     }
 
-    // SET
+    // SETTER
     public void setAthlete(Athlete athlete) {
         this.athlete = athlete;
     }

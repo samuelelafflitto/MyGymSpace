@@ -6,10 +6,10 @@ public class PersonalTrainerMenuCLI {
     SessionManager sessionManager = SessionManager.getInstance();
 
     public void showMenu() {
-        System.out.println("1) Aggiungi un nuovo evento");
-        System.out.println("2) Gestisci eventi");
-        System.out.println("3) Prenotazioni degli Atleti");
-        System.out.println("4) Il mio Profilo");
+        System.out.println("1) Add a New Event (COMING SOON)");
+        System.out.println("2) Manage Events (COMING SOON)");
+        System.out.println("3) Athlete's Bookings");
+        System.out.println("4) My Profile");
         System.out.println("5) Logout");
     }
 

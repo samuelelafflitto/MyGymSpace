@@ -19,7 +19,7 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
         try {
             this.queries = ResourceLoader.loadProperties("/queries/schedule_queries.properties");
         } catch (Exception e) {
-            throw new DataLoadException("Impossibile caricare il file schedule_queries.properties", e);
+            throw new DataLoadException("Unable to upload schedule_queries.properties file ", e);
         }
     }
 
@@ -41,7 +41,7 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel recupero delle dailyschedule ", e);
+            throw new DataLoadException("Error retrieving daily schedule ", e);
         }
         return schedules;
     }
@@ -83,7 +83,7 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel salvataggio orari per la data " + schedule.getDate(), e);
+            throw new DataLoadException("Error saving time slots for date: " + schedule.getDate() + " ", e);
         }
     }
 
@@ -112,7 +112,7 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
 
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nell'eliminazione della dailyschedule di una data passata ", e);
+            throw new DataLoadException("Error deleting a useless dailySchedule ", e);
         }
     }
 
@@ -123,7 +123,7 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
     private String getQueryOrThrow(String query) {
         String sql = queries.getProperty(query);
         if(sql == null)
-            throw new DataLoadException("Query " + query + " non trovata");
+            throw new DataLoadException(query + " query not found");
         return sql;
     }
 

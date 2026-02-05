@@ -13,19 +13,19 @@ public class SignupCLI {
 
     public void start() {
         System.out.println("\n" + SEPARATOR);
-        System.out.println("REGISTRATI");
+        System.out.println("                  SIGNUP PAGE");
         System.out.println(SEPARATOR);
 
-        System.out.print("Inserisci il tuo Nome: ");
+        System.out.print("Enter your First Name: ");
         String firstName = sc.nextLine();
 
-        System.out.print("Inserisci il tuo Cognome: ");
+        System.out.print("Enter your Last Name: ");
         String lastName = sc.nextLine();
 
-        System.out.print("Inserisci il tuo username: ");
+        System.out.print("Enter your username: ");
         String username = sc.nextLine();
 
-        System.out.print("Inserisci la tua password: ");
+        System.out.print("Enter your password: ");
         String password = sc.nextLine();
 
         SignupBean signupBean = new SignupBean();
@@ -38,7 +38,7 @@ public class SignupCLI {
 
         try {
             if (authController.registerUser(signupBean)) {
-                System.out.println("Registrazione riuscita! Benvenuto, " + username + "!");
+                System.out.println("Signup successful! Welcome " + username + "!");
                 new HomepageCLI().start();
             }
         } catch (ExistingUserException e) {

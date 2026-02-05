@@ -4,7 +4,7 @@ import controllers.PopUpManager;
 import start.Main;
 
 public class InvalidPasswordConfirmationException extends RuntimeException {
-    private static final String MSG = "Password di conferma errata!";
+    private static final String MSG = "Incorrect password confirmation!";
 
     public InvalidPasswordConfirmationException() {
         super(MSG);

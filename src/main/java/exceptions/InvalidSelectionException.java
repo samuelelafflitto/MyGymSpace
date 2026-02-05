@@ -4,7 +4,7 @@ import controllers.PopUpManager;
 import start.Main;
 
 public class InvalidSelectionException extends RuntimeException {
-    private static final String MSG = "Selezione non valida. Riprovare";
+    private static final String MSG = "Invalid selection! Try again";
 
     public InvalidSelectionException() {
         super(MSG);

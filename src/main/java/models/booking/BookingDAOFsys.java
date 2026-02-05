@@ -10,17 +10,17 @@ import java.util.List;
 public class BookingDAOFsys extends BookingDAO {
     @Override
     public void saveBooking(BookingInterface booking) {
-        // Non implementato
+        // Not implemented
     }
 
     @Override
     public void deleteBooking(String athleteUsername, String ptUsername, LocalDate date, LocalTime time) {
-        // Non implementato
+        // Not implemented
     }
 
     @Override
     public List<BasicBookingDataFromPersistence> fetchBasicBookingData(User user) {
-        // Non implementato
+        // Not implemented
         return List.of();
     }
 }

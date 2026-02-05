@@ -8,16 +8,15 @@ public class AthleteMenuCLI {
     BookingController bController =  new BookingController();
 
     public void showMenu() {
-        System.out.println("1) Prenota una sessione di allenamento");
-        System.out.println("2) Eventi futuri");
+        System.out.println("1) Book a Session");
+        System.out.println("2) Upcoming Events (COOMING SOON)");
         System.out.println("3) My Bookings");
-        System.out.println("4) Il mio Profilo");
+        System.out.println("4) My Profile");
         System.out.println("5) Logout");
     }
 
     public void goToHome() {
         freeBSessionIfNotNull();
-        // ALTRE EVENTUALI SESSIONI
         new HomepageCLI().start();
     }
 

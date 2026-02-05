@@ -2,9 +2,9 @@ package graphicalcontrollers.cli;
 
 import beans.SelectedDateBean;
 import beans.SelectedSlotAndExtraBean;
-import beans.SelectedTrainingBean;
 import controllers.BookingController;
 import exceptions.*;
+import models.training.Training;
 import utils.PriceConfig;
 import utils.session.BookingSession;
 import utils.session.SessionManager;
@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 
 public class BookingFormPageCLI {
     private static final Scanner sc = new Scanner(System.in);
-    private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
+    private static final String INVALIDINPUT = "Invalid Option! Try again";
     private static final String SEPARATOR = "------------------------------------------------";
     BookingController bController = new BookingController();
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
@@ -29,14 +29,14 @@ public class BookingFormPageCLI {
 
     private static final int MAX_ATTEMPTS = 3;
     public void start() {
-        SelectedTrainingBean selectedTraining = bController.getSelectedTraining();
-        System.out.println("\nAllenamento selezionato: " + selectedTraining.getName());
+        Training selectedTraining = SessionManager.getInstance().getBookingSession().getTraining();
+        System.out.println("\nSelected Training: " + selectedTraining.getName());
 
         while(true) {
             System.out.println(SEPARATOR);
-            System.out.println("1) Inserisci la Data");
-            System.out.println("2) Indietro");
-            System.out.println("3) Torna alla Homepage");
+            System.out.println("1) Enter a date");
+            System.out.println("2) Go back");
+            System.out.println("3) Back to Homepage");
             System.out.println("4) Logout");
             System.out.print("--> ");
 
@@ -47,36 +47,28 @@ public class BookingFormPageCLI {
 
     private void handleChoice(String choice) {
         switch (choice) {
-            // Inserisci la Data
             case "1":
                 try {
                     if(selectDate()) {
-                        // Mostra i time slot disponibili
                         showTimeSlots();
                     } else {
                         clearBookingSession();
                         athleteMenuCLI.goToHome();
                     }
                 } catch (TrainingsSearchFailedException e) {
-                    // Gestione eccezione "non ci sono allenamenti"
                     e.handleException();
                 } catch (AttemptsException e) {
-                    // Gestione eccezione "tentativi terminati"
                     e.handleException();
 
-                    // Fallimento causa tentativi terminati, ritorno alla Homepage
                     isAttemptsEnded(e);
                 }
                 break;
-            // Indietro
             case "2":
                 clearAndGoBack();
                 break;
-            // Torna alla Homepage (annulla la prenotazione)
             case "3":
                 clearAndGoToHome();
                 break;
-            // Logout
             case "4":
                 athleteMenuCLI.logout();
                 break;
@@ -94,18 +86,19 @@ public class BookingFormPageCLI {
         int attempts = 0;
 
         while(attempts < MAX_ATTEMPTS) {
-            System.out.println("\nInserire la data in cui si intende effettuare la prenotazione (YYYY-MM-DD): ");
+            System.out.println("\nEnter the date you want to book a session (YYYY-MM-DD): ");
 
             try {
                 enteredDate = sc.nextLine();
                 selectedD = new SelectedDateBean(enteredDate);
-                // Se arriviamo qui il formato della data è giusto
+
                 if(bController.isPastDate(selectedD.getSelectedDate())) {
                     throw new DateException(DateErrorType.PAST_DATE);
                 }
                 if(bController.isHoliday(selectedD.getSelectedDate())) {
                     throw new DateException(DateErrorType.HOLIDAY);
                 }
+
                 onDateSelection(selectedD);
                 return true;
             } catch (DateException e) {
@@ -150,7 +143,7 @@ public class BookingFormPageCLI {
             slots = bController.getAvailableSlots();
 
             System.out.println(SEPARATOR);
-            System.out.println("TIME SLOT DISPONIBILI per il giorno " + selectedD.getSelectedDate().toString());
+            System.out.println("AVAILABLE TIME SLOTS for the date: " + selectedD.getSelectedDate().toString());
             System.out.println(SEPARATOR);
 
             for(int i = 0; i < slots.size(); i++) {
@@ -169,15 +162,12 @@ public class BookingFormPageCLI {
         int attempts = 0;
 
         while(attempts < MAX_ATTEMPTS) {
-            System.out.println("\nSelezionare uno tra gli slot disponibili: ");
+            System.out.println("\nSelect one of the available slots: ");
 
             try {
                 slotAndExtraBean = new SelectedSlotAndExtraBean();
-                // Raccoglie input
                 int input = sc.nextInt();
-                //Risale a orario di inizio slot
                 String hourSelected = slots.get(input - 1);
-                //Ricava slot orario
                 selectedSlot = Integer.parseInt(hourSelected.split(":")[0]);
 
                 slotAndExtraBean.setSelectedSlot(selectedSlot);
@@ -199,7 +189,7 @@ public class BookingFormPageCLI {
             sc.nextLine();
         }
 
-        System.out.println("\nIndicare se si vogliono aggiungere le seguenti opzioni extra o no (y/n)");
+        System.out.println("\nIndicate whether you want to add the following extra options or not (y/n)");
 
         try {
             askExtra("towel", slotAndExtraBean::setTowel);
@@ -227,7 +217,8 @@ public class BookingFormPageCLI {
         new RecapPageCLI().start();
     }
 
-    // Utilizzo di un setter per richiamare le varie opzioni extra con un unico metodo privato
+
+    // HELPER
     private void askExtra(String extraKey, Consumer<String> setter) {
         int localAttempts = 0;
 

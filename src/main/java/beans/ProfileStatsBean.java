@@ -9,6 +9,10 @@ public class ProfileStatsBean {
     private LocalDate nextDate;
     private LocalTime nextTime;
 
+    public ProfileStatsBean() {// The constructor does not need parameters
+    }
+
+    // GETTER
     public int getStats1() {
         return stats1;
     }
@@ -25,6 +29,7 @@ public class ProfileStatsBean {
         return nextTime;
     }
 
+    // SETTER
     public void setStats1(int stats1) {
         this.stats1 = stats1;
     }

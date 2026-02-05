@@ -24,10 +24,10 @@ public class DBConnection {
             PASSWORD = prop.getProperty("db.password");
 
             if (URL == null || USER == null || PASSWORD == null) {
-                throw new DataLoadException("Credenziali DB mancanti nel file config.properties");
+                throw new DataLoadException("Missing DB credentials in config.properties file");
             }
         } catch (Exception e) {
-            throw new DataLoadException("Errore nel caricamento della configurazione da config.properties", e);
+            throw new DataLoadException("Error uploading the configuration from config.properties file ", e);
         }
     }
 
@@ -35,7 +35,7 @@ public class DBConnection {
         try {
             this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException e) {
-            throw new DataLoadException("Impossibile connettersi al Database", e);
+            throw new DataLoadException("Unable to connect to the Database", e);
         }
     }
 
@@ -52,7 +52,7 @@ public class DBConnection {
             try {
                 this.connection = DriverManager.getConnection(URL, USER, PASSWORD);
             } catch (SQLException e) {
-                throw new SQLException("Errore di riconnessione al Database",e);
+                throw new SQLException("Error reconnecting to the Database",e);
             }
         }
         return connection;

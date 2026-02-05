@@ -1,6 +1,5 @@
 package beans;
 
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -15,10 +14,10 @@ public class BookingRecapBean {
     String description;
     BigDecimal price;
 
-    public BookingRecapBean() {// Il costruttore non ha bisogno di parametri
+    public BookingRecapBean() {// The constructor does not need parameters
     }
 
-    // GET
+    // GETTER
     public String getTrainingName() {
         return trainingName;
     }
@@ -51,7 +50,7 @@ public class BookingRecapBean {
         return price;
     }
 
-    // SET
+    // SETTER
     public void setTrainingName(String trainingName) {
         this.trainingName = trainingName;
     }

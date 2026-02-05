@@ -10,13 +10,13 @@ import java.util.Map;
 public class Athlete extends User {
     private final HashMap<BookingKey, BookingInterface> myBookings;
 
-    // Costruttore con password
+    // Constructor with password
     public Athlete(String username, String password, String fName, String lName, String type) {
         super(username, password, fName, lName, type);
         myBookings = new HashMap<>();
     }
 
-    // Costruttore senza password
+    // Constructor without password
     public Athlete(String username, String fName, String lName, String type) {
         super(username, null,  fName, lName, type);
         myBookings = new HashMap<>();

@@ -4,7 +4,7 @@ import controllers.PopUpManager;
 import start.Main;
 
 public class ExistingUserException extends RuntimeException {
-    private static final String MSG = "Username già utilizzato. Scegliere un altro username oppure effettuare il Login.";
+    private static final String MSG = "Username not available! Choose another username or log in";
 
 
     public ExistingUserException() {

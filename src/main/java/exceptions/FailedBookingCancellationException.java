@@ -4,7 +4,7 @@ import controllers.PopUpManager;
 import start.Main;
 
 public class FailedBookingCancellationException extends RuntimeException {
-    private static final String MSG = "Errore in fase di eliminazione. Riprovare più tardi.";
+    private static final String MSG = "Error while deleting! Try again later";
 
     public FailedBookingCancellationException() {
         super(MSG);

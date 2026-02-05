@@ -23,8 +23,8 @@ public class ScheduleConfig {
         try {
             return LocalTime.parse(value);
         } catch (DateTimeParseException e) {
-            System.err.println("[ERROR] Formato orario errato per " + key + ": " + value + ". Uso orario di default: " + defTime);
-            System.err.println("Causa: " + e.getMessage());
+            System.err.println("[ERROR] Incorrect time format for " + key + ": " + value + ". Using the default time: " + defTime);
+            System.err.println("Cause: " + e.getMessage());
             return LocalTime.parse(defTime);
         }
     }

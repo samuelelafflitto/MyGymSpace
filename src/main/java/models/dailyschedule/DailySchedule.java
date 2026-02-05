@@ -23,17 +23,17 @@ public class DailySchedule {
         }
     }
 
-    // CREAZIONE DA CONFIGURAZIONE ATTUALE
+    // Creating DailySchedule from persistence
     public static DailySchedule createNew(Training training, LocalDate date) {
         return new DailySchedule(training, date, null);
     }
 
-    // CREAZIONE DA PERSISTENZA
+    // Creating new and empty dailySchedule
     public static DailySchedule fromPersistence(Training training, LocalDate date, StringBuilder persistenceBits) {
         return new DailySchedule(training, date, persistenceBits);
     }
 
-    // GET
+    // GETTER
     public Training getTraining() {
         return training;
     }
@@ -47,7 +47,7 @@ public class DailySchedule {
     }
 
 
-    // SET
+    // SETTER
     public void setTimeSlots(StringBuilder timeSlots) {
         this.timeSlots = timeSlots;
     }
@@ -60,6 +60,8 @@ public class DailySchedule {
         }
     }
 
+    // HELPER
+    // DailySchedule zero implementation
     private void initializeSlotsToZero() {
         for(int i = 0; i < 24; i++) {
             this.timeSlots.append("0");

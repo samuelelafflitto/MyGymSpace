@@ -44,6 +44,7 @@ public class SessionManager {
         this.loggedUser = null;
     }
 
+
     // BOOKING SESSION
     public void createBookingSession(BookingSession bookingSession) {
         bookingSessionHashMap.put(this.loggedUser.getUsername(), bookingSession);

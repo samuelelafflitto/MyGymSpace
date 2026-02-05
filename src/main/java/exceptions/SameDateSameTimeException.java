@@ -4,7 +4,7 @@ import controllers.PopUpManager;
 import start.Main;
 
 public class SameDateSameTimeException extends RuntimeException {
-    private static final String MSG = "Hai già una prenotazione per quella Data e Ora. Riprovare.";
+    private static final String MSG = "You already have a booking for the selected date and time. Try again";
 
     public SameDateSameTimeException() {
         super(MSG);

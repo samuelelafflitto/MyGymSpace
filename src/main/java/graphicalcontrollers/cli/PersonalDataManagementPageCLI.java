@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class PersonalDataManagementPageCLI {
     private static final Scanner sc = new Scanner(System.in);
-    private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
+    private static final String INVALIDINPUT = "Invalid Option! Try again";
     private static final String SEPARATOR = "------------------------------------------------";
     private static final String ATHLETE_TYPE = "ATH";
 
@@ -21,12 +21,12 @@ public class PersonalDataManagementPageCLI {
     public void start() {
         while(true) {
             System.out.println("\n" + SEPARATOR);
-            System.out.println("      MYGYMSPACE - GESTIONE DATI PERSONALI");
+            System.out.println("      MYGYMSPACE - PERSONAL DATA MANAGEMENT");
             System.out.println(SEPARATOR);
 
-            System.out.println("1) Modifica Password");
-            System.out.println("2) Modifica Nome e Cognome");
-            System.out.println("3) Torna alla Homepage");
+            System.out.println("1) Edit Password");
+            System.out.println("2) Edit First and Last Name");
+            System.out.println("3) Back to Homepage");
             System.out.println("4) Logout ");
             System.out.print("--> ");
             String choice = sc.nextLine();
@@ -71,13 +71,13 @@ public class PersonalDataManagementPageCLI {
 
     private void changePassword() {
         System.out.println("\n" + SEPARATOR);
-        System.out.println("            MODIFICA LA TUA PASSWORD");
+        System.out.println("              EDIT YOUR PASSWORD");
         System.out.println(SEPARATOR);
 
-        System.out.print("Inserisci la nuova password: ");
+        System.out.print("Enter a new password: ");
         String newPassword = sc.nextLine();
 
-        System.out.print("Per confermare, inserisci la password attuale: ");
+        System.out.print("Confirm with your password: ");
         String currentPassword = sc.nextLine();
 
         ProfileDataBean profileDataBean = new ProfileDataBean();
@@ -93,16 +93,16 @@ public class PersonalDataManagementPageCLI {
 
     private void changeName() {
         System.out.println("\n" + SEPARATOR);
-        System.out.println("            MODIFICA NOME E COGNOME");
+        System.out.println("                 EDIT YOUR NAME");
         System.out.println(SEPARATOR);
 
-        System.out.print("Inserisci il nuovo Nome: ");
+        System.out.print("Enter your new First Name: ");
         String newFirstName = sc.nextLine();
 
-        System.out.print("Inserisci il nuovo Cognome: ");
+        System.out.print("Enter your new Last Name: ");
         String newLastName = sc.nextLine();
 
-        System.out.print("Per confermare, inserisci la password attuale: ");
+        System.out.print("Confirm with your password: ");
         String currentPassword = sc.nextLine();
 
         ProfileDataBean profileDataBean = new ProfileDataBean();

@@ -9,6 +9,10 @@ public class AvailableTrainingBean {
     private String description;
     private BigDecimal basePrice;
 
+    public AvailableTrainingBean() {// The constructor does not need parameters
+    }
+
+    // GETTER
     public String getPersonalTrainer() {
         return ptUsername;
     }
@@ -29,6 +33,7 @@ public class AvailableTrainingBean {
         return basePrice;
     }
 
+    // SETTER
     public void setPersonalTrainer(String ptUsername) {
         this.ptUsername = ptUsername;
     }

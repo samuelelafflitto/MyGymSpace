@@ -27,7 +27,7 @@ public class ProfileController {
 
     User user = SessionManager.getInstance().getLoggedUser();
 
-    public ProfileController() {// Il costruttore non ha bisogno di parametri
+    public ProfileController() {// The constructor does not need parameters
     }
 
     public ProfileStatsBean getProfileStats() {

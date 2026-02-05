@@ -6,9 +6,11 @@ import java.math.BigDecimal;
 
 public class EnergizerDecorator extends BookingDecorator {
     private final BigDecimal energizerCost;
+    private final String energizerName;
     public EnergizerDecorator(BookingInterface booking) {
         super(booking);
         energizerCost = PriceConfig.getExtraPrice("energizer");
+        energizerName = PriceConfig.getExtraName("energizer");
     }
 
     @Override
@@ -17,7 +19,7 @@ public class EnergizerDecorator extends BookingDecorator {
         if(!super.getDescription().isEmpty()) {
             addedExtraOption = " + ";
         }
-        return super.getDescription() + addedExtraOption + "Shake/Snack";
+        return super.getDescription() + addedExtraOption + energizerName;
     }
 
     @Override

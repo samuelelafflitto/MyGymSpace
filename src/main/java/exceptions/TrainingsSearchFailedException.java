@@ -5,7 +5,7 @@ import start.Main;
 
 public class TrainingsSearchFailedException extends RuntimeException {
 
-    private static final String MSG = "Nessun allenamento disponibile!";
+    private static final String MSG = "No training available!";
 
     public TrainingsSearchFailedException() {
         super(MSG);

@@ -4,7 +4,7 @@ import controllers.PopUpManager;
 import start.Main;
 
 public class MissingDataException extends RuntimeException {
-    private static final String MSG = "Dati mancanti. Riprovare";
+    private static final String MSG = "Missing data! Try again";
 
     public MissingDataException() {
         super(MSG);

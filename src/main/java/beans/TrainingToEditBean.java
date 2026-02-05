@@ -7,6 +7,10 @@ public class TrainingToEditBean {
     private String description;
     private BigDecimal basePrice;
 
+    public TrainingToEditBean() {// The constructor does not need parameters
+    }
+
+    // GETTER
     public String getName() {
         return name;
     }
@@ -19,6 +23,7 @@ public class TrainingToEditBean {
         return basePrice;
     }
 
+    // SETTER
     public void setName(String name) {
         this.name = name;
     }

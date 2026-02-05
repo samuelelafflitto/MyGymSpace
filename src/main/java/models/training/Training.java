@@ -18,7 +18,7 @@ public class Training {
         this.schedules = new HashMap<>();
     }
 
-    // GET
+    // GETTER
     public PersonalTrainer getPersonalTrainer() {
         return personalTrainer;
     }
@@ -39,7 +39,7 @@ public class Training {
         return schedules;
     }
 
-    // SET
+    // SETTER
     public void setPersonalTrainer(PersonalTrainer personalTrainer) {
         this.personalTrainer = personalTrainer;
     }
@@ -62,6 +62,8 @@ public class Training {
             this.schedules.put(ds.getDate(), ds);
         }
     }
+
+
     public void addSchedule(DailySchedule dailySchedule) {
         this.schedules.put(dailySchedule.getDate(), dailySchedule);
     }

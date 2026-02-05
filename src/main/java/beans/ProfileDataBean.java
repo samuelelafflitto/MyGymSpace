@@ -10,9 +10,10 @@ public class ProfileDataBean {
 
     private String currentPassword;
 
-    public ProfileDataBean() {// Il costruttore non ha bisogno di parametri
+    public ProfileDataBean() {// The constructor does not need parameters
     }
 
+    // GETTER
     public String getNewPassword() {
         return newPassword;
     }
@@ -37,6 +38,7 @@ public class ProfileDataBean {
         return currentPassword;
     }
 
+    // SETTER
     public void setNewPassword(String newPassword) {
         this.newPassword = newPassword;
     }

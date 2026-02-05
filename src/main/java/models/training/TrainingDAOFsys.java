@@ -7,23 +7,23 @@ import java.util.List;
 public class TrainingDAOFsys extends TrainingDAO {
     @Override
     public List<Training> getAvailableTrainings() {
-        // Non implementato
+        // Not implemented
         return List.of();
     }
 
     @Override
     public Training getTrainingByPT(PersonalTrainer personalTrainer) {
-        // Non implementato
+        // Not implemented
         return null;
     }
 
     @Override
     public void initializeDemoData(PersonalTrainer pt1, PersonalTrainer pt2) {
-        // Usato solo in modalità demo
+        // Used only in Demo mode
     }
 
     @Override
     public void updateTrainingDetails(Training t) {
-        // Non implementato
+        // Not implemented
     }
 }

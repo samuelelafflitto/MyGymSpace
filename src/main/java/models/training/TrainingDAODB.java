@@ -22,7 +22,7 @@ public class TrainingDAODB extends TrainingDAO {
         try {
             this.queries = ResourceLoader.loadProperties("/queries/training_queries.properties");
         } catch (Exception e) {
-            throw new DataLoadException("Impossibile caricare il file training_queries.properties", e);
+            throw new DataLoadException("Unable to upload training_queries.properties file ", e);
         }
     }
 
@@ -53,7 +53,7 @@ public class TrainingDAODB extends TrainingDAO {
                 t.setSchedules(dsDAO.getSchedulesByTraining(t));
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel recupero degli allenamenti ", e);
+            throw new DataLoadException("Error retrieving trainings ", e);
         }
         return list;
     }
@@ -71,14 +71,14 @@ public class TrainingDAODB extends TrainingDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nel recupero dell'allenamento per l'allenatore specifico ", e);
+            throw new DataLoadException("Error retrieving training for specific personal trainer ", e);
         }
         return null;
     }
 
     @Override
     public void initializeDemoData(PersonalTrainer pt1, PersonalTrainer pt2) {
-        // Usato solo in modalità demo
+        // Used only in Demo mode
     }
 
     @Override
@@ -93,10 +93,10 @@ public class TrainingDAODB extends TrainingDAO {
             int affectedRows = statement.executeUpdate();
 
             if(affectedRows == 0) {
-                System.out.println("Nessun allenamento trovato");
+                System.out.println("No training found");
             }
         } catch (SQLException e) {
-            throw new DataLoadException("Errore nell'aggiornamento dei dettagli dell'allenamento", e);
+            throw new DataLoadException("Errore updating training details ", e);
         }
     }
 
@@ -106,7 +106,7 @@ public class TrainingDAODB extends TrainingDAO {
     private String getQueryOrThrow(String query) {
         String sql = queries.getProperty(query);
         if(sql == null)
-            throw new DataLoadException("Query " + query + " non trovata");
+            throw new DataLoadException(query + " query not found");
         return sql;
     }
 

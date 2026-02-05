@@ -12,14 +12,14 @@ public class PersonalTrainer extends User {
     private Training managedTraining;
     private final HashMap<BookingKey, BookingInterface> myPrivateSessions;
 
-    // Costruttore con password
+    // Constructor with password
     public PersonalTrainer(String username, String password, String fName, String lName, String type){
         super(username, password, fName, lName, type);
         this.managedTraining = null;
         this.myPrivateSessions = new HashMap<>();
     }
 
-    // Costruttore senza password
+    // Constructor without password
     public PersonalTrainer(String username, String fName, String lName, String type){
         super(username, null, fName, lName, type);
         this.managedTraining = null;

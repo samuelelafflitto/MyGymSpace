@@ -12,16 +12,22 @@ import java.util.*;
 
 public class PersonalBookingsController {
 
+    public PersonalBookingsController() {// The constructor does not need parameters
+    }
+
     BookingController bController =  new BookingController();
 
+    // Obtaining Active Booking
     public List<BookingRecapBean> getActiveBookingsFromMap() {
         return getBookingsInternal(true);
     }
 
+    // Obtaining Past Booking
     public List<BookingRecapBean> getPastBookingsFromMap() {
         return getBookingsInternal(false);
     }
 
+    // Orderly obtaining of the Booking list
     private List<BookingRecapBean> getBookingsInternal(boolean fetchFuture) {
         User user = SessionManager.getInstance().getLoggedUser();
         List<BookingRecapBean> resultBeans = new ArrayList<>();
@@ -29,7 +35,7 @@ public class PersonalBookingsController {
         Map<BookingKey, BookingInterface> bookingsMap = bController.getBookingsMap(user);
 
         if(bookingsMap == null) {
-            System.out.println("Nessuna prenotazione trovata");
+            System.out.println("No bookings found");
             bookingsMap = new HashMap<>();
         }
 

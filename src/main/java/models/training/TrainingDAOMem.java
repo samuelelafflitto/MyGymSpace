@@ -67,7 +67,7 @@ public class TrainingDAOMem extends TrainingDAO {
                 return;
             }
         }
-        System.out.println("Nessun allenamento trovato in memoria.");
+        System.out.println("No training found");
     }
 
     private Training newDemoTraining(PersonalTrainer pt, String title, String description, BigDecimal basePrice) {

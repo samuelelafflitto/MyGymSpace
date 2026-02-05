@@ -9,7 +9,7 @@ import utils.session.SessionManager;
 import java.util.Scanner;
 
 public class RecapPageCLI {
-    private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
+    private static final String INVALIDINPUT = "Invalid Option! Try again";
     private static final String SEPARATOR = "------------------------------------------------";
     BookingSession bSession = SessionManager.getInstance().getBookingSession();
     BookingController bController = new BookingController();
@@ -24,8 +24,8 @@ public class RecapPageCLI {
 
         while(true) {
             System.out.println(SEPARATOR);
-            System.out.println("1) Conferma e prenota");
-            System.out.println("2) Annulla e torna alla Home");
+            System.out.println("1) Confirm and Book");
+            System.out.println("2) Cancel and return to the Homepage");
             System.out.println("3) Logout");
             System.out.print("--> ");
 
@@ -37,7 +37,6 @@ public class RecapPageCLI {
 
     private void handleChoice(String choice) {
         switch (choice) {
-            // Conferma e prenota
             case "1":
                 try {
                     if(bController.saveBooking()) {
@@ -50,7 +49,6 @@ public class RecapPageCLI {
                     clearAndGoToHome();
                 }
                 break;
-            // Annulla e torna alla Home
             case "2":
                 clearAndGoToHome();
                 break;
@@ -66,10 +64,10 @@ public class RecapPageCLI {
     private void showRecap() {
         bookingRecap = bController.getBookingRecap();
 
-        System.out.println("Allenamento: " + bookingRecap.getTrainingName() + " - PT: " + bookingRecap.getPtLastName());
-        System.out.println("Data e ora: " + bookingRecap.getDate() + ", " + bookingRecap.getStartTime());
-        System.out.println("Extra selezionati: " + bookingRecap.getDescription());
-        System.out.println("Costo totale: " + bookingRecap.getPrice() + "€");
+        System.out.println("Training: " + bookingRecap.getTrainingName() + " - PT: " + bookingRecap.getPtLastName());
+        System.out.println("Date and Hour: " + bookingRecap.getDate() + ", " + bookingRecap.getStartTime());
+        System.out.println("Selected extra options: " + bookingRecap.getDescription());
+        System.out.println("Final price: " + bookingRecap.getPrice() + "€");
     }
 
     private void clearAndGoToHome() {

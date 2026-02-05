@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MyBookingsPageCLI {
-    private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
+    private static final String INVALIDINPUT = "Invalid Option! Try again";
     private static final String SEPARATOR = "------------------------------------------------";
     AthleteMenuCLI athleteMenuCLI = new AthleteMenuCLI();
     private static final Scanner sc = new Scanner(System.in);
@@ -26,9 +26,9 @@ public class MyBookingsPageCLI {
     public void start() {
         while (true) {
             System.out.println(SEPARATOR);
-            System.out.println("1) Visualizza Prenotazioni Attive");
-            System.out.println("2) Visualizza Prenotazioni Passate");
-            System.out.println("3) Torna alla Homepage");
+            System.out.println("1) View Active Bookings");
+            System.out.println("2) View Past Bookings");
+            System.out.println("3) Back to Homepage");
             System.out.println("4) Logout");
             System.out.print("--> ");
 
@@ -45,7 +45,7 @@ public class MyBookingsPageCLI {
                 break;
             case "2":
                 System.out.print("\n" + SEPARATOR);
-                System.out.println("\nELENCO PRENOTAZIONI PASSATE");
+                System.out.println("\nPAST BOOKINGS LIST");
                 showPastBookings();
                 break;
             case "3":
@@ -63,23 +63,23 @@ public class MyBookingsPageCLI {
     private void showActiveBookings() {
         List<BookingRecapBean> activeList = pBController.getActiveBookingsFromMap();
 
-        System.out.println("\nELENCO PRENOTAZIONI ATTIVE");
+        System.out.println("\nACTIVE BOOKINGS LIST");
 
         if(activeList.isEmpty()) {
             System.out.print(SEPARATOR);
-            System.out.println("Nessuna prenotazione attiva");
+            System.out.println("No active bookings found");
         } else {
             showBookings(activeList);
         }
         System.out.println(SEPARATOR);
-        System.out.print("1) Elimina una prenotazione");
+        System.out.print("1) Delete a Booking");
         if(activeList.isEmpty()) {
-            System.out.println(" (non disponibile)");
+            System.out.println(" (not available)");
         } else {
             System.out.print("\n");
         }
-        System.out.println("2) Visualizza Prenotazioni Passate");
-        System.out.println("3) Torna alla Homepage");
+        System.out.println("2) View Past Booking");
+        System.out.println("3) Back to Homepage");
         System.out.println("4) Logout");
         System.out.print("--> ");
 
@@ -95,7 +95,7 @@ public class MyBookingsPageCLI {
                 break;
             case "2":
                 System.out.println("\n" + SEPARATOR);
-                System.out.println("ELENCO PRENOTAZIONI PASSATE");
+                System.out.println("PAST BOOKINGS LIST");
                 showPastBookings();
                 break;
             case "3":
@@ -119,17 +119,17 @@ public class MyBookingsPageCLI {
         int counter = 0;
         for(BookingRecapBean bean : bList) {
             System.out.println(SEPARATOR);
-            System.out.println((counter + 1) + ") Allenamento: " + bean.getTrainingName() + " - PT: " + bean.getPtLastName());
-            System.out.println("Atleta: " + bean.getAthCompleteName());
-            System.out.println("Data e ora: " + bean.getDate() + ", " + bean.getStartTime());
-            System.out.println("Extra selezionati: " + bean.getDescription());
-            System.out.println("Costo totale: " + bean.getPrice() + "€");
+            System.out.println((counter + 1) + ") Training: " + bean.getTrainingName() + " - PT: " + bean.getPtLastName());
+            System.out.println("Athlete: " + bean.getAthCompleteName());
+            System.out.println("Date and Hour: " + bean.getDate() + ", " + bean.getStartTime());
+            System.out.println("Selected extra options: " + bean.getDescription());
+            System.out.println("Final price: " + bean.getPrice() + "€");
             counter++;
         }
     }
 
     private void handleDeleteBooking(List<BookingRecapBean> activeList) {
-        System.out.print("Inserisci il numero della prenotazione da eliminare: ");
+        System.out.print("Enter the number of the booking to delete: ");
         String input = sc.nextLine();
 
         try {
@@ -146,25 +146,25 @@ public class MyBookingsPageCLI {
                 deletionAttempt(bean);
 
             } else {
-                System.out.print("Nessuna prenotazione presente a quel numero.");
+                System.out.print(INVALIDINPUT);
                 showActiveBookings();
             }
         } catch (FailedBookingCancellationException e) {
             e.handleException();
         } catch (NumberFormatException _) {
-            System.out.println("Input non valido. Inserire un numero da 0 a " + activeList.size());
+            System.out.println(INVALIDINPUT + ". Enter a number from 0 to " + activeList.size());
         }
     }
 
     private void deletionAttempt(BookingRecapBean bookingToDelete) {
         System.out.println("\n" + SEPARATOR);
-        System.out.println("              CONFERMA ELIMINAZIONE");
+        System.out.println("              DELETE CONFIRMATION");
         System.out.println(SEPARATOR);
 
-        System.out.print("Inserisci la tua password: ");
+        System.out.print("Enter your password: ");
         String pass1 = sc.nextLine();
 
-        System.out.print("Conferma la tua password: ");
+        System.out.print("Confirm your password: ");
         String pass2 = sc.nextLine();
 
         try {
@@ -184,10 +184,10 @@ public class MyBookingsPageCLI {
                 throw new UserSearchFailedException();
             } else {
                 if(bController.deleteBooking(bookingToDelete)) {
-                    System.out.println("Eliminazione prenotazione riuscita!");
+                    System.out.println("Booking successfully deleted!");
                     showActiveBookings();
                 } else {
-                    System.out.println("Errore in fase di eliminazione!");
+                    System.out.println("Booking deletion failed!");
                 }
             }
         } catch (MissingDataException e) {

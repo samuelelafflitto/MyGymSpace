@@ -10,9 +10,10 @@ public class SelectedSlotAndExtraBean {
     private boolean energizer;
     private boolean video;
 
-    public SelectedSlotAndExtraBean() {// Il costruttore non ha bisogno di parametri
+    public SelectedSlotAndExtraBean() {// The constructor does not need parameters
     }
 
+    // GETTER
     public String getSelectedSlot() {
         return selectedSlot;
     }
@@ -33,6 +34,7 @@ public class SelectedSlotAndExtraBean {
         return video;
     }
 
+    // SETTER
     public void setSelectedSlot(int selectedSlot) {
         if(!checkSlot(selectedSlot)) {
             throw new InvalidTimeSlotException();
@@ -64,8 +66,7 @@ public class SelectedSlotAndExtraBean {
         else throw new InvalidSelectionException();
     }
 
-
-
+    // HELPER
     private boolean checkSlot(int enteredSlot) {
         return enteredSlot >= 0 && enteredSlot <= 23;
     }

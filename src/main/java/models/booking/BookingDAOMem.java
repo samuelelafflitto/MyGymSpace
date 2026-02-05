@@ -50,7 +50,7 @@ public class BookingDAOMem extends BookingDAO {
         }
 
         if(!found) {
-            throw new DataLoadException("[MEM] Nessuna prenotazione trovata da cancellare.");
+            throw new DataLoadException("[MEM] No bookings found");
         }
     }
 

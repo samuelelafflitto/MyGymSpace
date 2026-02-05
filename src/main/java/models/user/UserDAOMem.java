@@ -43,9 +43,9 @@ public class UserDAOMem extends UserDAO {
     public void addUser(String username, User user) {
         if(!users.containsKey(username)) {
             users.put(username, user);
-            System.out.println("[MEM] User " + username + " aggiunto correttamente");
+            System.out.println("[MEM] User " + username + " successfully added!");
         } else {
-            System.err.println("[MEM] Username già esistente: " + username);
+            System.err.println("[MEM] Username already used: " + username);
         }
     }
 
@@ -53,9 +53,9 @@ public class UserDAOMem extends UserDAO {
     public void deleteUser(String username) {
         if(users.containsKey(username)) {
             users.remove(username);
-            System.out.println("[MEM] User " + username + " eliminato correttamente");
+            System.out.println("[MEM] User " + username + " successfully deleted!");
         } else {
-            System.err.println("[MEM] Nessun utente trovato con username: " + username);
+            System.err.println("[MEM] No user found with username: " + username);
         }
     }
 
@@ -64,7 +64,7 @@ public class UserDAOMem extends UserDAO {
         User user = users.get(username);
         if(user != null) {
             user.setPassword(newPassword);
-            System.out.println("[MEM] Password aggiornata per: " + username);
+            System.out.println("[MEM] Password updated for user with username: " + username);
         }
     }
 
@@ -74,7 +74,7 @@ public class UserDAOMem extends UserDAO {
         if(user != null) {
             user.setFirstName(newFirstName);
             user.setLastName(newLastName);
-            System.out.println("[MEM] Anagrafica aggiornata per: " + username);
+            System.out.println("[MEM] Personal data updated for user with username: " + username);
         }
     }
 

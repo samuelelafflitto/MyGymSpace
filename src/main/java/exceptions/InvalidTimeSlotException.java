@@ -4,7 +4,7 @@ import controllers.PopUpManager;
 import start.Main;
 
 public class InvalidTimeSlotException extends RuntimeException {
-    private static final String MSG = "Lo slot selezionato risulta già occupato, prenotazione annullata!";
+    private static final String MSG = "The selected slot is busy, booking cancelled!";
 
     public InvalidTimeSlotException() {
         super(MSG);

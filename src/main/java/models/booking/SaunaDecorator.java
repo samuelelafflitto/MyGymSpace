@@ -6,9 +6,11 @@ import java.math.BigDecimal;
 
 public class SaunaDecorator extends BookingDecorator {
     private final BigDecimal saunaCost;
+    private final String saunaName;
     public SaunaDecorator(BookingInterface booking) {
         super(booking);
         saunaCost = PriceConfig.getExtraPrice("sauna");
+        saunaName = PriceConfig.getExtraName("sauna");
     }
 
     @Override
@@ -17,7 +19,7 @@ public class SaunaDecorator extends BookingDecorator {
         if(!super.getDescription().isEmpty()) {
             addedExtraOption = " + ";
         }
-        return super.getDescription() + addedExtraOption + "Sauna";
+        return super.getDescription() + addedExtraOption + saunaName;
     }
 
     @Override

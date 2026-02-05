@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class HomepageCLI {
     private static final Scanner sc = new Scanner(System.in);
     private static final String SEPARATOR = "------------------------------------------------";
-    private static final String INVALIDINPUT = "Opzione selezionata non valida. Riprovare";
+    private static final String INVALIDINPUT = "Invalid Option! Try again";
     private static final String PT_TYPE = "PT";
     private static final String ATHLETE_TYPE = "ATH";
 
@@ -18,11 +18,11 @@ public class HomepageCLI {
 
         String msg = null;
         if (loggedUserType == null) {
-            msg = "            Benvenuto in MyGymSpace!";
+            msg = "             Welcome to MyGymSpace!";
         } else if (loggedUserType.equals(ATHLETE_TYPE)) {
-            msg = "               Bentornato Atleta!";
+            msg = "             Welcome back Athlete!";
         } else if (loggedUserType.equals(PT_TYPE)) {
-            msg = "          Bentornato Personal Trainer!";
+            msg = "              Welcome back Coach!";
         }
 
         System.out.println(SEPARATOR);
