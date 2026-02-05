@@ -91,14 +91,6 @@ public class BookingController {
         createBooking(selectedSlotAndExtraBean);
     }
 
-//    // OTTENIMENTO ALLENAMENTO SELEZIONATO E INSERIMENTO IN UN BEAN - INUTILE
-//    public SelectedTrainingBean getSelectedTraining() {
-//        BookingSession bSession = SessionManager.getInstance().getBookingSession();
-//        String selectedTraining = bSession.getTraining().getName();
-//        PersonalTrainer personalTrainer = bSession.getTraining().getPersonalTrainer();
-//        return new SelectedTrainingBean(selectedTraining, personalTrainer);
-//    }
-
     // Obtaining available time slots for Training and the selected Date
     public List<String> getAvailableSlots() throws AttemptsException {
         BookingSession bSession = SessionManager.getInstance().getBookingSession();
