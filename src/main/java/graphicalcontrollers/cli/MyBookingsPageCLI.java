@@ -66,7 +66,7 @@ public class MyBookingsPageCLI {
         System.out.println("\nACTIVE BOOKINGS LIST");
 
         if(activeList.isEmpty()) {
-            System.out.print(SEPARATOR);
+            System.out.println(SEPARATOR);
             System.out.println("No active bookings found");
         } else {
             showBookings(activeList);
@@ -112,7 +112,12 @@ public class MyBookingsPageCLI {
 
     private void showPastBookings() {
         List<BookingRecapBean> pastList = pBController.getPastBookingsFromMap();
-        showBookings(pastList);
+        if(pastList.isEmpty()) {
+            System.out.println(SEPARATOR);
+            System.out.println("No active bookings found");
+        } else {
+            showBookings(pastList);
+        }
     }
 
     private void showBookings(List<BookingRecapBean> bList) {
@@ -146,7 +151,7 @@ public class MyBookingsPageCLI {
                 deletionAttempt(bean);
 
             } else {
-                System.out.print(INVALIDINPUT);
+                System.out.print(INVALIDINPUT + ". Enter a number from 0 to " + activeList.size() + "\n");
                 showActiveBookings();
             }
         } catch (FailedBookingCancellationException e) {

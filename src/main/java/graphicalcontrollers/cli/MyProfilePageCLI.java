@@ -81,7 +81,7 @@ public class MyProfilePageCLI {
     }
 
     private void printUserData() {
-        String typeName = user.getType().equals("ATH") ? "Atleta" : "Personal Trainer";
+        String typeName = user.getType().equals("ATH") ? "Athlete" : "Personal Trainer";
         System.out.println(" First Name:      " + user.getFirstName());
         System.out.println(" Last Name:       " + user.getLastName());
         System.out.println(" Username:        " + user.getUsername());

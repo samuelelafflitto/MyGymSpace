@@ -31,6 +31,7 @@ public class AthleteMenuCLI {
 
     public void goToEvents() {
         System.out.println("UPCOMING EVENTS - COMING SOON");
+        new HomepageCLI().start();
     }
 
     public void goToMyBookings() {
