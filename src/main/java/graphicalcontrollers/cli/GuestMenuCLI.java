@@ -1,8 +1,6 @@
 package graphicalcontrollers.cli;
 
-import controllers.BookingController;
-
-public class GuestMenuCLI {;
+public class GuestMenuCLI {
 
     public void showMenu() {
         System.out.println("1) Upcoming Events (COMING SOON)");
