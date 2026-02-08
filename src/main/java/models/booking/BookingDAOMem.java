@@ -37,22 +37,10 @@ public class BookingDAOMem extends BookingDAO {
 
         // Deleting all Bookings associated with a User
         if(ptUsername == null && date == null && time == null) {
-            for(int i = bookings.size() - 1; i >= 0; i--) {
-                BookingInterface b = bookings.get(i);
-
-                if(b.getAthlete().getUsername().equals(athleteUsername)) {
-                    bookings.remove(i);
-                }
-            }
+            deleteATHBookings(athleteUsername);
             found = true;
         } else if (athleteUsername == null && date == null && time == null) {
-            for(int i = bookings.size() - 1; i >= 0; i--) {
-                BookingInterface b = bookings.get(i);
-
-                if(b.getTraining().getPersonalTrainer().getUsername().equals(ptUsername)) {
-                    bookings.remove(i);
-                }
-            }
+            deletePTBookings(ptUsername);
             found = true;
         } else {
             // Deleting a single Booking
@@ -73,6 +61,26 @@ public class BookingDAOMem extends BookingDAO {
 
         if(!found) {
             throw new DataLoadException("[MEM] No bookings found");
+        }
+    }
+
+    private void deleteATHBookings(String athleteUsername) {
+        for(int i = bookings.size() - 1; i >= 0; i--) {
+            BookingInterface b = bookings.get(i);
+
+            if(b.getAthlete().getUsername().equals(athleteUsername)) {
+                bookings.remove(i);
+            }
+        }
+    }
+
+    private void deletePTBookings(String ptUsername) {
+        for(int i = bookings.size() - 1; i >= 0; i--) {
+            BookingInterface b = bookings.get(i);
+
+            if(b.getTraining().getPersonalTrainer().getUsername().equals(ptUsername)) {
+                bookings.remove(i);
+            }
         }
     }
 
@@ -105,9 +113,4 @@ public class BookingDAOMem extends BookingDAO {
 
         return basicBookingData;
     }
-
-
-//    public void deleteDemoBookings(User user) {
-//
-//    }
 }
