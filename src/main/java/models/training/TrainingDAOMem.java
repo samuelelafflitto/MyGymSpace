@@ -1,5 +1,7 @@
 package models.training;
 
+import models.dailyschedule.DailyScheduleDAO;
+import models.dao.factory.FactoryDAO;
 import models.user.PersonalTrainer;
 import utils.PriceConfig;
 
@@ -55,6 +57,16 @@ public class TrainingDAOMem extends TrainingDAO {
 
         this.trainings.add(demoTraining1);
         this.trainings.add(demoTraining2);
+    }
+
+    @Override
+    public void deleteDemoTraining(PersonalTrainer pt) {
+        Training demoTraining = getTrainingByPT(pt);
+        if(demoTraining != null) {
+            DailyScheduleDAO dsDAO = FactoryDAO.getInstance().createDailyScheduleDAO();
+            dsDAO.deleteDemoDailySchedule(demoTraining);
+            trainings.removeIf(t -> t.getPersonalTrainer().equals(pt));
+        }
     }
 
     @Override

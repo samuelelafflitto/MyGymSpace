@@ -23,12 +23,12 @@ public class DailySchedule {
         }
     }
 
-    // Creating DailySchedule from persistence
+    // Creating new and empty DailySchedule
     public static DailySchedule createNew(Training training, LocalDate date) {
         return new DailySchedule(training, date, null);
     }
 
-    // Creating new and empty dailySchedule
+    // Creating DailySchedule from persistence
     public static DailySchedule fromPersistence(Training training, LocalDate date, StringBuilder persistenceBits) {
         return new DailySchedule(training, date, persistenceBits);
     }

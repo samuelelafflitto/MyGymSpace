@@ -68,6 +68,11 @@ public class DailyScheduleDAOMem extends DailyScheduleDAO {
         }
     }
 
+    @Override
+    public void deleteDemoDailySchedule(Training t) {
+        schedules.values().removeIf(ds -> ds.getTraining().equals(t));
+    }
+
 
     private String generateKey(Training training, LocalDate date) {
         return training.getPersonalTrainer().getUsername() + "_" + date.toString();

@@ -35,17 +35,39 @@ public class BookingDAOMem extends BookingDAO {
     public void deleteBooking(String athleteUsername, String ptUsername, LocalDate date, LocalTime time) {
         boolean found = false;
 
-        for(int i = bookings.size() - 1; i >= 0; i--) {
-            BookingInterface b = bookings.get(i);
+        // Deleting all Bookings associated with a User
+        if(ptUsername == null && date == null && time == null) {
+            for(int i = bookings.size() - 1; i >= 0; i--) {
+                BookingInterface b = bookings.get(i);
 
-            if(b.getAthlete().getUsername().equals(athleteUsername) &&
-                    b.getTraining().getPersonalTrainer().getUsername().equals(ptUsername) &&
-                    b.getDailySchedule().getDate().equals(date) &&
-                    b.getSelectedSlot().equals(time)) {
+                if(b.getAthlete().getUsername().equals(athleteUsername)) {
+                    bookings.remove(i);
+                }
+            }
+            found = true;
+        } else if (athleteUsername == null && date == null && time == null) {
+            for(int i = bookings.size() - 1; i >= 0; i--) {
+                BookingInterface b = bookings.get(i);
 
-                bookings.remove(i);
-                found = true;
-                break;
+                if(b.getTraining().getPersonalTrainer().getUsername().equals(ptUsername)) {
+                    bookings.remove(i);
+                }
+            }
+            found = true;
+        } else {
+            // Deleting a single Booking
+            for(int i = bookings.size() - 1; i >= 0; i--) {
+                BookingInterface b = bookings.get(i);
+
+                if(b.getAthlete().getUsername().equals(athleteUsername) &&
+                        b.getTraining().getPersonalTrainer().getUsername().equals(ptUsername) &&
+                        b.getDailySchedule().getDate().equals(date) &&
+                        b.getSelectedSlot().equals(time)) {
+
+                    bookings.remove(i);
+                    found = true;
+                    break;
+                }
             }
         }
 
@@ -83,4 +105,9 @@ public class BookingDAOMem extends BookingDAO {
 
         return basicBookingData;
     }
+
+
+//    public void deleteDemoBookings(User user) {
+//
+//    }
 }

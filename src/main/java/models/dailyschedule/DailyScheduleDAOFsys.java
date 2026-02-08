@@ -29,4 +29,9 @@ public class DailyScheduleDAOFsys extends DailyScheduleDAO {
     public void resetSlotInSchedule(Training training, LocalDate date, LocalTime time) {
         // Not implemented
     }
+
+    @Override
+    public void deleteDemoDailySchedule(Training t) {
+        // Used only in Demo mode
+    }
 }

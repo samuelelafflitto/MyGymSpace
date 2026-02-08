@@ -99,6 +99,11 @@ public class DailyScheduleDAODB extends DailyScheduleDAO {
         updateDailySchedule(training, schedule);
     }
 
+    @Override
+    public void deleteDemoDailySchedule(Training t) {
+        // Used only in Demo mode
+    }
+
     private void deleteAllUselessSchedules() {
         String sql = getQueryOrThrow("DELETE_USELESS_SCHEDULES");
         LocalDate today = LocalDate.now();

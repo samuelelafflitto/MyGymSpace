@@ -23,6 +23,11 @@ public class TrainingDAOFsys extends TrainingDAO {
     }
 
     @Override
+    public void deleteDemoTraining(PersonalTrainer pt) {
+        // Used only in Demo mode
+    }
+
+    @Override
     public void updateTrainingDetails(Training t) {
         // Not implemented
     }

@@ -82,6 +82,11 @@ public class TrainingDAODB extends TrainingDAO {
     }
 
     @Override
+    public void deleteDemoTraining(PersonalTrainer pt) {
+        // Used only in Demo mode
+    }
+
+    @Override
     public void updateTrainingDetails(Training t) {
         String sql =  getQueryOrThrow("UPDATE_TRAINING_DETAILS");
 

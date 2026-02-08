@@ -11,4 +11,5 @@ public abstract class DailyScheduleDAO {
     public abstract DailySchedule loadSingleScheduleByTraining(Training training, LocalDate date);
     public abstract void updateDailySchedule(Training training, DailySchedule dailySchedule);
     public abstract void resetSlotInSchedule(Training training, LocalDate date, LocalTime time);
+    public abstract void deleteDemoDailySchedule(Training t);
 }
